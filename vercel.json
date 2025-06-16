@@ -5,10 +5,5 @@
   },
   "buildCommand": "cd ../.. && npm run build && cd apps/brain-rot-factory",
   "devCommand": "cd ../.. && npm run dev",
-  "installCommand": "cd ../.. && npm ci",
-  "functions": {
-    "apps/brain-rot-factory/src/app/api/**/*.ts": {
-      "runtime": "nodejs22.x"
-    }
-  }
+  "installCommand": "cd ../.. && npm ci"
 }
