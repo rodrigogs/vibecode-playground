@@ -6,11 +6,9 @@
   "buildCommand": "cd ../.. && npm run build && cd apps/brain-rot-factory",
   "devCommand": "cd ../.. && npm run dev",
   "installCommand": "cd ../.. && npm ci",
-  "env": {
-    "OPENAI_API_KEY": "@openai_api_key",
-    "DEEPSEEK_API_KEY": "@deepseek_api_key",
-    "DEEPSEEK_API_URL": "https://api.deepseek.com",
-    "DEFAULT_PROVIDER": "openai",
-    "DEFAULT_MODEL": "gpt-4o-mini"
+  "functions": {
+    "apps/brain-rot-factory/src/app/api/**/*.ts": {
+      "runtime": "nodejs22.x"
+    }
   }
 }

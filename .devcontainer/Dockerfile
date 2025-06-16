@@ -1,4 +1,4 @@
-FROM node:24-bookworm
+FROM node:22-bookworm
 
 # Install additional system dependencies and set up sudo
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
