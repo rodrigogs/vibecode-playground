@@ -1,0 +1,46 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "tui",
+  "envMode": "strict",
+  "globalEnv": [
+    "OPENAI_API_KEY",
+    "DEEPSEEK_API_URL",
+    "DEEPSEEK_API_KEY"
+  ],
+  "tasks": {
+    "clean": {
+      "dependsOn": ["^clean"],
+      "inputs": ["dist/**"],
+      "cache": false
+    },
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
+    },
+    "build:watch": {
+      "dependsOn": ["^build:watch"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
+    },
+    "lint": {
+      "dependsOn": ["^lint"]
+    },
+    "lint:fix": {
+      "dependsOn": ["^lint:fix"]
+    },
+    "test": {
+      "dependsOn": ["^test"]
+    },
+    "test:unit": {
+      "dependsOn": ["^test:unit"]
+    },
+    "test:integration": {
+      "dependsOn": ["^test:integration"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    }
+  }
+}

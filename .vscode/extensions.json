@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "ms-vscode.vscode-typescript-next",
+    "dbaeumer.vscode-eslint",
+    "vitest.explorer",
+    "github.copilot",
+    "github.copilot-chat",
+    "ms-vscode.npm-dependency-links",
+    "usernamehw.errorlens"
+  ]
+}

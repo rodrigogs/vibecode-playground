@@ -1,0 +1,34 @@
+{
+  "name": "vibecode-playground",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "clear": "npx -y rimraf -g --no-preserve-root **/node_modules **/dist **/coverage **/.turbo",
+    "clean": "turbo clean",
+    "build": "turbo build",
+    "build:watch": "turbo run build:watch --parallel",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "lint:fix": "turbo lint:fix",
+    "lint:all": "eslint .",
+    "lint:all:fix": "eslint --fix .",
+    "test": "turbo test",
+    "test:unit": "turbo test:unit",
+    "test:integration": "turbo test:integration",
+    "test:all": "vitest run",
+    "test:all:unit": "npm run test -- --project unit",
+    "test:all:integration": "npm run test -- --project integration"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.4"
+  },
+  "engines": {
+    "node": ">=23",
+    "npm": ">=11"
+  },
+  "packageManager": "npm@11.4.2",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}

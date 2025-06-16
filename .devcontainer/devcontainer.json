@@ -1,0 +1,105 @@
+{
+  "name": "vibecode-playground",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "configureZshAsDefaultShell": true,
+      "installOhMyZsh": true,
+      "upgradePackages": true,
+      "username": "node",
+      "userUid": "1000",
+      "userGid": "1000"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.vscode-typescript-next",
+        "dbaeumer.vscode-eslint",
+        "vitest.explorer",
+        "github.copilot",
+        "github.copilot-chat",
+        "ms-vscode.npm-dependency-links",
+        "usernamehw.errorlens"
+      ],
+      "settings": {
+        "typescript.preferences.quoteStyle": "single",
+        "typescript.updateImportsOnFileMove.enabled": "always",
+        "typescript.suggest.autoImports": true,
+        "typescript.preferences.includePackageJsonAutoImports": "auto",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": "explicit"
+        },
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true,
+        "editor.rulers": [
+          80,
+          120
+        ],
+        "files.associations": {
+          "*.json": "jsonc"
+        },
+        "search.exclude": {
+          "**/node_modules": true,
+          "**/dist": true,
+          "**/build": true,
+          "**/.turbo": true,
+          "**/coverage": true
+        },
+        "files.exclude": {
+          "**/.turbo": true
+        },
+        "npm.packageManager": "npm",
+        "npm.enableRunFromFolder": true,
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "terminal.integrated.profiles.linux": {
+          "zsh": {
+            "path": "/bin/zsh"
+          }
+        },
+        "git.enableSmartCommit": true,
+        "git.confirmSync": false,
+        "git.autofetch": true,
+        "prettier.requireConfig": true,
+        "prettier.useEditorConfig": false,
+        "eslint.workingDirectories": [
+          "apps/*",
+          "packages/*"
+        ],
+        "eslint.validate": [
+          "javascript",
+          "javascriptreact",
+          "typescript",
+          "typescriptreact"
+        ]
+      }
+    }
+  },
+  "containerEnv": {
+    "NODE_ENV": "development",
+    "NPM_CONFIG_FUND": "false",
+    "NPM_CONFIG_UPDATE_NOTIFIER": "false"
+  },
+  "forwardPorts": [
+    51204
+  ],
+  "portsAttributes": {
+    "51204": {
+      "label": "Vitest UI",
+      "onAutoForward": "notify"
+    }
+  },
+  "remoteUser": "node",
+  "mounts": [
+    "source=${localEnv:HOME}/.gitconfig,target=/home/node/.gitconfig,type=bind,consistency=cached"
+  ],
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "shutdownAction": "stopContainer"
+}

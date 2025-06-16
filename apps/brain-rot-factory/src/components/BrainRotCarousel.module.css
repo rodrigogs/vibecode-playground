@@ -1,0 +1,239 @@
+/* Brain Rot Carousel Custom Styles */
+
+.brainRotCarouselContainer {
+  /* Container styling */
+  --carousel-border-radius: 1rem;
+  --carousel-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --carousel-bg: rgba(0, 0, 0, 0.1);
+  --carousel-backdrop: blur(10px);
+  width: 100%;
+  max-width: 100vw;
+  overflow: hidden;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Main Carousel Styles */
+.brainRotMainCarousel {
+  padding: 2rem 0;
+  margin: 0 auto;
+  overflow: hidden !important;
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+}
+
+.brainRotMainCarousel .swiper-wrapper {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.brainRotMainCarousel .swiper-slide {
+  transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+  transform-style: preserve-3d;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.brainRotMainCarousel .swiper-slide-active {
+  z-index: 2;
+}
+
+.brainRotMainCarousel .swiper-slide-active .group {
+  transform: scale(1.05) !important;
+  box-shadow: 0 25px 50px -12px rgba(168, 85, 247, 0.4);
+}
+
+/* Coverflow Effect Enhancements */
+.brainRotMainCarousel .swiper-slide-shadow-left,
+.brainRotMainCarousel .swiper-slide-shadow-right {
+  background: linear-gradient(to left, rgba(168, 85, 247, 0.3), transparent);
+  border-radius: var(--carousel-border-radius);
+}
+
+.brain-rot-main-carousel .swiper-slide-shadow-right {
+  background: linear-gradient(to right, rgba(168, 85, 247, 0.3), transparent);
+}
+
+/* Custom Pagination Styles */
+.brain-rot-main-carousel .swiper-pagination {
+  position: relative !important;
+  margin-top: 2rem;
+}
+
+.brain-rot-main-carousel .swiper-pagination-bullet {
+  width: 12px;
+  height: 12px;
+  background: rgba(168, 85, 247, 0.3);
+  opacity: 1;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.brain-rot-main-carousel .swiper-pagination-bullet-active {
+  background: linear-gradient(45deg, #a855f7, #ec4899);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.3);
+  box-shadow: 0 0 15px rgba(168, 85, 247, 0.6);
+}
+
+.brain-rot-main-carousel .swiper-pagination-bullet:hover:not(.swiper-pagination-bullet-active) {
+  background: rgba(168, 85, 247, 0.6);
+  transform: scale(1.1);
+}
+
+/* Thumbnail Carousel Styles */
+.brain-rot-thumbs-carousel {
+  padding: 1rem 0;
+}
+
+.brain-rot-thumbs-carousel .swiper-slide {
+  transition: all 0.2s ease;
+  opacity: 0.6;
+}
+
+.brain-rot-thumbs-carousel .swiper-slide-thumb-active {
+  opacity: 1;
+}
+
+.brain-rot-thumbs-carousel .swiper-slide:hover {
+  opacity: 0.8;
+}
+
+/* Navigation Button Animations */
+.swiper-button-prev-custom:hover,
+.swiper-button-next-custom:hover {
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 10px 25px rgba(168, 85, 247, 0.3);
+}
+
+.swiper-button-prev-custom:active,
+.swiper-button-next-custom:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+/* Slide Content Animations */
+.brain-rot-main-carousel .group:hover .object-cover {
+  filter: brightness(1.1) contrast(1.1);
+}
+
+/* Loading Animation */
+.brain-rot-main-carousel .swiper-slide:not(.swiper-slide-visible) img {
+  filter: blur(2px);
+  transition: filter 0.3s ease;
+}
+
+.brain-rot-main-carousel .swiper-slide-visible img {
+  filter: blur(0);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .brain-rot-main-carousel {
+    padding: 1rem 0;
+  }
+
+  .brain-rot-main-carousel .swiper-pagination {
+    margin-top: 1rem;
+  }
+
+  .swiper-button-prev-custom,
+  .swiper-button-next-custom {
+    width: 40px;
+    height: 40px;
+    left: 8px;
+  }
+
+  .swiper-button-next-custom {
+    right: 8px;
+    left: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .swiper-button-prev-custom,
+  .swiper-button-next-custom {
+    display: none;
+  }
+}
+
+/* Accessibility Improvements */
+.brain-rot-main-carousel .group:focus {
+  outline: 2px solid #a855f7;
+  outline-offset: 2px;
+}
+
+.brain-rot-main-carousel .group:focus-visible {
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.3);
+}
+
+/* Performance Optimizations */
+.brain-rot-main-carousel .swiper-slide {
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.brain-rot-main-carousel .group {
+  will-change: transform, box-shadow;
+}
+
+/* Custom Scrollbar for Webkit Browsers */
+.brain-rot-carousel-container ::-webkit-scrollbar {
+  display: none;
+}
+
+.brain-rot-carousel-container {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Print Styles */
+@media print {
+  .brain-rot-carousel-container {
+    display: none;
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .brain-rot-main-carousel .swiper-pagination-bullet {
+    border: 2px solid currentColor;
+  }
+
+  .brain-rot-main-carousel .group {
+    border-width: 3px;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .brain-rot-main-carousel .swiper-slide,
+  .brain-rot-main-carousel .group,
+  .brain-rot-thumbs-carousel .swiper-slide {
+    transition: none;
+  }
+
+  .brain-rot-main-carousel .swiper-slide-active .group {
+    transform: none !important;
+  }
+
+  .swiper-button-prev-custom:hover,
+  .swiper-button-next-custom:hover {
+    transform: translateY(-50%);
+  }
+}
+
+/* Dark Mode Enhancements */
+@media (prefers-color-scheme: dark) {
+  .brain-rot-main-carousel .swiper-slide-shadow-left,
+  .brain-rot-main-carousel .swiper-slide-shadow-right {
+    background: linear-gradient(to left, rgba(168, 85, 247, 0.4), transparent);
+  }
+
+  .brain-rot-main-carousel .swiper-slide-shadow-right {
+    background: linear-gradient(to right, rgba(168, 85, 247, 0.4), transparent);
+  }
+}

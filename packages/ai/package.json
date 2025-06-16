@@ -1,0 +1,47 @@
+{
+  "name": "@repo/ai",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    ".": {
+      "require": "./dist/cjs/src/index.js",
+      "import": "./dist/esm/src/index.js"
+    }
+  },
+  "main": "./dist/cjs/src/index.js",
+  "module": "./dist/esm/src/index.js",
+  "types": "./dist/esm/src/index.d.ts",
+  "scripts": {
+    "build:esm": "rimraf dist/esm && tsc --project tsconfig.esm.json",
+    "build:cjs": "rimraf dist/cjs && tsc --project tsconfig.cjs.json",
+    "build": "concurrently \"npm run build:cjs\" \"npm run build:esm\"",
+    "build:watch": "concurrently \"tsc --project tsconfig.esm.json --watch\" \"tsc --project tsconfig.cjs.json --watch\"",
+    "clean": "rimraf dist .turbo coverage",
+    "lint": "eslint .",
+    "lint:fix": "npm run lint -- --fix",
+    "test": "vitest run",
+    "test:unit": "npm run test -- --project unit",
+    "test:integration": "npm run test -- --project integration"
+  },
+  "dependencies": {
+    "@langchain/community": "^0.3.46",
+    "@langchain/core": "^0.3.58",
+    "@langchain/langgraph": "^0.3.3",
+    "@langchain/langgraph-checkpoint": "^0.0.18",
+    "@langchain/openai": "^0.5.13",
+    "@repo/cache": "*",
+    "@repo/logger": "*",
+    "@repo/utils": "*",
+    "langchain": "^0.3.28",
+    "openai": "^4.62.1",
+    "zod": "^3.25.64"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "*",
+    "@repo/test": "*",
+    "@repo/typescript-config": "*"
+  },
+  "overrides": {
+    "@langchain/core": "^0.3.58"
+  }
+}

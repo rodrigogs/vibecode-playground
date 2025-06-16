@@ -1,0 +1,62 @@
+# Prevent npm/npx cache from being copied into Docker build context
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.npmrc
+.yarn-integrity
+
+# NPM cache directories (both global and local)
+~/.npm
+~/.npm/_npx
+/home/node/.npm
+/home/node/.npm/_npx
+/root/.npm
+/root/.npm/_npx
+.npm/
+*/.npm/
+**/.npm/
+_npx/
+*/_npx/
+**/_npx/
+
+# Additional npm/npx cache locations
+.pnpm-store/
+.yarn/
+.yarn/cache/
+.cache/
+node_modules/.cache/
+.parcel-cache/
+.next/cache/
+.nuxt/cache/
+
+# Package manager lock files (optional - uncomment if you don't want them in container)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# Temporary files
+.tmp
+.temp
+/tmp
+
+# Build artifacts
+dist/
+build/
+coverage/
+.turbo/
+
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

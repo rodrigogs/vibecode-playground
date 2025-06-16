@@ -1,0 +1,47 @@
+{
+  "name": "example",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    ".": {
+      "require": "./dist/cjs/src/index.js",
+      "import": "./dist/esm/src/index.js"
+    }
+  },
+  "main": "./dist/cjs/src/index.js",
+  "module": "./dist/esm/src/index.js",
+  "types": "./dist/esm/src/index.d.ts",
+  "scripts": {
+    "start": "npx -y dotenv-cli -- node dist/src/index.js",
+    "dev": "npx -y cross-env DEBUG=vibe-rot:* npx -y dotenv-cli -- tsx src/index.ts",
+    "dev:watch": "npx -y cross-env DEBUG=vibe-rot:* npx -y dotenv-cli -- tsx watch src/index.ts",
+    "build:esm": "rimraf dist/esm && tsc --project tsconfig.esm.json",
+    "build:cjs": "rimraf dist/cjs && tsc --project tsconfig.cjs.json",
+    "build": "concurrently \"npm run build:cjs\" \"npm run build:esm\"",
+    "build:watch": "concurrently \"tsc --project tsconfig.esm.json --watch\" \"tsc --project tsconfig.cjs.json --watch\"",
+    "clean": "rimraf dist .turbo coverage",
+    "lint": "eslint .",
+    "lint:fix": "npm run lint -- --fix",
+    "test": "vitest run",
+    "test:unit": "npm run test -- --project unit",
+    "test:integration": "npm run test -- --project integration"
+  },
+  "dependencies": {
+    "@inquirer/prompts": "^7.5.3",
+    "@repo/ai": "*",
+    "@repo/logger": "*",
+    "boxen": "^8.0.1",
+    "chalk": "^5.4.1",
+    "figlet": "^1.8.1",
+    "gradient-string": "^3.0.0",
+    "ora": "^8.2.0"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "*",
+    "@repo/test": "*",
+    "@repo/typescript-config": "*",
+    "@types/figlet": "^1.7.0",
+    "@types/gradient-string": "^1.1.6",
+    "@types/inquirer": "^9.0.8"
+  }
+}
