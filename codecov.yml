@@ -1,0 +1,40 @@
+# Codecov configuration
+coverage:
+  status:
+    project:
+      default:
+        target: 80%
+        threshold: 1%
+    patch:
+      default:
+        target: 80%
+        threshold: 1%
+
+comment:
+  layout: "header,diff,flags,files,footer"
+  behavior: default
+  require_changes: false
+
+ignore:
+  - "**/*.test.ts"
+  - "**/*.spec.ts"
+  - "**/node_modules/**"
+  - "**/dist/**"
+  - "**/.turbo/**"
+  - "**/.next/**"
+  - "**/coverage/**"
+  - "**/*.config.*"
+  - "**/vitest.config.*"
+  - "**/eslint.config.*"
+  - "**/turbo.json"
+  - "**/tsconfig*.json"
+  - "**/*.d.ts"
+  - "**/README.md"
+
+flags:
+  unit:
+    paths:
+      - "packages/"
+  integration:
+    paths:
+      - "apps/"

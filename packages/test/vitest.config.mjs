@@ -33,8 +33,9 @@ const createBaseConfig = (config = {}) =>
           excludeNodeModules: true,
           cleanOnRerun: true, // Clean the coverage directory before each run
           all: true, // Include all files, not just the ones touched by tests
-          reporter: ['text', 'json', 'html'],
+          reporter: ['text', 'json', 'html', 'lcov', 'cobertura'],
           reportsDirectory: './coverage',
+          provider: 'v8', // Use V8 coverage provider
         },
       },
     }),

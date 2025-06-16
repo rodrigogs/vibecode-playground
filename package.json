@@ -17,7 +17,9 @@
     "test:integration": "turbo test:integration",
     "test:all": "vitest run",
     "test:all:unit": "npm run test -- --project unit",
-    "test:all:integration": "npm run test -- --project integration"
+    "test:all:integration": "npm run test -- --project integration",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest --watch"
   },
   "devDependencies": {
     "turbo": "^2.5.4"

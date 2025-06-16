@@ -43,8 +43,8 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Test
-        run: npm test -- --coverage --reporter=junit --outputFile=test-report.junit.xml
+      - name: Test and Generate Coverage
+        run: npm run test:all -- --coverage --reporter=junit --outputFile=test-report.junit.xml
 
       - name: Upload coverage to Codecov
         if: ${{ !cancelled() }}
@@ -52,7 +52,9 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: ./coverage
+          files: ./coverage/lcov.info,./coverage/cobertura-coverage.xml
           fail_ci_if_error: true
+          verbose: true
 
       - name: Upload test results to Codecov
         if: ${{ !cancelled() }}
