@@ -4,39 +4,73 @@
   "envMode": "strict",
   "globalEnv": [
     "OPENAI_API_KEY",
+    "DEFAULT_PROVIDER",
+    "DEFAULT_MODEL",
     "DEEPSEEK_API_URL",
     "DEEPSEEK_API_KEY"
   ],
   "tasks": {
     "clean": {
-      "dependsOn": ["^clean"],
-      "inputs": ["dist/**"],
+      "dependsOn": [
+        "^clean"
+      ],
+      "inputs": [
+        "dist/**"
+      ],
       "cache": false
     },
     "build": {
-      "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env*"
+      ],
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**",
+        "dist/**"
+      ]
     },
     "build:watch": {
-      "dependsOn": ["^build:watch"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
+      "dependsOn": [
+        "^build:watch"
+      ],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env*"
+      ],
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**",
+        "dist/**"
+      ]
     },
     "lint": {
-      "dependsOn": ["^lint"]
+      "dependsOn": [
+        "^lint"
+      ]
     },
     "lint:fix": {
-      "dependsOn": ["^lint:fix"]
+      "dependsOn": [
+        "^lint:fix"
+      ]
     },
     "test": {
-      "dependsOn": ["^test"]
+      "dependsOn": [
+        "^test"
+      ]
     },
     "test:unit": {
-      "dependsOn": ["^test:unit"]
+      "dependsOn": [
+        "^test:unit"
+      ]
     },
     "test:integration": {
-      "dependsOn": ["^test:integration"]
+      "dependsOn": [
+        "^test:integration"
+      ]
     },
     "dev": {
       "cache": false,
