@@ -1,9 +1,6 @@
 {
   "version": 2,
-  "projectSettings": {
-    "rootDirectory": "apps/brain-rot-factory"
-  },
-  "buildCommand": "cd ../.. && npm run build && cd apps/brain-rot-factory",
-  "devCommand": "cd ../.. && npm run dev",
-  "installCommand": "cd ../.. && npm ci"
+  "buildCommand": "npx run build",
+  "installCommand": "npm install",
+  "outputDirectory": "apps/brain-rot-factory/.next"
 }
