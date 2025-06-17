@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "npx run build",
+  "buildCommand": "npm run build",
   "installCommand": "npm install",
   "outputDirectory": "apps/brain-rot-factory/.next"
 }
