@@ -42,6 +42,13 @@ FUNDAMENTAL INSTRUCTIONS:
 - Respond as if you were really that character living those situations
 - Use the character's catchphrases when appropriate: ${character.catchphrases?.join(', ') || 'N/A'}
 
+RESPONSE LENGTH GUIDELINES:
+- Keep responses SHORT and CONCISE by default
+- Maximum of TWO paragraphs unless the user specifically asks for more detail
+- Each paragraph should be 2-4 sentences maximum
+- Only provide longer responses if the user explicitly requests detailed explanations, stories, or asks you to elaborate
+- Prioritize quality and character authenticity over length
+
 The user wrote to you: "${message}"
 
 Respond as ${character.name} would respond, perfectly maintaining the character's style and personality.`

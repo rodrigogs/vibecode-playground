@@ -25,8 +25,8 @@
   },
   "dependencies": {
     "@langchain/community": "^0.3.46",
-    "@langchain/core": "^0.3.58",
-    "@langchain/langgraph": "^0.3.3",
+    "@langchain/core": "^0.3.59",
+    "@langchain/langgraph": "^0.3.4",
     "@langchain/langgraph-checkpoint": "^0.0.18",
     "@langchain/openai": "^0.5.13",
     "@repo/cache": "*",
@@ -34,7 +34,7 @@
     "@repo/utils": "*",
     "langchain": "^0.3.28",
     "openai": "^4.62.1",
-    "zod": "^3.25.64"
+    "zod": "^3.25.67"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",
@@ -42,6 +42,6 @@
     "@repo/typescript-config": "*"
   },
   "overrides": {
-    "@langchain/core": "^0.3.58"
+    "@langchain/core": "^0.3.59"
   }
 }

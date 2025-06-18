@@ -14,10 +14,11 @@
     "@repo/cache": "*",
     "@repo/logger": "*",
     "@repo/utils": "*",
-    "lucide-react": "^0.469.0",
+    "lucide-react": "^0.516.0",
     "next": "15.3.3",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "next-auth": "^5.0.0-beta.28",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "swiper": "^11.2.8"
   },
   "devDependencies": {
@@ -26,7 +27,7 @@
     "@repo/test": "*",
     "@repo/typescript-config": "*",
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
+    "@types/node": "^24",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",

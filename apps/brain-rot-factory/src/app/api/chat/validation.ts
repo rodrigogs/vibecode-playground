@@ -36,9 +36,7 @@ export function validateRequest(
 
 export function checkAIConfiguration() {
   const hasOpenAI = !!process.env.OPENAI_API_KEY
-  const hasDeepSeek = !!(
-    process.env.DEEPSEEK_API_URL && process.env.DEEPSEEK_API_KEY
-  )
+  const hasDeepSeek = !!process.env.DEEPSEEK_API_KEY
 
   return { hasOpenAI, hasDeepSeek }
 }

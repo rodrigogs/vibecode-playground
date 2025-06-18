@@ -3,11 +3,15 @@
   "ui": "tui",
   "envMode": "strict",
   "globalEnv": [
+    "DATA_DIR",
     "OPENAI_API_KEY",
     "DEFAULT_PROVIDER",
     "DEFAULT_MODEL",
     "DEEPSEEK_API_URL",
-    "DEEPSEEK_API_KEY"
+    "DEEPSEEK_API_KEY",
+    "AUTH_SECRET",
+    "GITHUB_ID",
+    "GITHUB_SECRET"
   ],
   "tasks": {
     "clean": {

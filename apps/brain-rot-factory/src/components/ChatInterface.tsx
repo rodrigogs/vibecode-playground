@@ -51,7 +51,7 @@ export default function ChatInterface({
           </div>
           <button
             onClick={onCloseChat}
-            className="ml-auto bg-red-500/20 hover:bg-red-500/40 border border-red-500/30 hover:border-red-500 rounded-full p-2 transition-all duration-200 group"
+            className="ml-auto bg-red-500/20 hover:bg-red-500/40 border border-red-500/30 hover:border-red-500 rounded-full p-2 transition-all duration-200 group cursor-pointer"
             title="Close chat and return to character selection"
           >
             <X className="w-6 h-6 text-red-400 group-hover:text-red-300" />
@@ -107,7 +107,7 @@ export default function ChatInterface({
             </h3>
             <button
               onClick={onSpeakResponse}
-              className={`ml-auto transition-all duration-200 rounded-full p-2 group ${
+              className={`ml-auto transition-all duration-200 rounded-full p-2 group cursor-pointer ${
                 isSpeaking
                   ? 'bg-orange-500/20 border border-orange-500/30 hover:bg-orange-500/40 hover:border-orange-500'
                   : 'bg-blue-500/20 border border-blue-500/30 hover:bg-blue-500/40 hover:border-blue-500'
