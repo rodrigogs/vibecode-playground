@@ -241,10 +241,17 @@ export default function Home() {
     )
       return
 
-    // Stop current speech if speaking
-    if (isSpeaking) {
+    // If currently speaking the same message, stop it
+    if (isSpeaking && currentSpeakingMessageId === messageId) {
       stopAllAudio()
       return
+    }
+
+    // If speaking a different message, stop current and continue to play new one
+    if (isSpeaking && currentSpeakingMessageId !== messageId) {
+      stopAllAudio()
+      // Add small delay to ensure cleanup is complete
+      await new Promise((resolve) => setTimeout(resolve, 100))
     }
 
     try {
@@ -408,6 +415,10 @@ export default function Home() {
   const stopAllAudio = () => {
     try {
       isStoppingIntentionally.current = true
+
+      // Reset speaking states
+      setIsSpeaking(false)
+      setCurrentSpeakingMessageId(null)
 
       // Stop current TTS audio using ref
       if (currentTTSAudioRef.current) {
