@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
       format,
     }
 
-    console.log(
+    console.info(
       `Generating TTS for character: ${body.character?.name || 'default'}`,
     )
 

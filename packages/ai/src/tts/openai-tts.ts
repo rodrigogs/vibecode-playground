@@ -6,7 +6,7 @@ import type {
   OpenAITTSOutputFormats,
   OpenAITTSVoices,
   TTSOptions,
-} from '../types.js'
+} from '../types'
 
 /**
  * OpenAI TTS models
@@ -104,7 +104,7 @@ export class OpenAITTS {
     const speed = Math.max(0.25, Math.min(4.0, options.speed || 1.0))
 
     try {
-      console.log(
+      console.info(
         `Generating TTS: model=${model}, voice=${voice}, format=${responseFormat}`,
       )
 
@@ -141,7 +141,7 @@ export class OpenAITTS {
 
       const duration = Date.now() - startTime
 
-      console.log(
+      console.info(
         `TTS generated successfully: ${audio.length} bytes in ${duration}ms`,
       )
 
@@ -176,7 +176,7 @@ export class OpenAITTS {
     const speed = Math.max(0.25, Math.min(4.0, options.speed || 1.0))
 
     try {
-      console.log(
+      console.info(
         `Generating TTS stream: model=${model}, voice=${voice}, format=${responseFormat}`,
       )
 

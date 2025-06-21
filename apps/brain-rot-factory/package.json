@@ -2,21 +2,24 @@
   "name": "brain-rot-factory",
   "version": "0.0.0",
   "private": true,
+  "license": "MIT",
+  "author": "Rodrigo Gomes da Silva <rodrigo.smscom@gmail.com>",
   "scripts": {
-    "dev": "next dev",
+    "dev": "npx -y cross-env DEBUG=vibecode-playground:* next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "lint:fix": "next lint --fix",
     "clean": "npx -y rimraf .next .turbo coverage"
   },
   "dependencies": {
     "@repo/ai": "*",
     "@repo/cache": "*",
-    "@repo/logger": "*",
     "@repo/utils": "*",
     "lucide-react": "^0.516.0",
     "next": "15.3.3",
     "next-auth": "^5.0.0-beta.28",
+    "next-intl": "^4.1.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "swiper": "^11.2.8"

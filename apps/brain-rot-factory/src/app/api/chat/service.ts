@@ -1,6 +1,7 @@
-import { createAgent } from '@repo/ai'
+import { ChatCheckpointAdapter, createAgent } from '@repo/ai'
 
 import { getLanguageInstruction } from '@/app/api/chat/utils/language'
+import { cache } from '@/lib/backend-cache'
 import type { BrainRotCharacter } from '@/types/characters'
 
 export interface AIServiceConfig {
@@ -12,10 +13,21 @@ export function createCharacterAgent(
   character: BrainRotCharacter,
   config: AIServiceConfig,
 ) {
+  // Create chat checkpoint adapter for conversation persistence with enhanced chat features
+  const checkpointSaver = new ChatCheckpointAdapter(
+    cache,
+    `agent:${character.id}`,
+    {
+      maxMessages: 50, // Keep last 50 messages
+      conversationTtl: 7 * 24 * 60 * 60 * 1000, // 7 days
+    },
+  )
+
   return createAgent({
     name: `brain-rot-${character.id}`,
     provider: config.hasOpenAI ? 'openai' : 'deepseek',
     model: config.hasOpenAI ? 'gpt-4o' : 'deepseek-chat',
+    checkpointSaver,
   })
 }
 
@@ -58,22 +70,31 @@ export async function generateAIResponse(
   character: BrainRotCharacter,
   message: string,
   config: AIServiceConfig,
+  threadId: string,
 ): Promise<string> {
   const agent = createCharacterAgent(character, config)
   const systemPrompt = generateSystemPrompt(character, message)
 
-  const result = await agent.invoke({
-    messages: [
-      {
-        role: 'system',
-        content: systemPrompt,
+  const result = await agent.invoke(
+    {
+      messages: [
+        {
+          role: 'system',
+          content: systemPrompt,
+        },
+        {
+          role: 'user',
+          content: message,
+        },
+      ],
+    },
+    {
+      configurable: {
+        thread_id: threadId,
+        checkpoint_ns: 'default',
       },
-      {
-        role: 'user',
-        content: message,
-      },
-    ],
-  })
+    },
+  )
 
   return result.messages[result.messages.length - 1].content
 }

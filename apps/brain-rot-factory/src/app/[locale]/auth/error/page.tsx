@@ -1,5 +1,6 @@
 'use client'
 
+import { Home, LogIn } from 'lucide-react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { Suspense } from 'react'
@@ -51,15 +52,17 @@ function ErrorContent() {
         <div className="space-y-4">
           <Link
             href="/auth/signin"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 block text-center"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
           >
+            <LogIn className="w-4 h-4" />
             Try Again
           </Link>
           <Link
             href="/"
-            className="w-full bg-gray-600 hover:bg-gray-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 block text-center"
+            className="w-full bg-gray-600 hover:bg-gray-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
           >
-            Go Home
+            <Home className="w-4 h-4" />
+            Back to Home
           </Link>
         </div>
 

@@ -38,7 +38,7 @@ async function enforceMinimumResponseTime<T>(
       const remainingTime = Math.max(0, MIN_AI_RESPONSE_TIME - elapsed)
 
       if (remainingTime > 0) {
-        console.log(`Applying minimum response delay: ${remainingTime}ms`)
+        console.info(`Applying minimum response delay: ${remainingTime}ms`)
       }
 
       setTimeout(resolve, remainingTime)
@@ -48,25 +48,21 @@ async function enforceMinimumResponseTime<T>(
 }
 
 /**
- * Check if a message should be cached based on length and content
- */
-function shouldCacheMessage(message: string): boolean {
-  const trimmed = message.trim()
-  return (
-    trimmed.length >= 2 && trimmed.length <= 200 && /[a-zA-Z0-9]/.test(trimmed)
-  )
-}
-
-/**
  * Generate AI response with error handling
  */
 async function generateAIResponseWithFallback(
   character: BrainRotCharacter,
   message: string,
+  threadId: string,
 ) {
   try {
     const aiConfig = checkAIConfiguration()
-    const response = await generateAIResponse(character, message, aiConfig)
+    const response = await generateAIResponse(
+      character,
+      message,
+      aiConfig,
+      threadId,
+    )
     return {
       response,
       source: 'ai' as const,
@@ -81,40 +77,6 @@ async function generateAIResponseWithFallback(
     }
   }
 }
-
-/**
- * Cached AI response generator using Next.js unstable_cache
- */
-const getCachedAIResponse = unstable_cache(
-  async (character: BrainRotCharacter, message: string) => {
-    console.log(`Cache miss - generating AI response for: ${character.name}`)
-    return await generateAIResponseWithFallback(character, message)
-  },
-  ['ai-responses'],
-  {
-    revalidate: 60 * 60 * 2, // 2 hours
-    tags: ['ai-responses'],
-  },
-)
-
-/**
- * Cached mock response generator using Next.js unstable_cache
- */
-const getCachedMockResponse = unstable_cache(
-  async (character: BrainRotCharacter, message: string) => {
-    console.log(`Cache miss - generating mock response for: ${character.name}`)
-    return {
-      response: generateMockResponse(character, message),
-      source: 'mock' as const,
-      timestamp: Date.now(),
-    }
-  },
-  ['mock-responses'],
-  {
-    revalidate: 60 * 60 * 24, // 24 hours
-    tags: ['mock-responses'],
-  },
-)
 
 /**
  * TTS Cache Types and Functions
@@ -173,7 +135,7 @@ async function generateTTSAudioWithFallback(
       apiKey: process.env.OPENAI_API_KEY,
     })
 
-    // Generate brain rot specific instructions
+    // Generate brain-rot specific instructions
     const { generateBrainRotInstructions } = await import('@/lib/tts-utils')
     const brainRotInstructions = generateBrainRotInstructions(
       character,
@@ -213,7 +175,7 @@ const getCachedTTSAudio = unstable_cache(
     character?: BrainRotCharacter,
     options: TTSOptions = {},
   ): Promise<TTSCacheResult> => {
-    console.log(
+    console.info(
       `TTS Cache miss - generating audio for: ${character?.name || 'default'}`,
     )
     return await generateTTSAudioWithFallback(text, character, options)
@@ -237,7 +199,7 @@ export const generateTTSAudio = cache(
   ): Promise<TTSResult> => {
     // Only cache TTS for reasonable text
     if (!shouldCacheTTS(text)) {
-      console.log(`Not caching TTS for text: "${text.slice(0, 50)}..."`)
+      console.info(`Not caching TTS for text: "${text.slice(0, 50)}..."`)
       const result = await generateTTSAudioWithFallback(
         text,
         character,
@@ -271,7 +233,7 @@ export const generateTTSAudio = cache(
       // Invalidate the corrupted cache entry
       const { revalidateTag } = await import('next/cache')
       revalidateTag('tts-audio')
-      console.log('Invalidated TTS cache due to corruption')
+      console.info('Invalidated TTS cache due to corruption')
 
       // Fallback to generating fresh TTS
       const freshResult = await generateTTSAudioWithFallback(
@@ -313,46 +275,30 @@ export type { TTSOptions, TTSResult }
  * This prevents duplicate requests within the same render cycle
  */
 export const generateResponse = cache(
-  async (character: BrainRotCharacter, message: string) => {
+  async (character: BrainRotCharacter, message: string, threadId: string) => {
     const startTime = Date.now()
     const aiConfig = checkAIConfiguration()
     const hasAI = aiConfig.hasOpenAI || aiConfig.hasDeepSeek
 
-    // Only cache responses for reasonable messages
-    if (!shouldCacheMessage(message)) {
-      console.log(
-        `Not caching response for message: "${message.slice(0, 50)}..."`,
+    // Don't cache responses when using LangGraph checkpoints as they handle state persistence
+    console.info(
+      `Generating response for message: "${message.slice(0, 50)}..." with thread: ${threadId}`,
+    )
+
+    if (hasAI) {
+      // Apply minimum response time for AI responses
+      const result = await enforceMinimumResponseTime(
+        generateAIResponseWithFallback(character, message, threadId),
+        startTime,
       )
-
-      if (hasAI) {
-        // Apply minimum response time for AI responses
-        const result = await enforceMinimumResponseTime(
-          generateAIResponseWithFallback(character, message),
-          startTime,
-        )
-        return { ...result, cached: false }
-      }
-
-      return {
-        response: generateMockResponse(character, message),
-        source: 'mock' as const,
-        cached: false,
-        timestamp: Date.now(),
-      }
+      return { ...result, cached: false }
     }
 
-    // Use appropriate cached function based on AI availability
-    // Apply minimum response time for AI responses (including cached ones)
-    const result = hasAI
-      ? await enforceMinimumResponseTime(
-          getCachedAIResponse(character, message),
-          startTime,
-        )
-      : await getCachedMockResponse(character, message)
-
     return {
-      ...result,
-      cached: true,
+      response: generateMockResponse(character, message),
+      source: 'mock' as const,
+      cached: false,
+      timestamp: Date.now(),
     }
   },
 )

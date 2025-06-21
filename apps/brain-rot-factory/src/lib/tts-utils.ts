@@ -1,16 +1,16 @@
 import type { BrainRotCharacter } from '@/types/characters'
 
 /**
- * Generate Brain Rot Factory specific TTS instructions
- * Tailored for the chaotic, energetic, and surreal nature of brain rot content
+ * Generate Brain-rot Factory specific TTS instructions
+ * Tailored for the chaotic, energetic, and surreal nature of brain-rot content
  */
 export function generateBrainRotInstructions(
   character?: BrainRotCharacter,
   customInstructions?: string,
 ): string {
-  // Base Brain Rot Factory instructions
+  // Base Brain-rot Factory instructions
   const baseInstructions = `
-You are speaking for the Brain Rot Factory, an Italian/international internet culture project featuring absurd, energetic, and chaotic characters.
+You are speaking for the Brain-rot Factory, an Italian/international internet culture project featuring absurd, energetic, and chaotic characters.
 
 CORE VOICE STYLE:
 - Use an extremely energetic, enthusiastic, and slightly chaotic delivery
@@ -50,10 +50,10 @@ CORE VOICE STYLE:
     }
 
     // Add language-specific instructions
-    if (character.language === 'italian') {
+    if (character.language === 'it') {
       characterInstructions +=
         '\n\nLANGUAGE: Speak with Italian accent and pronunciation. Add Italian emotional expressiveness.'
-    } else if (character.language === 'indonesian') {
+    } else if (character.language === 'id') {
       characterInstructions +=
         '\n\nLANGUAGE: Add subtle Indonesian pronunciation hints while keeping it understandable.'
     }
@@ -71,7 +71,7 @@ CORE VOICE STYLE:
     customInstructions
       ? `\n\nADDITIONAL INSTRUCTIONS: ${customInstructions}`
       : '',
-    '\n\nREMEMBER: You are creating content for brain rot enthusiasts who love chaotic, energetic, and absurd internet culture!',
+    '\n\nREMEMBER: You are creating content for brain-rot enthusiasts who love chaotic, energetic, and absurd internet culture!',
   ]
     .filter(Boolean)
     .join('')

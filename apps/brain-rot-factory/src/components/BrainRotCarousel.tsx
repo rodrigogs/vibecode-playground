@@ -8,6 +8,7 @@ import 'swiper/css/effect-coverflow'
 
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import {
   A11y,
@@ -45,6 +46,8 @@ export default function BrainRotCarousel({
   onCharacterSelect,
   className = '',
 }: BrainRotCarouselProps) {
+  const t = useTranslations('Characters')
+
   // Refs for Swiper instances
   const swiperRef = useRef<SwiperCore | null>(null)
 
@@ -343,36 +346,21 @@ export default function BrainRotCarousel({
               </div>
             </SwiperSlide>
           ))}
-
-          {/* Keyboard Shortcuts Info */}
-          <div className="mt-1 text-center">
-            <p className="text-xs text-gray-500">
-              Use ← → arrow keys to navigate
-            </p>
-          </div>
         </Swiper>
 
         {/* Custom Navigation Buttons */}
         <button
-          className={`swiper-button-prev-custom !absolute !left-2 !top-1/2 !-translate-y-1/2 !z-10 w-12 h-12 bg-white/5 hover:bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-purple-500/40 border border-white/10 hover:border-white/20 relative overflow-hidden group cursor-pointer ${styles.swiperButtonPrevCustom || ''}`}
-          title="Previous character"
+          className={`swiper-button-prev-custom !absolute !left-2 !top-1/2 !-translate-y-1/2 !z-10 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 border border-transparent hover:border-white/30 active:border-white/50 cursor-pointer ${styles.swiperButtonPrevCustom || ''}`}
+          title={t('previousCharacter')}
         >
-          {/* Liquid glass shine effects */}
-          <div className="absolute inset-0 bg-gradient-to-br from-white/15 via-purple-300/10 to-pink-300/5 opacity-70 group-hover:opacity-90 transition-opacity duration-300 rounded-full"></div>
-          <div className="absolute top-1 left-1 w-4 h-4 bg-white/25 rounded-full blur-sm group-hover:scale-125 group-hover:bg-white/35 transition-all duration-300"></div>
-
-          <ChevronLeft className="w-6 h-6 text-white/90 group-hover:text-white relative z-10 group-hover:scale-110 transition-all duration-300" />
+          <ChevronLeft className="w-6 h-6 text-white/90 hover:text-white transition-colors duration-200" />
         </button>
 
         <button
-          className={`swiper-button-next-custom !absolute !right-2 !top-1/2 !-translate-y-1/2 !z-10 w-12 h-12 bg-white/5 hover:bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-purple-500/40 border border-white/10 hover:border-white/20 relative overflow-hidden group cursor-pointer ${styles.swiperButtonNextCustom || ''}`}
-          title="Next character"
+          className={`swiper-button-next-custom !absolute !right-2 !top-1/2 !-translate-y-1/2 !z-10 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 border border-transparent hover:border-white/30 active:border-white/50 cursor-pointer ${styles.swiperButtonNextCustom || ''}`}
+          title={t('nextCharacter')}
         >
-          {/* Liquid glass shine effects */}
-          <div className="absolute inset-0 bg-gradient-to-br from-white/15 via-purple-300/10 to-pink-300/5 opacity-70 group-hover:opacity-90 transition-opacity duration-300 rounded-full"></div>
-          <div className="absolute top-1 left-1 w-4 h-4 bg-white/25 rounded-full blur-sm group-hover:scale-125 group-hover:bg-white/35 transition-all duration-300"></div>
-
-          <ChevronRight className="w-6 h-6 text-white/90 group-hover:text-white relative z-10 group-hover:scale-110 transition-all duration-300" />
+          <ChevronRight className="w-6 h-6 text-white/90 hover:text-white transition-colors duration-200" />
         </button>
       </div>
     </div>

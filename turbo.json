@@ -3,6 +3,7 @@
   "ui": "tui",
   "envMode": "strict",
   "globalEnv": [
+    "NODE_ENV",
     "DATA_DIR",
     "OPENAI_API_KEY",
     "DEFAULT_PROVIDER",

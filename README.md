@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="media/logo.png" alt="Brain Rot Factory Logo" width="200" height="200">
+  <img src="media/logo.png" alt="Brain-rot Factory Logo" width="200" height="200">
   
   # Vibecode Playground
   
@@ -7,7 +7,7 @@
   [![codecov](https://codecov.io/gh/rodrigogs/vibecode-playground/branch/main/graph/badge.svg)](https://codecov.io/gh/rodrigogs/vibecode-playground)
 </div>
 
-Modern TypeScript monorepo with Turbo for high-performance builds. Chat with AI-powered Italian brain rot meme characters! 🧠💬
+Modern TypeScript monorepo with Turbo for high-performance builds. Chat with AI-powered Italian brain-rot meme characters! 🧠💬
 
 ## Structure
 

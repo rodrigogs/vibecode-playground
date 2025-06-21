@@ -2,6 +2,8 @@
   "name": "vibecode-playground",
   "private": true,
   "type": "module",
+  "license": "MIT",
+  "author": "Rodrigo Gomes da Silva <rodrigo.smscom@gmail.com>",
   "scripts": {
     "clear": "npx -y rimraf -g --no-preserve-root **/node_modules **/dist **/coverage **/.turbo",
     "clean": "turbo clean",

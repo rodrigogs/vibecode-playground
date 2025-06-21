@@ -1,11 +1,18 @@
-import { auth } from '@/lib/auth-instance'
+import createIntlMiddleware from 'next-intl/middleware'
 
-export default auth(() => {
-  // The auth function will handle the authorization logic
-  // based on the configuration in auth.ts
-})
+import { routing } from '@/i18n/routing'
+
+// Create the internationalization middleware
+export default createIntlMiddleware(routing)
 
 export const config = {
   // https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
-  matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
+  matcher: [
+    // Enable a redirect to a matching locale at the root
+    '/',
+    // Set a cookie to remember the previous locale for all requests that have a locale prefix
+    '/(pt|en)/:path*',
+    // Enable redirects that add missing locales (e.g. `/pathnames` -> `/en/pathnames`)
+    '/((?!api|_next|_vercel|.*\\..*).*)',
+  ],
 }

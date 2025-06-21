@@ -30,7 +30,6 @@
     "@langchain/langgraph-checkpoint": "^0.0.18",
     "@langchain/openai": "^0.5.13",
     "@repo/cache": "*",
-    "@repo/logger": "*",
     "@repo/utils": "*",
     "langchain": "^0.3.28",
     "openai": "^4.62.1",

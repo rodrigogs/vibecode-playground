@@ -26,6 +26,20 @@ export const authConfig: NextAuthConfig = {
 
       return true
     },
+    jwt({ token, user }) {
+      // Include user id in the JWT token
+      if (user) {
+        token.id = user.id
+      }
+      return token
+    },
+    session({ session, token }) {
+      // Include user id in the session
+      if (token.id && session.user) {
+        session.user.id = token.id as string
+      }
+      return session
+    },
   },
   session: {
     strategy: 'jwt',

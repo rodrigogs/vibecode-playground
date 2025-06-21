@@ -3,16 +3,85 @@ import { NextResponse } from 'next/server'
 
 import { validateRequest } from '@/app/api/chat/validation'
 import { generateResponse } from '@/lib/ai-cache'
+import { auth } from '@/lib/auth-instance'
+import { consumeRateLimit, getRateLimitStatus } from '@/lib/rate-limit'
+import { RATE_LIMIT_MESSAGES } from '@/lib/rate-limit-constants'
 import type { BrainRotCharacter } from '@/types/characters'
 
 // Force dynamic rendering for API routes - no caching at route level
 export const dynamic = 'force-dynamic'
+
+/**
+ * Generate a thread ID for LangGraph conversation persistence
+ */
+function generateThreadId(): string {
+  return `thread_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+}
 
 export async function POST(request: NextRequest) {
   let requestData: unknown
   let character: BrainRotCharacter | undefined
 
   try {
+    // Get session for rate limiting
+    const session = await auth()
+
+    // Check rate limit before processing request
+    const rateLimitCheck = await getRateLimitStatus(session)
+
+    if (!rateLimitCheck.allowed) {
+      if (rateLimitCheck.requiresAuth) {
+        // User has exceeded IP limit and needs to authenticate
+        return NextResponse.json(
+          {
+            error: 'Rate limit exceeded',
+            message: RATE_LIMIT_MESSAGES.IP_LIMIT_EXCEEDED,
+            rateLimitInfo: {
+              limit: rateLimitCheck.limit,
+              remaining: rateLimitCheck.remaining,
+              resetTime: rateLimitCheck.resetTime,
+              requiresAuth: true,
+            },
+          },
+          {
+            status: 429,
+            headers: {
+              'X-RateLimit-Limit': rateLimitCheck.limit.toString(),
+              'X-RateLimit-Remaining': rateLimitCheck.remaining.toString(),
+              'X-RateLimit-Reset': new Date(
+                rateLimitCheck.resetTime,
+              ).toISOString(),
+              'X-RateLimit-RequiresAuth': 'true',
+            },
+          },
+        )
+      } else {
+        // Logged-in user has exceeded daily limit
+        return NextResponse.json(
+          {
+            error: 'Daily limit exceeded',
+            message: RATE_LIMIT_MESSAGES.USER_LIMIT_EXCEEDED,
+            rateLimitInfo: {
+              limit: rateLimitCheck.limit,
+              remaining: rateLimitCheck.remaining,
+              resetTime: rateLimitCheck.resetTime,
+              requiresAuth: false,
+            },
+          },
+          {
+            status: 429,
+            headers: {
+              'X-RateLimit-Limit': rateLimitCheck.limit.toString(),
+              'X-RateLimit-Remaining': rateLimitCheck.remaining.toString(),
+              'X-RateLimit-Reset': new Date(
+                rateLimitCheck.resetTime,
+              ).toISOString(),
+            },
+          },
+        )
+      }
+    }
+
     requestData = await request.json()
     const validation = validateRequest(requestData)
 
@@ -23,17 +92,48 @@ export async function POST(request: NextRequest) {
 
     const { message } = validation
     character = validation.character
+    const sessionId = validation.threadId || generateThreadId()
+
+    // Use sessionId as threadId for LangGraph conversation persistence
+    const threadId = `${character.id}_${sessionId}`
+
+    // Consume rate limit - this increments the counter
+    const rateLimitResult = await consumeRateLimit(session)
 
     // Use the cached response generator from ai-cache.ts
     const requestStartTime = Date.now()
-    console.log(`Generating response for character: ${character.name}`)
-    const result = await generateResponse(character, message)
+    console.info(`Generating response for character: ${character.name}`)
+    const result = await generateResponse(character, message, threadId)
     const totalTime = Date.now() - requestStartTime
-    console.log(
+    console.info(
       `Response generated for ${character.name} (cached: ${result.cached}, source: ${result.source}, time: ${totalTime}ms)`,
     )
 
-    return NextResponse.json({ response: result.response })
+    // Include rate limit info in successful response
+    return NextResponse.json(
+      {
+        response: result.response,
+        threadId: sessionId, // Return the original sessionId as threadId for frontend
+        rateLimitInfo: {
+          limit: rateLimitResult.limit,
+          remaining: rateLimitResult.remaining,
+          resetTime: rateLimitResult.resetTime,
+          requiresAuth: rateLimitResult.requiresAuth,
+        },
+      },
+      {
+        headers: {
+          'X-RateLimit-Limit': rateLimitResult.limit.toString(),
+          'X-RateLimit-Remaining': rateLimitResult.remaining.toString(),
+          'X-RateLimit-Reset': new Date(
+            rateLimitResult.resetTime,
+          ).toISOString(),
+          ...(rateLimitResult.requiresAuth && {
+            'X-RateLimit-RequiresAuth': 'true',
+          }),
+        },
+      },
+    )
   } catch (error) {
     console.error('Route Error:', error)
 

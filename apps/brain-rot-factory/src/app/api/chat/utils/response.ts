@@ -61,9 +61,9 @@ export function generateMockResponse(
   if (!characterResponses) {
     // Create fallback response in character's language
     const fallback =
-      character.language === 'indonesian'
+      character.language === 'id'
         ? `Saya adalah ${character.name}! Pesan kamu: "${message}" sangat menarik! ${character.catchphrases?.[0] || 'Terima kasih sudah berbicara dengan saya!'} 😊`
-        : character.language === 'english'
+        : character.language === 'en'
           ? `I am ${character.name}! Your message: "${message}" is very interesting! ${character.catchphrases?.[0] || 'Thanks for talking to me!'} 😊`
           : `Sono ${character.name}! Il tuo messaggio: "${message}" è molto interessante! ${character.catchphrases?.[0] || 'Grazie per aver parlato con me!'} 😊`
 

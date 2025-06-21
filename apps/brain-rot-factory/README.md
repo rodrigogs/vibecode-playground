@@ -1,4 +1,4 @@
-# Brain Rot Factory 🧠🏭
+# Brain-rot Factory 🧠🏭
 
 A Next.js web application that serves as your AI-powered companion for generating the most unhinged, chaotic, and absolutely brain-rotting content imaginable.
 
@@ -6,7 +6,7 @@ A Next.js web application that serves as your AI-powered companion for generatin
 
 - 🎨 **Modern UI**: Beautiful gradient interface with glass morphism effects
 - 🤖 **AI Integration**: Powered by the `@repo/ai` package from the Vibecode Playground monorepo
-- ⚡ **Real-time Chat**: Interactive chat interface for maximum brain rot generation
+- ⚡ **Real-time Chat**: Interactive chat interface for maximum brain-rot generation
 - 🎭 **Chaotic Responses**: Pre-loaded with hilariously unhinged AI responses
 - 📱 **Responsive Design**: Works perfectly on desktop and mobile devices
 
@@ -33,7 +33,7 @@ The app will be available at `http://localhost:3000`.
 
 ## API Routes
 
-- `POST /api/chat` - Main chat endpoint for generating brain rot content
+- `POST /api/chat` - Main chat endpoint for generating brain-rot content
 
 ## Integration with Monorepo
 

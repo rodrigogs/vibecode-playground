@@ -1,0 +1,156 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Hide horizontal scrollbar while keeping scroll functionality */
+html {
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* For webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar:horizontal {
+  display: none;
+}
+
+/* Alternative approach - hide all horizontal scrollbars */
+* {
+  scrollbar-width: none; /* Firefox */
+}
+
+*::-webkit-scrollbar:horizontal {
+  display: none; /* Chrome, Safari, Edge */
+}
+
+/* Force word breaking for long words without spaces */
+.break-anywhere {
+  word-break: break-all;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+
+/* Spooky glow animation for the logo */
+@keyframes spookyPulse {
+  0% {
+    filter:
+      drop-shadow(0 0 12px rgba(0, 255, 0, 0.35))
+      drop-shadow(0 0 24px rgba(255, 0, 255, 0.25))
+      drop-shadow(0 0 36px rgba(0, 255, 255, 0.18))
+      drop-shadow(0 0 6px rgba(255, 255, 0, 0.4))
+      hue-rotate(60deg)
+      contrast(1.2)
+      brightness(1.08)
+      saturate(1.4);
+  }
+
+  25% {
+    filter:
+      drop-shadow(0 0 15px rgba(255, 0, 0, 0.35))
+      drop-shadow(0 0 28px rgba(0, 255, 0, 0.25))
+      drop-shadow(0 0 40px rgba(255, 0, 255, 0.18))
+      drop-shadow(0 0 8px rgba(0, 255, 255, 0.45))
+      hue-rotate(120deg)
+      contrast(1.25)
+      brightness(1.12)
+      saturate(1.5);
+  }
+
+  50% {
+    filter:
+      drop-shadow(0 0 14px rgba(255, 255, 0, 0.4))
+      drop-shadow(0 0 26px rgba(255, 0, 0, 0.28))
+      drop-shadow(0 0 38px rgba(0, 255, 0, 0.2))
+      drop-shadow(0 0 7px rgba(255, 0, 255, 0.42))
+      hue-rotate(180deg)
+      contrast(1.3)
+      brightness(1.05)
+      saturate(1.6);
+  }
+
+  75% {
+    filter:
+      drop-shadow(0 0 18px rgba(0, 255, 255, 0.38))
+      drop-shadow(0 0 32px rgba(255, 255, 0, 0.26))
+      drop-shadow(0 0 44px rgba(255, 0, 0, 0.16))
+      drop-shadow(0 0 9px rgba(0, 255, 0, 0.4))
+      hue-rotate(90deg)
+      contrast(1.18)
+      brightness(1.15)
+      saturate(1.45);
+  }
+
+  100% {
+    filter:
+      drop-shadow(0 0 20px rgba(255, 0, 255, 0.4))
+      drop-shadow(0 0 34px rgba(0, 255, 255, 0.3))
+      drop-shadow(0 0 46px rgba(255, 255, 0, 0.2))
+      drop-shadow(0 0 10px rgba(255, 0, 0, 0.45))
+      hue-rotate(240deg)
+      contrast(1.22)
+      brightness(1.1)
+      saturate(1.55);
+  }
+}
+
+/* Logo hover effect - stop animation and show white glow with heartbeat */
+.hover\:animation-paused:hover {
+  animation-play-state: paused !important;
+  filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.6))
+          drop-shadow(0 0 40px rgba(255, 255, 255, 0.4))
+          drop-shadow(0 0 60px rgba(255, 255, 255, 0.2)) !important;
+  animation: logoHeartbeat 1.2s ease-in-out infinite, whiteGlowFade 2s ease-in-out infinite !important;
+}
+
+/* Subtle heartbeat animation for the logo */
+@keyframes logoHeartbeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  14% {
+    transform: scale(1.02);
+  }
+  28% {
+    transform: scale(1);
+  }
+  42% {
+    transform: scale(1.02);
+  }
+  70% {
+    transform: scale(1);
+  }
+}
+
+/* Fading white glow animation */
+@keyframes whiteGlowFade {
+  0%, 100% {
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.6))
+            drop-shadow(0 0 40px rgba(255, 255, 255, 0.4))
+            drop-shadow(0 0 60px rgba(255, 255, 255, 0.2));
+  }
+  50% {
+    filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.8))
+            drop-shadow(0 0 60px rgba(255, 255, 255, 0.6))
+            drop-shadow(0 0 90px rgba(255, 255, 255, 0.4));
+  }
+}

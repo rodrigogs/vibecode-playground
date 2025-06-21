@@ -9,4 +9,5 @@
  * serialization, and full compliance with checkpoint persistence standards.
  */
 
+export { ChatCheckpointAdapter } from './chat-checkpoint-adapter.js'
 export { PersistentCheckpointSaver } from './persistent-checkpoint-saver.js'

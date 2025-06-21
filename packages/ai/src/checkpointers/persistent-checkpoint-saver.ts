@@ -51,8 +51,8 @@ class JsonSerializer implements SerializerProtocol {
  * - Proper metadata handling with parents tracking
  */
 export class PersistentCheckpointSaver extends BaseCheckpointSaver {
-  private cache: CacheAdapter
-  private keyPrefix: string
+  protected cache: CacheAdapter
+  protected keyPrefix: string
 
   constructor(
     cache: CacheAdapter,

@@ -1,9 +1,15 @@
 'use client'
 
+import Link from 'next/link'
+import { useParams } from 'next/navigation'
 import { signIn } from 'next-auth/react'
+import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 
 export default function SignIn() {
+  const t = useTranslations('Auth')
+  const params = useParams()
+  const locale = params.locale as string
   const [isLoading, setIsLoading] = useState<Record<string, boolean>>({})
 
   const handleSignIn = async (provider: string) => {
@@ -21,10 +27,10 @@ export default function SignIn() {
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
       <div className="bg-white/10 backdrop-blur-md rounded-xl p-8 shadow-2xl border border-white/20 max-w-md w-full mx-4">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">Sign In</h1>
-          <p className="text-white/70">
-            Welcome to Brain Rot Factory! Sign in to continue.
-          </p>
+          <h1 className="text-3xl font-bold text-white mb-2">
+            {t('loginTitle')}
+          </h1>
+          <p className="text-white/70">{t('loginSubtitle')}</p>
         </div>
 
         <div className="space-y-4">
@@ -32,7 +38,7 @@ export default function SignIn() {
             type="button"
             onClick={() => handleSignIn('github')}
             disabled={isLoading.github}
-            className="w-full flex items-center justify-center gap-3 bg-gray-900 hover:bg-gray-800 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-center gap-3 bg-gray-900 hover:bg-gray-800 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading.github ? (
               <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -50,20 +56,34 @@ export default function SignIn() {
                 />
               </svg>
             )}
-            Continue with GitHub
+            {t('continueWith', { provider: 'GitHub' })}
           </button>
 
           {/* Placeholder for future providers */}
           <div className="pt-4 border-t border-white/20">
             <p className="text-center text-white/50 text-sm">
-              More authentication providers coming soon...
+              {t('moreProviders')}
             </p>
           </div>
         </div>
 
         <div className="mt-8 text-center">
           <p className="text-white/60 text-sm">
-            By signing in, you agree to our Terms of Service and Privacy Policy.
+            {t('termsPrefix')}{' '}
+            <Link
+              href={`/${locale}/terms`}
+              className="text-blue-300 hover:text-blue-200 underline cursor-pointer transition-colors duration-200"
+            >
+              {t('termsLink')}
+            </Link>{' '}
+            {t('termsAndText')}{' '}
+            <Link
+              href={`/${locale}/privacy`}
+              className="text-blue-300 hover:text-blue-200 underline cursor-pointer transition-colors duration-200"
+            >
+              {t('privacyLink')}
+            </Link>
+            {t('termsSuffix')}
           </p>
         </div>
       </div>

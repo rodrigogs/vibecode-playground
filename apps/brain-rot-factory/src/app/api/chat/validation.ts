@@ -5,17 +5,19 @@ import type { BrainRotCharacter } from '@/types/characters'
 export interface RequestData {
   message?: string
   character?: BrainRotCharacter
+  threadId?: string
 }
 
 export interface ValidatedRequest {
   message: string
   character: BrainRotCharacter
+  threadId?: string
 }
 
 export function validateRequest(
   requestData: unknown,
 ): ValidatedRequest | NextResponse {
-  const { message, character } = requestData as RequestData
+  const { message, character, threadId } = requestData as RequestData
 
   if (!message) {
     return NextResponse.json({ error: 'Message is required' }, { status: 400 })
@@ -31,6 +33,7 @@ export function validateRequest(
   return {
     message,
     character: character as BrainRotCharacter,
+    threadId,
   }
 }
 

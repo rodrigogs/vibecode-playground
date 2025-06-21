@@ -1,4 +1,4 @@
-# Environment Variables for Brain Rot Factory
+# Environment Variables for Brain-rot Factory
 
 ## Authentication (GitHub OAuth)
 
@@ -20,7 +20,7 @@ GITHUB_SECRET=your_github_oauth_app_client_secret
 1. Go to GitHub.com → Settings → Developer settings → OAuth Apps
 2. Click "New OAuth App"
 3. Fill in the application details:
-   - **Application name**: Brain Rot Factory (or your preferred name)
+   - **Application name**: Brain-rot Factory (or your preferred name)
    - **Homepage URL**: `http://localhost:3000` (for development)
    - **Authorization callback URL**: `http://localhost:3000/api/auth/callback/github`
 4. Click "Register application"
