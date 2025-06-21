@@ -513,7 +513,7 @@ export class BizarreAudioDistorter {
     this.effectsChain.forEach((node) => {
       try {
         node.disconnect()
-      } catch (error) {
+      } catch {
         // Ignore disconnect errors
       }
     })
@@ -532,7 +532,8 @@ export async function createDistortedNotification(
   cleanup: () => void
 }> {
   const audioContext = new (window.AudioContext ||
-    (window as any).webkitAudioContext)()
+    (window as unknown as { webkitAudioContext: typeof AudioContext })
+      .webkitAudioContext)()
   const distorter = new BizarreAudioDistorter(audioContext)
 
   await distorter.loadAudio(audioUrl)
