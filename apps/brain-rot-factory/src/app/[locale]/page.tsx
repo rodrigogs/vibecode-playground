@@ -150,25 +150,74 @@ export default function Home() {
     }
   }
 
-  // Play brain-rot notification sound
+  // Play brain-rot notification sound with bizarre distortions
   const playBrainRotNotification = async () => {
     try {
-      if (!brainrotNotificationRef.current) {
-        initializeBrainRotNotification()
+      // Import the distortion system dynamically
+      const { createDistortedNotification } = await import(
+        '@/lib/audio-distortion'
+      )
+
+      // Create distorted notification with random chaos settings
+      const chaosLevel = Math.random()
+      const intensityLevel = 0.6 + Math.random() * 0.4 // 0.6 to 1.0
+
+      const distortedNotification = await createDistortedNotification(
+        '/music/brainrot-notification.mp3',
+        {
+          intensity: intensityLevel,
+          chaos: chaosLevel,
+          // Randomly enable/disable effects for maximum unpredictability
+          enableBitCrush: Math.random() > 0.3,
+          enableGranular: Math.random() > 0.2,
+          enableReverse: Math.random() > 0.7,
+          enablePitchShift: Math.random() > 0.1,
+          enableGlitch: Math.random() > 0.4,
+          enableSpectral: Math.random() > 0.5,
+          enableTimeStretch: Math.random() > 0.6,
+          enableRingMod: Math.random() > 0.4,
+        },
+      )
+
+      // Play the distorted notification
+      const source = await distortedNotification.play()
+
+      // Clean up after playback
+      source.onended = () => {
+        distortedNotification.cleanup()
+        console.log('Distorted brain-rot notification finished playing')
       }
 
-      if (brainrotNotificationRef.current) {
-        // Reset to beginning and play
-        brainrotNotificationRef.current.currentTime = 0
-        const playPromise = brainrotNotificationRef.current.play()
-
-        if (playPromise !== undefined) {
-          await playPromise
-          console.log('Brain-rot notification sound played successfully')
-        }
-      }
+      console.log(
+        `Brain-rot notification played with chaos: ${chaosLevel.toFixed(2)}, intensity: ${intensityLevel.toFixed(2)}`,
+      )
     } catch (error) {
-      console.error('Brain-rot notification sound failed to play:', error)
+      console.error('Distorted brain-rot notification failed to play:', error)
+
+      // Fallback to original notification system
+      try {
+        if (!brainrotNotificationRef.current) {
+          initializeBrainRotNotification()
+        }
+
+        if (brainrotNotificationRef.current) {
+          // Reset to beginning and play
+          brainrotNotificationRef.current.currentTime = 0
+          const playPromise = brainrotNotificationRef.current.play()
+
+          if (playPromise !== undefined) {
+            await playPromise
+            console.log(
+              'Fallback brain-rot notification sound played successfully',
+            )
+          }
+        }
+      } catch (fallbackError) {
+        console.error(
+          'Both distorted and fallback notification failed:',
+          fallbackError,
+        )
+      }
     }
   }
 
