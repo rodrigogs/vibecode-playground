@@ -24,6 +24,7 @@ export default function Home() {
   const [currentSpeakingMessageId, setCurrentSpeakingMessageId] = useState<
     string | null
   >(null)
+  const [isLoadingTTS, setIsLoadingTTS] = useState<boolean>(false)
   const [selectedCharacter, setSelectedCharacter] =
     useState<BrainRotCharacter | null>(null)
   const [rateLimitRefreshTrigger, setRateLimitRefreshTrigger] = useState(0)
@@ -241,6 +242,21 @@ export default function Home() {
     )
       return
 
+    // If currently loading TTS for the same message, allow cancellation
+    if (isLoadingTTS && currentSpeakingMessageId === messageId) {
+      console.log('Canceling TTS request in progress')
+      stopAllAudio()
+      return
+    }
+
+    // Prevent duplicate requests while TTS is loading for a different message
+    if (isLoadingTTS && currentSpeakingMessageId !== messageId) {
+      console.log(
+        'TTS request already in progress for another message, ignoring duplicate request',
+      )
+      return
+    }
+
     // If currently speaking the same message, stop it
     if (isSpeaking && currentSpeakingMessageId === messageId) {
       stopAllAudio()
@@ -255,7 +271,7 @@ export default function Home() {
     }
 
     try {
-      setIsSpeaking(true)
+      setIsLoadingTTS(true)
       setCurrentSpeakingMessageId(messageId)
       playBackgroundMusic()
 
@@ -300,6 +316,10 @@ export default function Home() {
       // Store reference to current TTS audio
       currentTTSAudioRef.current = audio
 
+      // Set speaking state only after TTS is successfully loaded
+      setIsSpeaking(true)
+      setIsLoadingTTS(false)
+
       audio.onended = () => {
         setIsSpeaking(false)
         setCurrentSpeakingMessageId(null)
@@ -325,6 +345,7 @@ export default function Home() {
 
         // Clean up
         setIsSpeaking(false)
+        setIsLoadingTTS(false)
         setCurrentSpeakingMessageId(null)
         stopBackgroundMusic()
 
@@ -375,6 +396,7 @@ export default function Home() {
     } catch (error) {
       console.error('TTS Error:', error)
       setIsSpeaking(false)
+      setIsLoadingTTS(false)
       setCurrentSpeakingMessageId(null)
       stopAllAudio()
       alert('Failed to generate speech. Please try again.')
@@ -418,6 +440,7 @@ export default function Home() {
 
       // Reset speaking states
       setIsSpeaking(false)
+      setIsLoadingTTS(false)
       setCurrentSpeakingMessageId(null)
 
       // Stop current TTS audio using ref
@@ -506,8 +529,6 @@ export default function Home() {
 
     // Stop any playing audio when starting a new request
     stopAllAudio()
-    setIsSpeaking(false)
-    setCurrentSpeakingMessageId(null)
 
     setIsLoading(true)
 
@@ -630,6 +651,7 @@ export default function Home() {
               isLoading={isLoading}
               isSpeaking={isSpeaking}
               currentSpeakingMessageId={currentSpeakingMessageId}
+              isLoadingTTS={isLoadingTTS}
               onCloseChat={handleCloseChat}
               onSubmit={handleSubmit}
               onSpeakMessage={handleSpeakMessage}

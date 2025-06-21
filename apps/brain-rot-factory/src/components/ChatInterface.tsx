@@ -15,6 +15,7 @@ interface ChatInterfaceProps {
   isLoading: boolean
   isSpeaking: boolean
   currentSpeakingMessageId: string | null
+  isLoadingTTS: boolean
   onCloseChat: () => void
   onSubmit: (e: React.FormEvent) => void
   onSpeakMessage: (messageId: string) => void
@@ -29,6 +30,7 @@ export default function ChatInterface({
   isLoading,
   isSpeaking,
   currentSpeakingMessageId,
+  isLoadingTTS,
   onCloseChat,
   onSubmit,
   onSpeakMessage,
@@ -74,6 +76,7 @@ export default function ChatInterface({
           selectedCharacter={selectedCharacter}
           isSpeaking={isSpeaking}
           currentSpeakingMessageId={currentSpeakingMessageId}
+          isLoadingTTS={isLoadingTTS}
           onSpeakMessage={onSpeakMessage}
         />
 

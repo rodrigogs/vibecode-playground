@@ -10,6 +10,7 @@ interface ChatHistoryProps {
   selectedCharacter: BrainRotCharacter
   isSpeaking: boolean
   currentSpeakingMessageId: string | null
+  isLoadingTTS: boolean
   onSpeakMessage: (messageId: string) => void
 }
 
@@ -18,6 +19,7 @@ export default function ChatHistory({
   selectedCharacter,
   isSpeaking,
   currentSpeakingMessageId,
+  isLoadingTTS,
   onSpeakMessage,
 }: ChatHistoryProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -43,6 +45,7 @@ export default function ChatHistory({
           message={message}
           selectedCharacter={selectedCharacter}
           isSpeaking={isSpeaking && currentSpeakingMessageId === message.id}
+          isLoadingTTS={isLoadingTTS && currentSpeakingMessageId === message.id}
           onSpeakMessage={onSpeakMessage}
         />
       ))}

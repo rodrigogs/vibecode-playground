@@ -1,4 +1,4 @@
-import { Volume2, VolumeX } from 'lucide-react'
+import { Loader2, Volume2, VolumeX } from 'lucide-react'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 
@@ -16,6 +16,7 @@ interface ChatMessageProps {
   message: ChatMessage
   selectedCharacter: BrainRotCharacter
   isSpeaking: boolean
+  isLoadingTTS: boolean
   onSpeakMessage: (messageId: string) => void
 }
 
@@ -23,6 +24,7 @@ export default function ChatMessage({
   message,
   selectedCharacter,
   isSpeaking,
+  isLoadingTTS,
   onSpeakMessage,
 }: ChatMessageProps) {
   const t = useTranslations('Chat')
@@ -122,14 +124,25 @@ export default function ChatMessage({
             {message.type !== 'error' && (
               <button
                 onClick={() => onSpeakMessage(message.id)}
+                disabled={isLoadingTTS}
                 className={`transition-all duration-200 rounded-full p-2 group cursor-pointer ${
-                  isSpeaking
-                    ? 'bg-orange-500/20 border border-orange-500/30 hover:bg-orange-500/40 hover:border-orange-500'
-                    : 'bg-blue-500/20 border border-blue-500/30 hover:bg-blue-500/40 hover:border-blue-500'
+                  isLoadingTTS
+                    ? 'bg-yellow-500/20 border border-yellow-500/30 cursor-wait'
+                    : isSpeaking
+                      ? 'bg-orange-500/20 border border-orange-500/30 hover:bg-orange-500/40 hover:border-orange-500'
+                      : 'bg-blue-500/20 border border-blue-500/30 hover:bg-blue-500/40 hover:border-blue-500'
                 }`}
-                title={isSpeaking ? t('stop') : t('speak')}
+                title={
+                  isLoadingTTS
+                    ? t('loading')
+                    : isSpeaking
+                      ? t('stop')
+                      : t('speak')
+                }
               >
-                {isSpeaking ? (
+                {isLoadingTTS ? (
+                  <Loader2 className="w-5 h-5 text-yellow-400 animate-spin" />
+                ) : isSpeaking ? (
                   <VolumeX className="w-5 h-5 text-orange-400 group-hover:text-orange-300" />
                 ) : (
                   <Volume2 className="w-5 h-5 text-blue-400 group-hover:text-blue-300" />
