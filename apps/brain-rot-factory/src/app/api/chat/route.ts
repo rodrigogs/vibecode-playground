@@ -26,12 +26,17 @@ export async function POST(request: NextRequest) {
     // Get session for rate limiting
     const session = await auth()
 
-    // Check rate limit before processing request
-    const rateLimitCheck = await getRateLimitStatus(session)
+    // Parse request body first to get fingerprint data
+    requestData = await request.json()
+    const fingerprintData = (requestData as { fingerprint?: string })
+      ?.fingerprint
+
+    // Check enhanced rate limit with browser fingerprinting
+    const rateLimitCheck = await getRateLimitStatus(session, fingerprintData)
 
     if (!rateLimitCheck.allowed) {
       if (rateLimitCheck.requiresAuth) {
-        // User has exceeded IP limit and needs to authenticate
+        // User has exceeded limit and needs to authenticate
         return NextResponse.json(
           {
             error: 'Rate limit exceeded',
@@ -41,6 +46,7 @@ export async function POST(request: NextRequest) {
               remaining: rateLimitCheck.remaining,
               resetTime: rateLimitCheck.resetTime,
               requiresAuth: true,
+              method: rateLimitCheck.method,
             },
           },
           {
@@ -52,6 +58,7 @@ export async function POST(request: NextRequest) {
                 rateLimitCheck.resetTime,
               ).toISOString(),
               'X-RateLimit-RequiresAuth': 'true',
+              'X-RateLimit-Method': rateLimitCheck.method,
             },
           },
         )
@@ -66,6 +73,7 @@ export async function POST(request: NextRequest) {
               remaining: rateLimitCheck.remaining,
               resetTime: rateLimitCheck.resetTime,
               requiresAuth: false,
+              method: rateLimitCheck.method,
             },
           },
           {
@@ -76,13 +84,13 @@ export async function POST(request: NextRequest) {
               'X-RateLimit-Reset': new Date(
                 rateLimitCheck.resetTime,
               ).toISOString(),
+              'X-RateLimit-Method': rateLimitCheck.method,
             },
           },
         )
       }
     }
 
-    requestData = await request.json()
     const validation = validateRequest(requestData)
 
     // If validation failed, return the error response
@@ -97,8 +105,8 @@ export async function POST(request: NextRequest) {
     // Use sessionId as threadId for LangGraph conversation persistence
     const threadId = `${character.id}_${sessionId}`
 
-    // Consume rate limit - this increments the counter
-    const rateLimitResult = await consumeRateLimit(session)
+    // Consume enhanced rate limit - this increments the counter
+    const rateLimitResult = await consumeRateLimit(session, fingerprintData)
 
     // Use the cached response generator from ai-cache.ts
     const requestStartTime = Date.now()
@@ -119,6 +127,8 @@ export async function POST(request: NextRequest) {
           remaining: rateLimitResult.remaining,
           resetTime: rateLimitResult.resetTime,
           requiresAuth: rateLimitResult.requiresAuth,
+          method: rateLimitResult.method,
+          confidence: rateLimitResult.confidence,
         },
       },
       {
@@ -128,8 +138,12 @@ export async function POST(request: NextRequest) {
           'X-RateLimit-Reset': new Date(
             rateLimitResult.resetTime,
           ).toISOString(),
+          'X-RateLimit-Method': rateLimitResult.method,
           ...(rateLimitResult.requiresAuth && {
             'X-RateLimit-RequiresAuth': 'true',
+          }),
+          ...(rateLimitResult.confidence && {
+            'X-RateLimit-Confidence': rateLimitResult.confidence.toFixed(2),
           }),
         },
       },

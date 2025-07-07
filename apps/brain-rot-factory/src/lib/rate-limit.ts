@@ -2,14 +2,23 @@ import { headers } from 'next/headers'
 import type { Session } from 'next-auth'
 
 import { cache } from '@/lib/backend-cache'
+import {
+  type FingerprintComponents,
+  type FingerprintResult,
+  processFingerprint,
+} from '@/lib/browser-fingerprinting'
 import { RATE_LIMIT_CONFIG } from '@/lib/rate-limit-constants'
 
 // Rate limit configurations
 export const RATE_LIMITS = {
   IP_LIMIT: RATE_LIMIT_CONFIG.IP_LIMIT,
+  FINGERPRINT_LIMIT: RATE_LIMIT_CONFIG.IP_LIMIT * 2, // Slightly higher for fingerprint-based
   USER_DAILY_LIMIT: RATE_LIMIT_CONFIG.USER_DAILY_LIMIT,
-  IP_RESET_TIME: RATE_LIMIT_CONFIG.RESET_TIME_HOURS * 60 * 60 * 1000, // 24 hours in milliseconds
-  USER_RESET_TIME: RATE_LIMIT_CONFIG.RESET_TIME_HOURS * 60 * 60 * 1000, // 24 hours in milliseconds
+  RESET_TIME: RATE_LIMIT_CONFIG.RESET_TIME_HOURS * 60 * 60 * 1000,
+  // Enhanced unique user detection thresholds
+  HIGH_CONFIDENCE_THRESHOLD: 0.8, // Very reliable fingerprint
+  MEDIUM_CONFIDENCE_THRESHOLD: 0.5, // Moderately reliable fingerprint
+  SUSPICIOUS_FLAGS_THRESHOLD: 2, // Max suspicious flags before reducing confidence
 } as const
 
 export interface RateLimitResult {
@@ -19,27 +28,36 @@ export interface RateLimitResult {
   resetTime: number
   requiresAuth: boolean
   isLoggedIn: boolean
+  method: 'ip' | 'fingerprint' | 'combined' | 'user'
+  confidence?: number
+  fingerprint?: string // Partial fingerprint for logging
+  suspiciousFlags?: string[] // Security flags detected
 }
 
 export interface RateLimitInfo {
   count: number
   resetTime: number
+  lastSeen: number
+  confidence?: number
+  suspiciousFlags?: string[]
+  fingerprintHistory?: string[] // Track fingerprint changes
 }
 
 /**
- * Get client IP address from request headers
+ * Extract client IP from request headers
  */
-export async function getClientIP(): Promise<string> {
+async function getClientIP(): Promise<string> {
   const headersList = await headers()
 
-  // Check various headers for IP address
+  // Check multiple headers for the real IP (in order of preference)
   const forwardedFor = headersList.get('x-forwarded-for')
   const realIP = headersList.get('x-real-ip')
   const cfConnectingIP = headersList.get('cf-connecting-ip')
 
+  // x-forwarded-for can contain multiple IPs, take the first one
   if (forwardedFor) {
-    // x-forwarded-for can contain multiple IPs, take the first one
-    return forwardedFor.split(',')[0].trim()
+    const ips = forwardedFor.split(',').map((ip) => ip.trim())
+    return ips[0]
   }
 
   if (realIP) {
@@ -50,234 +68,425 @@ export async function getClientIP(): Promise<string> {
     return cfConnectingIP
   }
 
-  // Fallback to a default value for development
+  // Fallback to a default (this should rarely happen in production)
   return '127.0.0.1'
 }
 
 /**
- * Generate cache key for IP-based rate limiting
+ * Generate cache keys for different rate limiting strategies
  */
-function getIPRateLimitKey(ip: string): string {
-  return `rate_limit:ip:${ip}`
+function getRateLimitKeys(ip: string, fingerprint?: string) {
+  const ipKey = `rate_limit:ip:${ip}`
+  const fingerprintKey = fingerprint
+    ? `rate_limit:fingerprint:${fingerprint}`
+    : null
+  const combinedKey = fingerprint
+    ? `rate_limit:combined:${ip}:${fingerprint}`
+    : ipKey
+
+  return { ipKey, fingerprintKey, combinedKey }
 }
 
 /**
- * Generate cache key for user-based rate limiting
+ * Analyze suspicious behavior patterns to enhance unique user detection
  */
-function getUserRateLimitKey(userId: string): string {
-  return `rate_limit:user:${userId}`
+function analyzeSuspiciousBehavior(
+  fingerprintResult?: FingerprintResult,
+  existingInfo?: RateLimitInfo,
+): {
+  adjustedConfidence: number
+  suspiciousFlags: string[]
+} {
+  let suspiciousFlags: string[] = []
+  let confidenceAdjustment = 0
+
+  if (fingerprintResult) {
+    // Add suspicious flags from fingerprinting
+    suspiciousFlags = [...fingerprintResult.suspiciousFlags]
+
+    // Reduce confidence based on automation detection
+    if (fingerprintResult.suspiciousFlags.includes('webdriver-detected')) {
+      confidenceAdjustment -= 0.4
+    }
+    if (fingerprintResult.suspiciousFlags.includes('headless-browser')) {
+      confidenceAdjustment -= 0.3
+    }
+    if (fingerprintResult.suspiciousFlags.includes('server-grade-hardware')) {
+      confidenceAdjustment -= 0.2
+    }
+  }
+
+  // Check for fingerprint switching (evasion attempt)
+  if (existingInfo?.fingerprintHistory && fingerprintResult) {
+    const currentFingerprint = fingerprintResult.fingerprint
+    if (
+      existingInfo.fingerprintHistory.length > 0 &&
+      !existingInfo.fingerprintHistory.includes(currentFingerprint)
+    ) {
+      suspiciousFlags.push('fingerprint-switching')
+      confidenceAdjustment -= 0.2
+    }
+  }
+
+  // Check for rapid requests (automation indicator)
+  if (existingInfo?.lastSeen) {
+    const timeSinceLastRequest = Date.now() - existingInfo.lastSeen
+    if (timeSinceLastRequest < 1000) {
+      // Less than 1 second
+      suspiciousFlags.push('rapid-requests')
+      confidenceAdjustment -= 0.1
+    }
+  }
+
+  const adjustedConfidence = Math.max(
+    0,
+    Math.min(1, (fingerprintResult?.confidence || 0) + confidenceAdjustment),
+  )
+
+  return { adjustedConfidence, suspiciousFlags }
 }
 
 /**
- * Get current rate limit info for an IP address
+ * Process fingerprint data from client with enhanced analysis
  */
-async function getIPRateLimit(ip: string): Promise<RateLimitInfo> {
-  const key = getIPRateLimitKey(ip)
-  const cached = await cache.get<RateLimitInfo>(key)
-
-  if (cached && cached.resetTime > Date.now()) {
-    return cached
+function processFingerprintData(fingerprintData?: string): {
+  fingerprint?: string
+  confidence?: number
+  fingerprintResult?: FingerprintResult
+} {
+  if (!fingerprintData) {
+    return {}
   }
 
-  // If no cache or expired, return fresh state
-  return {
-    count: 0,
-    resetTime: Date.now() + RATE_LIMITS.IP_RESET_TIME,
+  try {
+    const components: FingerprintComponents = JSON.parse(fingerprintData)
+    const result: FingerprintResult = processFingerprint(components)
+
+    return {
+      fingerprint: result.fingerprint,
+      confidence: result.confidence,
+      fingerprintResult: result,
+    }
+  } catch (error) {
+    console.warn('Failed to process fingerprint data:', error)
+    return {}
   }
 }
 
 /**
- * Get current rate limit info for a logged-in user
+ * Enhanced rate limit info retrieval with sophisticated user detection
  */
-async function getUserRateLimit(userId: string): Promise<RateLimitInfo> {
-  const key = getUserRateLimitKey(userId)
-  const cached = await cache.get<RateLimitInfo>(key)
-
-  if (cached && cached.resetTime > Date.now()) {
-    return cached
-  }
-
-  // If no cache or expired, return fresh state
-  return {
-    count: 0,
-    resetTime: Date.now() + RATE_LIMITS.USER_RESET_TIME,
-  }
-}
-
-/**
- * Update rate limit count for an IP address
- */
-async function updateIPRateLimit(
+async function getRateLimitInfo(
   ip: string,
-  info: RateLimitInfo,
-): Promise<void> {
-  const key = getIPRateLimitKey(ip)
-  const ttl = info.resetTime - Date.now()
+  fingerprint?: string,
+  confidence?: number,
+  fingerprintResult?: FingerprintResult,
+): Promise<{
+  info: RateLimitInfo
+  method: 'ip' | 'fingerprint' | 'combined'
+}> {
+  const { ipKey, fingerprintKey, combinedKey } = getRateLimitKeys(
+    ip,
+    fingerprint,
+  )
 
-  if (ttl > 0) {
-    await cache.set(key, info, ttl)
-    console.info(
-      `Updated IP rate limit for ${ip}: ${info.count}/${RATE_LIMITS.IP_LIMIT}`,
-    )
+  let existingInfo: RateLimitInfo | null = null
+  let method: 'ip' | 'fingerprint' | 'combined' = 'ip'
+
+  // Strategy selection based on fingerprint confidence
+  if (
+    fingerprint &&
+    confidence &&
+    confidence > RATE_LIMITS.HIGH_CONFIDENCE_THRESHOLD
+  ) {
+    // High confidence - use combined approach for maximum uniqueness
+    existingInfo = await cache.get<RateLimitInfo>(combinedKey)
+    if (existingInfo && existingInfo.resetTime > Date.now()) {
+      method = 'combined'
+    } else {
+      // Check fingerprint-only as fallback
+      existingInfo = await cache.get<RateLimitInfo>(fingerprintKey!)
+      if (existingInfo && existingInfo.resetTime > Date.now()) {
+        method = 'fingerprint'
+      }
+    }
+  } else if (
+    fingerprint &&
+    confidence &&
+    confidence > RATE_LIMITS.MEDIUM_CONFIDENCE_THRESHOLD
+  ) {
+    // Medium confidence - use fingerprint-only
+    existingInfo = await cache.get<RateLimitInfo>(fingerprintKey!)
+    if (existingInfo && existingInfo.resetTime > Date.now()) {
+      method = 'fingerprint'
+    }
   }
+
+  // Fallback to IP-based if no fingerprint method worked
+  if (!existingInfo || existingInfo.resetTime <= Date.now()) {
+    existingInfo = await cache.get<RateLimitInfo>(ipKey)
+    if (existingInfo && existingInfo.resetTime > Date.now()) {
+      method = 'ip'
+    }
+  }
+
+  // Analyze suspicious behavior and adjust confidence
+  const { adjustedConfidence, suspiciousFlags } = analyzeSuspiciousBehavior(
+    fingerprintResult,
+    existingInfo,
+  )
+
+  // Create fresh info if no valid existing info
+  if (!existingInfo || existingInfo.resetTime <= Date.now()) {
+    existingInfo = {
+      count: 0,
+      resetTime: Date.now() + RATE_LIMITS.RESET_TIME,
+      lastSeen: Date.now(),
+      confidence: adjustedConfidence,
+      suspiciousFlags,
+      fingerprintHistory: fingerprint ? [fingerprint] : [],
+    }
+
+    // Adjust method based on adjusted confidence
+    if (
+      fingerprint &&
+      adjustedConfidence > RATE_LIMITS.HIGH_CONFIDENCE_THRESHOLD
+    ) {
+      method = 'combined'
+    } else if (
+      fingerprint &&
+      adjustedConfidence > RATE_LIMITS.MEDIUM_CONFIDENCE_THRESHOLD
+    ) {
+      method = 'fingerprint'
+    } else {
+      method = 'ip'
+    }
+  } else {
+    // Update existing info with new analysis
+    existingInfo.confidence = adjustedConfidence
+    existingInfo.suspiciousFlags = suspiciousFlags
+
+    // Update fingerprint history
+    if (fingerprint && existingInfo.fingerprintHistory) {
+      if (!existingInfo.fingerprintHistory.includes(fingerprint)) {
+        existingInfo.fingerprintHistory = [
+          ...existingInfo.fingerprintHistory.slice(-4), // Keep last 4 fingerprints
+          fingerprint,
+        ]
+      }
+    }
+  }
+
+  return { info: existingInfo, method }
 }
 
 /**
- * Update rate limit count for a logged-in user
+ * Update rate limit based on the method used with enhanced tracking
  */
-async function updateUserRateLimit(
-  userId: string,
+async function updateRateLimitInfo(
+  ip: string,
+  fingerprint: string | undefined,
   info: RateLimitInfo,
+  method: 'ip' | 'fingerprint' | 'combined',
 ): Promise<void> {
-  const key = getUserRateLimitKey(userId)
+  const { ipKey, fingerprintKey, combinedKey } = getRateLimitKeys(
+    ip,
+    fingerprint,
+  )
   const ttl = info.resetTime - Date.now()
 
-  if (ttl > 0) {
-    await cache.set(key, info, ttl)
-    console.info(
-      `Updated user rate limit for ${userId}: ${info.count}/${RATE_LIMITS.USER_DAILY_LIMIT}`,
-    )
+  if (ttl <= 0) return
+
+  // Update based on method
+  switch (method) {
+    case 'combined':
+      if (fingerprint) {
+        await cache.set(combinedKey, info, ttl)
+        // Also update fingerprint-only for fallback
+        await cache.set(fingerprintKey!, info, ttl)
+      }
+      break
+    case 'fingerprint':
+      if (fingerprint && fingerprintKey) {
+        await cache.set(fingerprintKey, info, ttl)
+      }
+      break
+    case 'ip':
+    default:
+      await cache.set(ipKey, info, ttl)
+      break
+  }
+
+  // Enhanced logging with security information
+  const logDetails = {
+    method,
+    count: info.count,
+    limit: getLimit(method),
+    confidence: info.confidence,
+    suspiciousFlags: info.suspiciousFlags?.length || 0,
+    identifier: method === 'ip' ? ip : fingerprint?.substring(0, 8),
+  }
+
+  console.info('Rate limit updated:', logDetails)
+
+  // Log security alerts for highly suspicious activity
+  if (
+    info.suspiciousFlags &&
+    info.suspiciousFlags.length >= RATE_LIMITS.SUSPICIOUS_FLAGS_THRESHOLD
+  ) {
+    console.warn('High suspicious activity detected:', {
+      ip,
+      fingerprint: fingerprint?.substring(0, 8),
+      flags: info.suspiciousFlags,
+      method,
+    })
   }
 }
 
 /**
- * Check rate limit for the current request
+ * Get the appropriate limit based on detection method and confidence
+ */
+function getLimit(method: 'ip' | 'fingerprint' | 'combined' | 'user'): number {
+  switch (method) {
+    case 'user':
+      return RATE_LIMITS.USER_DAILY_LIMIT
+    case 'combined':
+    case 'fingerprint':
+      return RATE_LIMITS.FINGERPRINT_LIMIT
+    case 'ip':
+    default:
+      return RATE_LIMITS.IP_LIMIT
+  }
+}
+
+/**
+ * Enhanced rate limit check with sophisticated unique user detection
  */
 export async function checkRateLimit(
   session: Session | null,
+  fingerprintData?: string,
 ): Promise<RateLimitResult> {
   const ip = await getClientIP()
   const isLoggedIn = !!session?.user?.id
 
   console.info(
-    `Rate limit check for IP: ${ip}, logged in: ${isLoggedIn}, userId: ${session?.user?.id || 'none'}`,
+    `Rate limit check for IP: ${ip}, logged in: ${isLoggedIn}, has fingerprint: ${!!fingerprintData}`,
   )
 
-  // Enhanced logging to debug authentication issues
-  if (session) {
-    console.info('Session details:', {
-      userId: session.user?.id,
-      userEmail: session.user?.email,
-      hasUser: !!session.user,
-      hasUserId: !!session.user?.id,
-    })
-
-    // Critical debugging: if we have a session but no userId, this is a config issue
-    if (session.user && !session.user.id) {
-      console.error(
-        'CRITICAL: Session exists but user.id is missing! Check NextAuth configuration.',
-      )
-    }
-  }
-
   if (isLoggedIn && session?.user?.id) {
-    // Handle logged-in users - completely ignore IP limits
+    // Handle logged-in users with existing logic
     const userId = session.user.id
-    const userInfo = await getUserRateLimit(userId)
+    const userKey = `rate_limit:user:${userId}`
+    const userInfo = await cache.get<RateLimitInfo>(userKey)
 
-    // Clear any IP-based rate limits for this IP when user is logged in
-    // This prevents old anonymous usage from affecting logged-in users
-    try {
-      await resetIPRateLimit(ip)
-      console.info(
-        `Cleared IP rate limit for ${ip} (user ${userId} is logged in)`,
-      )
-    } catch {
-      // Error clearing IP rate limit
-    }
+    const info =
+      userInfo && userInfo.resetTime > Date.now()
+        ? userInfo
+        : {
+            count: 0,
+            resetTime: Date.now() + RATE_LIMITS.RESET_TIME,
+            lastSeen: Date.now(),
+          }
 
-    const remaining = Math.max(0, RATE_LIMITS.USER_DAILY_LIMIT - userInfo.count)
-    const allowed = userInfo.count < RATE_LIMITS.USER_DAILY_LIMIT
-
-    console.info(
-      `User ${userId} rate limit: ${userInfo.count}/${RATE_LIMITS.USER_DAILY_LIMIT}, remaining: ${remaining}`,
-    )
+    const remaining = Math.max(0, RATE_LIMITS.USER_DAILY_LIMIT - info.count)
+    const allowed = info.count < RATE_LIMITS.USER_DAILY_LIMIT
 
     return {
       allowed,
       limit: RATE_LIMITS.USER_DAILY_LIMIT,
       remaining,
-      resetTime: userInfo.resetTime,
+      resetTime: info.resetTime,
       requiresAuth: false,
       isLoggedIn: true,
+      method: 'user',
     }
-  } else {
-    // Handle unlogged users (IP-based)
-    const ipInfo = await getIPRateLimit(ip)
+  }
 
-    const remaining = Math.max(0, RATE_LIMITS.IP_LIMIT - ipInfo.count)
-    const allowed = ipInfo.count < RATE_LIMITS.IP_LIMIT
-    const requiresAuth = ipInfo.count >= RATE_LIMITS.IP_LIMIT
+  // Enhanced fingerprint processing for anonymous users
+  const { fingerprint, confidence, fingerprintResult } =
+    processFingerprintData(fingerprintData)
+  const { info, method } = await getRateLimitInfo(
+    ip,
+    fingerprint,
+    confidence,
+    fingerprintResult,
+  )
 
-    console.info(
-      `IP ${ip} rate limit: ${ipInfo.count}/${RATE_LIMITS.IP_LIMIT}, remaining: ${remaining}`,
-    )
+  const limit = getLimit(method)
+  const remaining = Math.max(0, limit - info.count)
+  const allowed = info.count < limit
+  const requiresAuth = info.count >= limit
 
-    return {
-      allowed,
-      limit: RATE_LIMITS.IP_LIMIT,
-      remaining,
-      resetTime: ipInfo.resetTime,
-      requiresAuth,
-      isLoggedIn: false,
-    }
+  console.info(
+    `Anonymous user ${method} rate limit: ${info.count}/${limit}, remaining: ${remaining}, confidence: ${confidence || 'none'}, flags: ${info.suspiciousFlags?.length || 0}`,
+  )
+
+  return {
+    allowed,
+    limit,
+    remaining,
+    resetTime: info.resetTime,
+    requiresAuth,
+    isLoggedIn: false,
+    method,
+    confidence: info.confidence,
+    fingerprint: fingerprint?.substring(0, 8), // Only return partial fingerprint for logging
+    suspiciousFlags: info.suspiciousFlags,
   }
 }
 
 /**
- * Consume/increment rate limit for the current request
+ * Enhanced rate limit consumption with unique user tracking
  */
 export async function consumeRateLimit(
   session: Session | null,
+  fingerprintData?: string,
 ): Promise<RateLimitResult> {
   const ip = await getClientIP()
   const isLoggedIn = !!session?.user?.id
 
-  console.info(
-    `Consuming rate limit for IP: ${ip}, logged in: ${isLoggedIn}, userId: ${session?.user?.id || 'none'}`,
-  )
+  console.info(`Consuming rate limit for IP: ${ip}, logged in: ${isLoggedIn}`)
 
   if (isLoggedIn && session?.user?.id) {
-    // Handle logged-in users - completely ignore IP limits
+    // Handle logged-in users
     const userId = session.user.id
+    const userKey = `rate_limit:user:${userId}`
+    const userInfo = await cache.get<RateLimitInfo>(userKey)
 
-    // Clear any IP-based rate limits for this IP when user is logged in
-    try {
-      await resetIPRateLimit(ip)
-      console.info(
-        `Cleared IP rate limit for ${ip} during consumption (user ${userId} is logged in)`,
-      )
-    } catch {
-      // Error clearing IP rate limit during consumption
-    }
+    const info =
+      userInfo && userInfo.resetTime > Date.now()
+        ? userInfo
+        : {
+            count: 0,
+            resetTime: Date.now() + RATE_LIMITS.RESET_TIME,
+            lastSeen: Date.now(),
+          }
 
-    const userInfo = await getUserRateLimit(userId)
-
-    if (userInfo.count >= RATE_LIMITS.USER_DAILY_LIMIT) {
-      // Already at limit, don't increment
+    if (info.count >= RATE_LIMITS.USER_DAILY_LIMIT) {
       return {
         allowed: false,
         limit: RATE_LIMITS.USER_DAILY_LIMIT,
         remaining: 0,
-        resetTime: userInfo.resetTime,
+        resetTime: info.resetTime,
         requiresAuth: false,
         isLoggedIn: true,
+        method: 'user',
       }
     }
 
-    // Increment count
+    // Increment and save
     const newInfo: RateLimitInfo = {
-      count: userInfo.count + 1,
-      resetTime: userInfo.resetTime,
+      ...info,
+      count: info.count + 1,
+      lastSeen: Date.now(),
     }
 
-    await updateUserRateLimit(userId, newInfo)
+    const ttl = newInfo.resetTime - Date.now()
+    if (ttl > 0) {
+      await cache.set(userKey, newInfo, ttl)
+    }
 
     const remaining = Math.max(0, RATE_LIMITS.USER_DAILY_LIMIT - newInfo.count)
-
-    console.info(
-      `User ${userId} consumed rate limit: ${newInfo.count}/${RATE_LIMITS.USER_DAILY_LIMIT}`,
-    )
 
     return {
       allowed: true,
@@ -286,85 +495,131 @@ export async function consumeRateLimit(
       resetTime: newInfo.resetTime,
       requiresAuth: false,
       isLoggedIn: true,
+      method: 'user',
     }
-  } else {
-    // Handle unlogged users (IP-based)
-    const ipInfo = await getIPRateLimit(ip)
+  }
 
-    if (ipInfo.count >= RATE_LIMITS.IP_LIMIT) {
-      // Already at limit, don't increment
-      return {
-        allowed: false,
-        limit: RATE_LIMITS.IP_LIMIT,
-        remaining: 0,
-        resetTime: ipInfo.resetTime,
-        requiresAuth: true,
-        isLoggedIn: false,
-      }
-    }
+  // Enhanced handling of anonymous users with sophisticated fingerprinting
+  const { fingerprint, confidence, fingerprintResult } =
+    processFingerprintData(fingerprintData)
+  const { info, method } = await getRateLimitInfo(
+    ip,
+    fingerprint,
+    confidence,
+    fingerprintResult,
+  )
 
-    // Increment count
-    const newInfo: RateLimitInfo = {
-      count: ipInfo.count + 1,
-      resetTime: ipInfo.resetTime,
-    }
+  const limit = getLimit(method)
 
-    await updateIPRateLimit(ip, newInfo)
-
-    const remaining = Math.max(0, RATE_LIMITS.IP_LIMIT - newInfo.count)
-    const requiresAuth = newInfo.count >= RATE_LIMITS.IP_LIMIT
-
-    console.info(
-      `IP ${ip} consumed rate limit: ${newInfo.count}/${RATE_LIMITS.IP_LIMIT}`,
-    )
-
+  if (info.count >= limit) {
     return {
-      allowed: true,
-      limit: RATE_LIMITS.IP_LIMIT,
-      remaining,
-      resetTime: newInfo.resetTime,
-      requiresAuth,
+      allowed: false,
+      limit,
+      remaining: 0,
+      resetTime: info.resetTime,
+      requiresAuth: true,
       isLoggedIn: false,
+      method,
+      confidence: info.confidence,
+      fingerprint: fingerprint?.substring(0, 8),
+      suspiciousFlags: info.suspiciousFlags,
     }
+  }
+
+  // Increment and save with enhanced tracking
+  const newInfo: RateLimitInfo = {
+    ...info,
+    count: info.count + 1,
+    lastSeen: Date.now(),
+  }
+
+  await updateRateLimitInfo(ip, fingerprint, newInfo, method)
+
+  const remaining = Math.max(0, limit - newInfo.count)
+  const requiresAuth = newInfo.count >= limit
+
+  return {
+    allowed: true,
+    limit,
+    remaining,
+    resetTime: newInfo.resetTime,
+    requiresAuth,
+    isLoggedIn: false,
+    method,
+    confidence: newInfo.confidence,
+    fingerprint: fingerprint?.substring(0, 8),
+    suspiciousFlags: newInfo.suspiciousFlags,
   }
 }
 
 /**
- * Get rate limit status without consuming
+ * Get rate limit status
  */
 export async function getRateLimitStatus(
   session: Session | null,
+  fingerprintData?: string,
 ): Promise<RateLimitResult> {
-  return await checkRateLimit(session)
+  return checkRateLimit(session, fingerprintData)
 }
 
 /**
- * Reset rate limit for a specific IP (admin function)
- */
-export async function resetIPRateLimit(ip: string): Promise<void> {
-  const key = getIPRateLimitKey(ip)
-  await cache.delete(key)
-  console.info(`Reset rate limit for IP: ${ip}`)
-}
-
-/**
- * Reset rate limit for a specific user (admin function)
- */
-export async function resetUserRateLimit(userId: string): Promise<void> {
-  const key = getUserRateLimitKey(userId)
-  await cache.delete(key)
-  console.info(`Reset rate limit for user: ${userId}`)
-}
-
-/**
- * Get all rate limit info for debugging (admin function)
+ * Get rate limit debug information (admin only)
  */
 export async function getRateLimitDebugInfo(): Promise<{
   ipKeys: string[]
   userKeys: string[]
+  fingerprintKeys: string[]
 }> {
-  const ipKeys = await cache.keys('rate_limit:ip:*')
-  const userKeys = await cache.keys('rate_limit:user:*')
+  // Get all keys from cache that match our patterns
+  const allKeys = await cache.keys('rate_limit:*')
 
-  return { ipKeys, userKeys }
+  const ipKeys = allKeys.filter((key) => key.includes(':ip:'))
+  const userKeys = allKeys.filter((key) => key.includes(':user:'))
+  const fingerprintKeys = allKeys.filter(
+    (key) => key.includes(':fingerprint:') || key.includes(':combined:'),
+  )
+
+  return {
+    ipKeys,
+    userKeys,
+    fingerprintKeys,
+  }
+}
+
+/**
+ * Reset rate limit for various types
+ */
+export async function resetRateLimit(
+  target: string,
+  type: 'ip' | 'user' | 'fingerprint',
+): Promise<void> {
+  switch (type) {
+    case 'ip':
+      {
+        const key = `rate_limit:ip:${target}`
+        await cache.delete(key)
+        console.info(`Reset IP rate limit for: ${target}`)
+      }
+      break
+    case 'user':
+      {
+        const key = `rate_limit:user:${target}`
+        await cache.delete(key)
+        console.info(`Reset user rate limit for: ${target}`)
+      }
+      break
+    case 'fingerprint':
+      {
+        // Reset both fingerprint-only and combined keys for the fingerprint
+        const fpKey = `rate_limit:fingerprint:${target}`
+        const combinedKeys = await cache.keys(`rate_limit:combined:*:${target}`)
+
+        await cache.delete(fpKey)
+        for (const key of combinedKeys) {
+          await cache.delete(key)
+        }
+        console.info(`Reset fingerprint rate limit for: ${target}`)
+      }
+      break
+  }
 }

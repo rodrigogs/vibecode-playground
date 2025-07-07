@@ -3,6 +3,7 @@
 import { useCallback, useState } from 'react'
 
 import type { ChatMessage } from '@/components/ChatMessage'
+import { useFingerprint } from '@/hooks/useFingerprint'
 import type { BrainRotCharacter } from '@/types/characters'
 
 export interface UseChatReturn {
@@ -32,6 +33,9 @@ export function useChat({
   selectedCharacter,
   onNotificationSound,
 }: UseChatProps): UseChatReturn {
+  // Browser fingerprinting for enhanced rate limiting
+  const { fingerprint } = useFingerprint()
+
   // State
   const [prompt, setPrompt] = useState<string>('')
   const [messages, setMessages] = useState<ChatMessage[]>([])
@@ -86,6 +90,7 @@ export function useChat({
             message: currentPrompt,
             character: selectedCharacter,
             threadId: sessionId,
+            fingerprint, // Include browser fingerprint for enhanced rate limiting
           }),
         })
 
@@ -151,6 +156,7 @@ export function useChat({
       prompt,
       selectedCharacter,
       sessionId,
+      fingerprint,
       onNotificationSound,
       refreshRateLimit,
     ],

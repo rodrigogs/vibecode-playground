@@ -6,18 +6,21 @@ export interface RequestData {
   message?: string
   character?: BrainRotCharacter
   threadId?: string
+  fingerprint?: string // Browser fingerprint for enhanced rate limiting
 }
 
 export interface ValidatedRequest {
   message: string
   character: BrainRotCharacter
   threadId?: string
+  fingerprint?: string
 }
 
 export function validateRequest(
   requestData: unknown,
 ): ValidatedRequest | NextResponse {
-  const { message, character, threadId } = requestData as RequestData
+  const { message, character, threadId, fingerprint } =
+    requestData as RequestData
 
   if (!message) {
     return NextResponse.json({ error: 'Message is required' }, { status: 400 })
@@ -34,6 +37,7 @@ export function validateRequest(
     message,
     character: character as BrainRotCharacter,
     threadId,
+    fingerprint,
   }
 }
 

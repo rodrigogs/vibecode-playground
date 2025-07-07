@@ -7,11 +7,42 @@ import { routing } from '@/i18n/routing'
 // Create the internationalization middleware once
 const intlMiddleware = createIntlMiddleware(routing)
 
-// Pass through crawler control panel without locale redirects
-export function middleware(request: NextRequest) {
+// Add security headers to API endpoints
+async function addSecurityHeaders(
+  request: NextRequest,
+): Promise<NextResponse | null> {
   const url = new URL(request.url)
-  if (url.pathname.startsWith('/crawler')) {
-    // Skip i18n handling for crawler dashboard and assets
+
+  // Add security headers to API endpoints
+  if (url.pathname.startsWith('/api/')) {
+    // Skip for auth endpoints (they handle their own headers)
+    if (url.pathname.includes('/auth/')) {
+      return null
+    }
+
+    // Add security headers for API endpoints
+    const response = NextResponse.next()
+    response.headers.set('X-Content-Type-Options', 'nosniff')
+    response.headers.set('X-Frame-Options', 'DENY')
+    response.headers.set('X-XSS-Protection', '1; mode=block')
+
+    return response
+  }
+
+  return null
+}
+
+export async function middleware(request: NextRequest) {
+  const url = new URL(request.url)
+
+  // Add security headers first
+  const securityResponse = await addSecurityHeaders(request)
+  if (securityResponse) {
+    return securityResponse
+  }
+
+  // Skip i18n handling for auth endpoints
+  if (url.pathname.startsWith('/api/auth/')) {
     return NextResponse.next()
   }
 
@@ -29,5 +60,7 @@ export const config = {
     '/(en|pt|id|it)/:path*',
     // Enable redirects that add missing locales (e.g. `/pathnames` -> `/en/pathnames`)
     '/((?!api|_next|_vercel|.*\\..*).*)',
+    // Add API routes to matcher for security headers
+    '/api/(.*)',
   ],
 }

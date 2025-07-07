@@ -3,6 +3,9 @@ import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
 import { generateTTSAudio, type TTSOptions } from '@/lib/ai-cache'
+import { auth } from '@/lib/auth-instance'
+import { consumeRateLimit, getRateLimitStatus } from '@/lib/rate-limit'
+import { RATE_LIMIT_MESSAGES } from '@/lib/rate-limit-constants'
 import { getCharacterVoice } from '@/lib/tts-utils'
 import type { BrainRotCharacter } from '@/types/characters'
 
@@ -16,11 +19,57 @@ interface TTSRequest {
   instructions?: string // Only works with gpt-4o-mini-tts
   speed?: number // Does not work with gpt-4o-mini-tts
   format?: 'mp3' | 'opus' | 'aac' | 'flac' | 'wav' | 'pcm'
+  fingerprint?: string // Browser fingerprint for rate limiting
 }
 
 export async function POST(request: NextRequest) {
   try {
+    // Get session for rate limiting
+    const session = await auth()
+
     const body: TTSRequest = await request.json()
+
+    // Apply rate limiting to TTS endpoint
+    const rateLimitCheck = await getRateLimitStatus(session, body.fingerprint)
+
+    if (!rateLimitCheck.allowed) {
+      if (rateLimitCheck.requiresAuth) {
+        return NextResponse.json(
+          {
+            error: 'Rate limit exceeded',
+            message: RATE_LIMIT_MESSAGES.IP_LIMIT_EXCEEDED,
+          },
+          {
+            status: 429,
+            headers: {
+              'X-RateLimit-Limit': rateLimitCheck.limit.toString(),
+              'X-RateLimit-Remaining': rateLimitCheck.remaining.toString(),
+              'X-RateLimit-Reset': new Date(
+                rateLimitCheck.resetTime,
+              ).toISOString(),
+              'X-RateLimit-RequiresAuth': 'true',
+            },
+          },
+        )
+      } else {
+        return NextResponse.json(
+          {
+            error: 'Daily limit exceeded',
+            message: RATE_LIMIT_MESSAGES.USER_LIMIT_EXCEEDED,
+          },
+          {
+            status: 429,
+            headers: {
+              'X-RateLimit-Limit': rateLimitCheck.limit.toString(),
+              'X-RateLimit-Remaining': rateLimitCheck.remaining.toString(),
+              'X-RateLimit-Reset': new Date(
+                rateLimitCheck.resetTime,
+              ).toISOString(),
+            },
+          },
+        )
+      }
+    }
 
     if (!body.text || typeof body.text !== 'string') {
       return NextResponse.json(
@@ -35,6 +84,9 @@ export async function POST(request: NextRequest) {
         { status: 400 },
       )
     }
+
+    // Consume rate limit
+    const rateLimitResult = await consumeRateLimit(session, body.fingerprint)
 
     // Determine voice based on character or use provided voice
     const voice = body.voice || getCharacterVoice(body.character)
@@ -75,6 +127,9 @@ export async function POST(request: NextRequest) {
         'X-TTS-Model': result.model,
         'X-TTS-Voice': result.voice,
         'X-Cache': result.cached ? 'HIT' : 'MISS',
+        'X-RateLimit-Limit': rateLimitResult.limit.toString(),
+        'X-RateLimit-Remaining': rateLimitResult.remaining.toString(),
+        'X-RateLimit-Reset': new Date(rateLimitResult.resetTime).toISOString(),
       },
     })
   } catch (error) {

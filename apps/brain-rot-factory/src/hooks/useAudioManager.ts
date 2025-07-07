@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 
+import { useFingerprint } from '@/hooks/useFingerprint'
 import type { BrainRotCharacter } from '@/types/characters'
 
 export interface AudioManagerState {
@@ -27,6 +28,9 @@ export interface UseAudioManagerReturn
     AudioManagerActions {}
 
 export function useAudioManager(): UseAudioManagerReturn {
+  // Browser fingerprinting for enhanced rate limiting
+  const { fingerprint } = useFingerprint()
+
   // State
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false)
   const [currentSpeakingMessageId, setCurrentSpeakingMessageId] = useState<
@@ -255,6 +259,7 @@ export function useAudioManager(): UseAudioManagerReturn {
             voice: 'ash',
             instructions: `Speak as ${character.name} with their personality: ${character.description}. Use an engaging, energetic tone that matches their character.`,
             format: 'mp3',
+            fingerprint, // Include browser fingerprint for enhanced rate limiting
           }),
         })
 
@@ -355,6 +360,7 @@ export function useAudioManager(): UseAudioManagerReturn {
       }
     },
     [
+      fingerprint,
       isLoadingTTS,
       currentSpeakingMessageId,
       isSpeaking,
