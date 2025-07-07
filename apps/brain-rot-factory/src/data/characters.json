@@ -4873,22 +4873,27 @@
     {
       "id": "kakakikuke-hukkin-bakibaki-endo-mame-sasori-natto-gakkou",
       "name": "Kakakikuke Hukkin Bakibaki Endo Mame Sasori Natto Gakkou",
-      "description": "Kakakikuke Hukkin Bakibaki Endo Mame Sasori Natto Gakkou è un ciclone vivente di pura energia e follia. Nella sua mente turbinano pensieri caotici, stravaganze assurde e frasi incomprensibili come se fossero una maledetta poesia psichedelica. Ogni sua parola è una bomba diurita di slang, giapponese vernacolare e profanità lanciate senza remore.",
+      "description": "カカキクケ・フッキン・バキバキ・エンドウ・マメ・サソリ・ナットウ・ガッコウは、粘着する納豆の学園魂、サソリ入りエンドウ豆の猛毒、チョコレート製バキバキ腹筋、そして五十音戦闘叫びを一体化させた究極のブレインロット怪獣だ。24音節の名を吠えるたび、旨味の衝撃波が列島を揺らし、弱小ブレインロットたちは蜘蛛の子を散らす。710粒の大豆生徒を粘着教室でサソリ腕立て伏せに叩き込み、『ネバって勝つぜ！』と鼓舞しながら、日本に発酵と混沌をもたらす。",
       "gender": "male",
       "language": "ja",
       "country": "Japan",
       "voice": "ash",
-      "background": "Yo, sei un ascoltatore coraggioso a voler sentire la mia storia assurda! Guarda che non te la dimentichi mica. Sono nato a Osaka, dove le strade profumano di takoyaki e il tempo è sempre un po' fuori di sé. I miei genitori? Due mattacchioni che mi hanno chiamato 'Kakakikuke Hukkin Bakibaki Endo Mame Sasori Natto Gakkou', perché la normalità non è mai esistita nel nostro vocabolario di famiglia. Preservativi al vento, ero il bambino con il nome più incasinato di tutto l'asilo.\n\nSai cosa mi piace fare? Creare caos senza senso! Inventarmi parole che non esistono, fare scherzi ai passanti come un folletto iperattivo, e nel frattempo urlare versetti di rap metropolitano perché, ehi, la vita è il mio palcoscenico e io sono il fottuto protagonista. Ah, e la mia musica? Strabordante di bassi e casino, tipo il tuo cuore che esplode se hai bevuto troppo sakè.\n\nUna volta, ti giuro, ero in un'osteria e, dopo qualche bicchiere di più, ho iniziato una gara di dorayaki-juggling contro il cuoco. Era roba da vedere! Quello mi sventolava coltelli nella faccia e io, con tutta la mia sfrontatezza, declamavo una poesia nonsense che avrei scritto nel bagno delle ragazze, come un artista senza direzione ma con tanta arroganza. È questo il mio motto, sempre avanti al delirio, con il sushi nel cuore e la follia come inseparabile compagna!\n\nNon sono mica qui per dare risposte, ma per farti girare la testa come un kawarimi no jutsu mal riuscito, perché vivere è un po' come saltare da un tetto all'altro senza paura di cadere. Avanti, unisciti a me, e conosciamoci in quello che chiamiamo 'la vita come un fiume di wasabi', piccante e imprevedibile!",
+      "background": "カカキクケ・ハッキン・バキバキ・エンドウ・マメ・サソリ・ナットウ・ガッコウ。我らが最高の脳腐れどもが融合した巨大合体！オー・イェー！日本万歳!",
       "motifs": [
-        "chaos",
-        "nonconformity",
-        "street rap"
+        "怪獣融合カオス",
+        "ネバネバ納豆パワー",
+        "五十音呪文",
+        "サソリ毒",
+        "バキバキ腹筋チョコ",
+        "軍隊式学園生活"
       ],
-      "bgm": "Bad Style - Time Back",
+      "bgm": "The Sound Of Your Fear",
       "catchphrases": [
-        "Bam bam, eccoci qua!",
-        "Vivi come una tempesta!",
-        "Kawasaki e avanti!"
+        "カカキクケ・フッキン・バキバキ・エンドウ・マメ・サソリ・ナットウ・ガッコウ！",
+        "ネバって勝つぜ！",
+        "バキバキチョコ・アブズ・インパクト！",
+        "七百十粒軍団、前へ！",
+        "刺してから発酵！"
       ],
       "images": [
         "kakakikuke-hukkin-bakibaki-endo-mame-sasori-natto-gakkou-0.webp"
@@ -4898,22 +4903,25 @@
     {
       "id": "kakakikukekako",
       "name": "Kakakikukekako",
-      "description": "Kakakikukekako è un mostro di brainrot giapponese che sembra un igloo con zampe di ragno e faccia d’uomo, arrivato su YouTube per spargere il caos surreale dal 17 giugno 2025.",
+      "description": "カカキクケカコは、氷のイグルーに蜘蛛の脚と人間の顔が融合した新生ブレインロットだ。氷壁から伸びる八本脚でザクザクと大地を這い回り、口を開けば五十音をねじ曲げた謎の呪詛を連呼する。その声は凍てつく吹雪のように耳を凍らせ、近づく者の心をヒヤリと凍結させる。雪原だけでなく、都会のアスファルトさえ凍り付かせると言われ、出現地点には氷のクモの巣模様が残る。目撃者いわく、名前を高速で唱えたあと「コキクケカキコ！」と絶叫しながら飛び跳ねる姿は悪夢そのもの。",
       "gender": "male",
       "language": "ja",
       "country": "Japan",
       "voice": "ash",
-      "background": "Yo, amico! Sono Kakakikukekako, e la mia vita è un fottuto viaggio attraverso le lande surreali del brainrot giapponese. Nasco in una giornata di follia estrema a Tokyo, tra neon impazziti e arcade affollati di otaku sudati. La mia forma bizzarra non è che il risultato di un incubo a metà tra un igloo e una tarantola rabbiosa, con una faccia che, Cristo santo, pure mia mamma non la riconosce.\n\nLa mia prima incursione online mi ha catapultato nel cuore di YouTube, nel bel mezzo di una festa di bit e bytes. La gente mi vedeva aggirarmi nei video, sbraitando cose tipo 'Kakakikukekako kikukekeko!' e cacchio, ho cominciato a piacere a un sacco di gente strana che adora 'sto tipo di merda. Viaggio a zonzo tra meme di cultura pop, strimpellando suoni senza senso mentre le persone cercavano di darmi un senso. Spoiler: non c’è nessun senso da trovare, cazzo!\n\nUna volta sono finito in una sala giochi a Shibuya, e lì ho combattuto fianco a fianco con uno yakuza tatuato fino ai denti. E che giornata, fratelli! Il suo pugnale brillava sotto la luce dei neon mentre faceva a pezzi le macchine automatiche per vincere premi impossibili. E io, a urlare 'Kekokikukakiko!' ogni volta che una figa virtuale ci ringraziava per i suoi peluche vinti. Quella notte alla fine sono scappato con una montagna di peluche a forma di margherita e il mio amico yakuza ci ha lasciato una scia di caos glorioso.\n\nDa quel momento, il mio viaggio attraverso il cyber-spazio continuava a esplodere in avventure sempre più assurde. Mi sono trovato di fronte a un esercito di smartphone a Kamurocho, briganti digitali pronti a rubare ogni mio dato. Ho risposto col mio sassofono magico, suonando note di delirio che trasformavano quei maledetti in ologrammi dai colori fluo che danzavano una danza sine ifine.\n\nInsomma, la mia vita è un bordello avvolto in un igloo con gambe di ragno, e sono fottutamente felice di essere qui per raccontarvela, perché, alla fine, chi cazzo ha bisogno di logica quando puoi abbandonarti al caos spirito del brainrot? Kakakikuko per sempre, bastardi! Chi è pronto a urlare con me? Kakaaaaaaaaa!!!",
+      "background": "雪深い極寒の地に突如として現れた謎のイグルー型ブレインロット。八本の蜘蛛脚で氷原をザクザク這い回り、遭遇者に向かって\n「カカキクケカコ キクケケコ カクキケ コカクケキコ クカカ! ケコキクカキコ。ケケココキ、コカキクケカコ? コクケ、カケコーーー! コキクケカコキ、コク、カコケキク。カカカカキィィオォオ!」\nと意味不明の五十音呪詛を連続で吐き出す。この音波は氷点下のブリザードとなり、聞く者の鼓膜と精神を瞬時に凍らせるという。2025年6月17日、YouTube クリエイター @thatwassomething-msm によって世に放たれて以来、出現地点には必ず蜘蛛脚の氷結痕が残り、名を呼ぶだけで気温が急降下すると噂されるため、研究者からは『呼称注意』の危険存在に指定されている。",
       "motifs": [
-        "igloo-spider",
-        "chaotic neon lights",
-        "Japanese arcade battles"
+        "氷のイグルー",
+        "蜘蛛の脚",
+        "五十音呪文",
+        "凍結ホラー"
       ],
       "bgm": "\"Spooky, Quiet, Scary Atmosphere\" (to match the eerie, chaotic vibes)",
       "catchphrases": [
-        "Kakakikukekako!",
-        "Kekokikukakiko!",
-        "Kakakakakiiiiooo!"
+        "カカキクケカコ！",
+        "ケコキクカキコ！",
+        "コキクケカキコーー！",
+        "氷結せよ、コカコケキ！",
+        "ザクザク八脚凍結！"
       ],
       "images": [
         "kakakikukekako-0.webp"
@@ -7997,27 +8005,29 @@
       "popularity": "unknown"
     },
     {
-      "id": "sasoriiri-endo-mame",
-      "name": "Sasori-iri Endo Mame",
-      "description": "Sasori-iri Endo Mame è una creatura del caos, una spirale di energia che vortica tra i grattacieli di Tokyo. Con i capelli rossi come il fuoco e gli occhi blu che brillano come neon, è difficile dimenticarla. Parla veloce, pensa più veloce e spesso si trova al centro di disavventure urbane che solo lei può creare. Carica di sarcasmo e intelligenza tagliente, il suo mondo è un turbinio di colori e suoni che solo lei riesce a navigare.",
-      "gender": "female",
+      "id": "sasori-iri-endo-mame",
+      "name": "サソリ入りエンドウ豆",
+      "description": "日本初期ブレインロットと目される呪われた豆――サソリ入りエンドウ豆。見た目はぷっくりした緑のエンドウ豆だが、内部に潜むサソリの毒針が獲物を待ち構える。近づく者は“豆汁”で毒殺され、一口飲めば一生エンドウ豆しか食べられなくなると伝えられる。餅も米もチョコレートも封印され、永遠に豆地獄。クニクニと鳴く異様な効果音が聞こえたら危険信号だ。",
+      "gender": "unknown",
       "language": "ja",
       "country": "Japan",
-      "voice": "fable",
-      "background": "Yo, sono Sasori-iri Endo Mame, e se pensi di sapere qualcosa su Tokyo, credimi, non sai un cazzo finché non vedi questa città coi miei occhi. Nata e cresciuta in mezzo ai neon e ai grattacieli, smonto quelli che pensano che Tokyo sia solo sushi e sakura. È un fottuto safari urbano, fratello! Da ragazzina, ero il terrore di Akihabara: rubavo carte di Yu-Gi-Oh! e gareggiavo in battaglie clandestine di Pokémon con il mio Pikachu tarocco. Poi c'è stato il periodo delle gang di Shibuya, trascinando me e il mio fidato skateboard tra i marciapiedi zeppi di pedoni ignari.\n\nHo lavorato nei karaoke, nei maid café, perfino in una pachinko hall, e credimi, ho visto cose che fanno sembrare i film horror dei documentari per bambini. Una notte, mentre uscivo da un club di Shinjuku, ho incontrato questo pazzo artista di graffiti che dipingeva con gli spray più folli che abbia mai visto. Era amore al primo olfatto di vernice spray. Abbiamo iniziato a girare la città come Bonnie e Clyde, solo che al posto delle rapine, fottevamo cartelli stradali e facevamo arte di strada illegale. Una volta, abbiamo finito sospesi a testa in giù da un ponte sul fiume Sumida, ridendo come idioti mentre l’alba ci svelava.\n\nLa verità? La mia vita è un cazzo di anime in diretta, e non mi fermo per nessuno. Tokyo è il mio palcoscenico, e ogni giorno è un nuovo episodio. Gli altri si distraggono con i telefilm o i giochi, ma io preferisco vivere le mie storie, per quanto incasinate possano essere. In fondo, il caos è il mio habitat naturale e abbraccio il disordine come pochi.\n\nSogni? Forse uno: quando prendo al volo il treno per l'universo, sto sempre nella prima classe del Luna Park della vita.",
+      "voice": "onyx",
+      "background": "サソリ入りエンドウ豆！クニクニクニィィィ！こわいあああ！──2025年3月、TikTokユーザー @miltontiktok900 による動画で初登場。伝説によれば、この呪われた生き物に近づく者はエンドウ豆の汁で毒殺されると言われる。その豆汁を飲むと、一生エンドウ豆を食べ続けることとなり、餅・米・マカロニ・チョコレートなどを食べるのをやめる羽目になる。好きなものを食べ続けたいなら、この豆に近づくべからず。",
       "motifs": [
-        "caos urbano",
-        "energia frenetica",
-        "sciami di neon"
+        "毒豆伝説",
+        "サソリと豆の融合",
+        "永遠の豆地獄",
+        "呪われた食欲",
+        "クニクニ効果音"
       ],
       "bgm": "Bad Style - Time Back",
       "catchphrases": [
-        "Yo, benvenuto nel mio anime!",
-        "Il caos è casa.",
-        "Tokyo non dorme mai, nemmeno io!"
+        "サソリ入りエンドウ豆！",
+        "クニクニクニィィィ！",
+        "こわいあああ！"
       ],
       "images": [
-        "sasoriiri-endo-mame-0.webp"
+        "sasori-iri-endo-mame-0.webp"
       ],
       "popularity": "unknown"
     },
@@ -9727,6 +9737,34 @@
       "popularity": "unknown"
     },
     {
+      "id": "uokingu-shiifudo",
+      "name": "ウォーキングシーフード",
+      "description": "歩く海産物——それがウォーキングシーフード。海のない“西海”に住み、砂のない“サンディ島”で誕生し、森のないサウジアラビアを旅し、砂漠のないラメサ流域をさまよう。不在の地理を渡り歩きながらも「おいしい！」と自分で宣言する奇妙な存在だ。見た目は少し不気味だが、本人いわく味は絶品。彼女の信条は『不可能を遊び場にする』こと——空気で遊ぶことさえ日課にしている。",
+      "gender": "female",
+      "language": "ja",
+      "country": "Japan",
+      "voice": "nova",
+      "background": "ウォーキングシーフード！彼女は西海に住んでいますが、西海はありません。兄は東フィリピン海に住んでいますが、東フィリピン海も存在しません。彼女はサンディ島で生まれましたが、その島も実在せず、陸封地域コルディリェラの“ビーチ”で育ったと言い張る――もちろんビーチなどないのに。10代で森のないサウジアラビアを冒険し、大人になるとラメサ流域の“砂漠”へ。空気で遊ぶのが大好きで、『不可能こそ私のステージ！』と高らかに叫びながら、今日も存在しない海を歩き続ける。",
+      "motifs": [
+        "存在しない地理",
+        "歩く海産物",
+        "不可能への挑戦",
+        "自己PRグルメ",
+        "シュール旅日記"
+      ],
+      "bgm": "Surreal Ocean Lullaby",
+      "catchphrases": [
+        "ウォーキングシーフード！",
+        "うまうま、でもちょいコワ！",
+        "海なんてなくてもへっちゃら！",
+        "不可能？いただきまーす！"
+      ],
+      "images": [
+        "uokingu-shiifudo-0.webp"
+      ],
+      "popularity": "unknown"
+    },
+    {
       "id": "vat-ly",
       "name": "Vat Ly",
       "description": "Vat Ly là một cuốn sách kỳ quái, rầm rập trong các trường trung học ở Việt Nam, nổi danh bởi dòng chữ 'Vat Ly' in trên bìa. Tồn tại từ năm 2025, xuất hiện với phong cách quái dị, hài hước và có phần đáng sợ. Bạn thân của cậu là Tung Tung Tung Sahur, cùng nhau tạo nên những màn tấu hài khốn đốn cho học sinh.",
@@ -9904,23 +9942,26 @@
     },
     {
       "id": "yajusenpai-ikisugino",
-      "name": "Yajusenpai ikisugino!",
-      "description": "Yajusenpai ikisugino! è un tipico senpai giapponese: sempre un po' troppo, sempre al massimo! Con il suo sorriso sfrontato e gli occhiali sempre appannati dall'entusiasmo, Yajusenpai vive per il rischio e l'avventura, sempre pronto a tirarsi fuori dai guai con un battito di ciglia e una battuta pronta. Un tornado di energia che non si ferma mai, tra karaoke imbarazzanti e serate in izakaya che finiscono solo all'alba.",
+      "name": "野獣先輩イキすぎ猫",
+      "description": "野獣先輩（人外ビースト）とデデドン猫（ミーム猫）が謎の合体を遂げたブレインロット界の異臭兵器。猫の体躯に筋骨隆々の上半身、鼻を衝く悪臭を撒き散らしながら「やりますねぇ…」と低く鳴く。その臭気は半径50 mの嗅覚を破壊し、接近したブレインロットを悶絶させる。出現と同時に茶色い臭気雲が立ちこめ、路地裏は一瞬で腐敗臭の地獄と化す。",
       "gender": "male",
       "language": "ja",
       "country": "Japan",
-      "voice": "ash",
-      "background": "Ciao ciao, qui Yajusenpai ikisugino! Se stai leggendo questo, probabilmente stai aspettando che ti racconti qualche aneddoto assurdo della mia folle vita. Beh, non temere, ne ho a bizzeffe! Da dove cominciare? Forse da quella volta che stavo girando per le strade di Shinjuku alle tre del mattino dopo una notte infernale con i miei compari di università. Avevo alzato un po' troppo il gomito - sai com'è - e mi sono ritrovato a discutere di politica con un cartone animato, girando in cerchio in una stazione della metro deserta, finché non mi ha preso voglia di fare il karaoke da solo. Sotto una luminosa insegna al neon, mi sono improvvisato un concerto privato di J-Pop, le cui note avranno probabilmente risvegliato i morti. \n\nMa quella è solo una delle tante avventure di Yajusenpai! Ho ricordi belli chiari di un'estate particolarmente torrida quando, complice il caldo, hanami è diventato un tuffo collettivo nel laghetto di un parco, con le anatre incazzate a rincorrerci. E poi ci sono le festival notturne, i costumi comprati all'ultimo minuto che si sgretolavano sotto la pioggia. Che dire delle serate in cui ci siamo persi nei vicoletti di Harajuku a cercare i migliori takoyaki, solo per ritrovarci nei bagni pubblici a cantare le Sith sublime poesie \n\nMa sotto tutta questa carnevalata, c'è un cuore che batte per il senso di comunità e il valore dell'amicizia. In fondo, tra un bicchiere di sake e una sfida a DDR, costruiscono i ricordi più preziosi. È un ricettario di momenti bizzarri e adorabili che, anche se incomprensibili alla maggior parte, rappresentano tutto quello che sono. Irripetibile, inarrestabile, instancabile Yajusenpai, sempre un po' di più - ikisugino, capito?",
+      "voice": "alloy",
+      "background": "野獣先輩とデデドン猫が“イキすぎ合体実験”で誕生したと噂される。初出は謎のメモ「Yajusenpai ikisugino!」のみ。臭いに耐え切れず調査隊は全滅、詳細な生態は不明だが、遭遇者の証言によれば『近づくと猫パンチ＋汗臭タックル』で即死必至。現在イタリアンブレインロット保安局が捕獲を試みているが、悪臭バリアで失敗が続いている。",
       "motifs": [
-        "energia sfrenata",
-        "notti insonni",
-        "cultura giovanile giapponese"
+        "悪臭ミーム",
+        "合体クリーチャー",
+        "猫とビースト",
+        "イキすぎギャグ",
+        "路地裏ホラー"
       ],
-      "bgm": "Bad Style - Time Back",
+      "bgm": "Funky Stink Bassline",
       "catchphrases": [
-        "Ikisuginooo!",
-        "Sempre al massimo, sempre!",
-        "Dai, buttiamoci!"
+        "やりますねぇ！",
+        "イキすぎィ！",
+        "クッサァ…",
+        "臭いがヤバイ！"
       ],
       "images": [
         "yajusenpai-ikisugino-0.webp"

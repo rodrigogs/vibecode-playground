@@ -96,7 +96,21 @@
     "generic": "Ocorreu um erro inesperado",
     "networkError": "Erro de rede. Verifique sua conexão.",
     "rateLimitExceeded": "Muitas solicitações. Tente novamente mais tarde.",
-    "unauthorized": "Você precisa estar logado para acessar este recurso"
+    "unauthorized": "Você precisa estar logado para acessar este recurso",
+    "tts": {
+      "tokenRequired": "Um token TTS válido da geração de chat é necessário para gerar áudio.",
+      "invalidToken": "O token TTS fornecido é inválido ou já foi usado.",
+      "tokenExpired": "Token não encontrado ou expirado",
+      "tokenAlreadyUsed": "Token já usado mas nenhum áudio em cache disponível",
+      "invalidFormat": "Formato de token inválido",
+      "textTooLong": "O texto deve ter 4096 caracteres ou menos",
+      "generationFailed": "Falha ao gerar fala. Tente novamente.",
+      "emptyAudio": "Dados de áudio vazios gerados",
+      "playbackError": "Erro durante a reprodução de texto para fala. Erro de áudio: {error}",
+      "serviceNotConfigured": "Serviço TTS não configurado",
+      "serviceUnavailable": "Serviço TTS temporariamente indisponível",
+      "internalError": "Falha ao gerar fala"
+    }
   },
   "Legal": {
     "termsTitle": "Termos de Serviço",

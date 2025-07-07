@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import type { BrainRotCharacter } from '@/types/characters'
@@ -27,6 +28,8 @@ export interface UseAudioManagerReturn
     AudioManagerActions {}
 
 export function useAudioManager(): UseAudioManagerReturn {
+  const t = useTranslations('Errors.tts')
+
   // State
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false)
   const [currentSpeakingMessageId, setCurrentSpeakingMessageId] = useState<
@@ -316,9 +319,9 @@ export function useAudioManager(): UseAudioManagerReturn {
           audio.remove()
 
           alert(
-            `Error occurred during text-to-speech playback. Audio error: ${
-              audio.error?.message || 'Unknown audio error'
-            }`,
+            t('playbackError', {
+              error: audio.error?.message || 'Unknown audio error',
+            }),
           )
         }
 
@@ -351,7 +354,7 @@ export function useAudioManager(): UseAudioManagerReturn {
         setIsLoadingTTS(false)
         setCurrentSpeakingMessageId(null)
         stopAllAudio()
-        alert('Failed to generate speech. Please try again.')
+        alert(t('generationFailed'))
       }
     },
     [
@@ -361,6 +364,7 @@ export function useAudioManager(): UseAudioManagerReturn {
       playBackgroundMusic,
       stopAllAudio,
       stopBackgroundMusic,
+      t,
     ],
   )
 
