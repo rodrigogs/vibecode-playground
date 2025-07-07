@@ -75,12 +75,13 @@ export default function ChatMessage({
   if (message.type === 'user') {
     return (
       <div className="flex justify-end mb-6">
-        <div className="max-w-[80%] bg-gradient-to-r from-purple-600/20 to-pink-600/20 backdrop-blur-sm rounded-2xl border border-purple-500/30 p-4 relative">
-          <p className="text-white leading-relaxed break-words break-anywhere pr-12 pb-1">
+        <div className="max-w-[80%] bg-gradient-to-r from-purple-600/20 to-pink-600/20 backdrop-blur-sm rounded-2xl border border-purple-500/30 p-4">
+          <p className="text-white leading-relaxed break-words break-anywhere">
             {message.content}
           </p>
-          {/* Timestamp positioned like WhatsApp - right-aligned for user messages */}
-          <div className="absolute bottom-3 right-4">
+          {/* Message Footer */}
+          <div className="flex items-center justify-end mt-2">
+            {/* Timestamp */}
             <span className="text-[11px] text-gray-400 opacity-80 bg-black/20 px-1.5 py-0.5 rounded">
               {formatWhatsAppTimestamp(message.timestamp)}
             </span>
@@ -122,11 +123,32 @@ export default function ChatMessage({
             >
               {message.type === 'error' ? 'Error:' : selectedCharacter.name}
             </h3>
+          </div>
+
+          {/* Message Content */}
+          <div className="prose prose-invert max-w-none">
+            <p
+              className={`whitespace-pre-wrap leading-relaxed break-words break-anywhere pl-0 ${
+                message.type === 'error' ? 'text-red-200' : 'text-gray-200'
+              }`}
+            >
+              {message.content}
+            </p>
+          </div>
+
+          {/* Message Footer */}
+          <div className="flex items-center justify-between mt-2">
+            {/* Timestamp */}
+            <span className="text-[11px] text-gray-400 opacity-80 bg-black/20 px-1.5 py-0.5 rounded">
+              {formatWhatsAppTimestamp(message.timestamp)}
+            </span>
+
+            {/* Audio button */}
             {message.type !== 'error' && (
               <button
                 onClick={() => onSpeakMessage(message.id)}
                 disabled={isLoadingTTS}
-                className={`transition-all duration-200 rounded-full p-2 group cursor-pointer ${
+                className={`transition-all duration-200 rounded-full p-1.5 group cursor-pointer ${
                   isLoadingTTS
                     ? 'bg-yellow-500/20 border border-yellow-500/30 cursor-wait'
                     : isSpeaking
@@ -142,31 +164,14 @@ export default function ChatMessage({
                 }
               >
                 {isLoadingTTS ? (
-                  <Loader2 className="w-5 h-5 text-yellow-400 animate-spin" />
+                  <Loader2 className="w-4 h-4 text-yellow-400 animate-spin" />
                 ) : isSpeaking ? (
-                  <VolumeX className="w-5 h-5 text-orange-400 group-hover:text-orange-300" />
+                  <VolumeX className="w-4 h-4 text-orange-400 group-hover:text-orange-300" />
                 ) : (
-                  <Volume2 className="w-5 h-5 text-blue-400 group-hover:text-blue-300" />
+                  <Volume2 className="w-4 h-4 text-blue-400 group-hover:text-blue-300" />
                 )}
               </button>
             )}
-          </div>
-
-          {/* Message Content */}
-          <div className="prose prose-invert max-w-none relative">
-            <p
-              className={`whitespace-pre-wrap leading-relaxed break-words break-anywhere pl-16 pb-1 ${
-                message.type === 'error' ? 'text-red-200' : 'text-gray-200'
-              }`}
-            >
-              {message.content}
-            </p>
-            {/* Timestamp positioned like WhatsApp - left-aligned for assistant messages */}
-            <div className="absolute bottom-1 left-0">
-              <span className="text-[11px] text-gray-400 opacity-80 bg-black/20 px-1.5 py-0.5 rounded">
-                {formatWhatsAppTimestamp(message.timestamp)}
-              </span>
-            </div>
           </div>
         </div>
       </div>

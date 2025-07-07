@@ -80,7 +80,7 @@ export default function ChatHistory({
       {isLoading && (
         <div className="flex items-start space-x-3 animate-fade-in">
           {/* Character Avatar */}
-          <div className="w-8 h-8 rounded-full overflow-hidden bg-purple-600/20 flex-shrink-0 relative">
+          <div className="w-8 h-8 rounded-full overflow-hidden bg-green-600/20 flex-shrink-0 relative">
             <Image
               src={`/images/characters/${getCharacterImage(selectedCharacter)}`}
               alt={selectedCharacter.name}
@@ -91,12 +91,12 @@ export default function ChatHistory({
           </div>
 
           {/* Typing Bubble */}
-          <div className="bg-gradient-to-br from-purple-600/20 to-pink-600/20 backdrop-blur-sm border border-purple-500/30 rounded-2xl rounded-bl-sm p-4 max-w-xs">
+          <div className="bg-black/20 backdrop-blur-sm border border-green-500/20 rounded-2xl rounded-bl-sm p-4 max-w-xs">
             <div className="flex items-center space-x-1">
               {/* Typing dots */}
-              <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce"></div>
-              <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce delay-200"></div>
-              <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce delay-400"></div>
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-bounce"></div>
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-bounce delay-200"></div>
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-bounce delay-400"></div>
             </div>
           </div>
         </div>
