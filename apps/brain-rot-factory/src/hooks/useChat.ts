@@ -121,6 +121,7 @@ export function useChat({
           content: data.response,
           timestamp: new Date(),
           character: selectedCharacter,
+          ttsToken: data.ttsToken, // Store the TTS token from the chat response
         }
 
         setMessages((prev) => [...prev, assistantMessage])

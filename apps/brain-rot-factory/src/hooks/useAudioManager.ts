@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { useFingerprint } from '@/hooks/useFingerprint'
 import type { BrainRotCharacter } from '@/types/characters'
 
 export interface AudioManagerState {
@@ -18,7 +17,7 @@ export interface AudioManagerActions {
   playBrainRotNotification: () => Promise<void>
   speakMessage: (
     messageId: string,
-    content: string,
+    ttsToken: string,
     character: BrainRotCharacter,
   ) => Promise<void>
 }
@@ -28,9 +27,6 @@ export interface UseAudioManagerReturn
     AudioManagerActions {}
 
 export function useAudioManager(): UseAudioManagerReturn {
-  // Browser fingerprinting for enhanced rate limiting
-  const { fingerprint } = useFingerprint()
-
   // State
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false)
   const [currentSpeakingMessageId, setCurrentSpeakingMessageId] = useState<
@@ -216,7 +212,7 @@ export function useAudioManager(): UseAudioManagerReturn {
   const speakMessage = useCallback(
     async (
       messageId: string,
-      content: string,
+      ttsToken: string,
       character: BrainRotCharacter,
     ) => {
       // If currently loading TTS for the same message, allow cancellation
@@ -247,19 +243,18 @@ export function useAudioManager(): UseAudioManagerReturn {
         setCurrentSpeakingMessageId(messageId)
         playBackgroundMusic()
 
-        // Call our OpenAI TTS API
+        // Call our OpenAI TTS API with the TTS token
         const ttsResponse = await fetch('/api/tts', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            text: content,
+            ttsToken, // Send the TTS token instead of the text content
             character: character,
             voice: 'ash',
             instructions: `Speak as ${character.name} with their personality: ${character.description}. Use an engaging, energetic tone that matches their character.`,
             format: 'mp3',
-            fingerprint, // Include browser fingerprint for enhanced rate limiting
           }),
         })
 
@@ -360,7 +355,6 @@ export function useAudioManager(): UseAudioManagerReturn {
       }
     },
     [
-      fingerprint,
       isLoadingTTS,
       currentSpeakingMessageId,
       isSpeaking,

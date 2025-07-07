@@ -109,11 +109,12 @@ export default function Home() {
         !message ||
         !selectedCharacter ||
         message.type === 'error' ||
-        message.type === 'user'
+        message.type === 'user' ||
+        !message.ttsToken // No TTS token means no audio generation allowed
       )
         return
 
-      await speakMessage(messageId, message.content, selectedCharacter)
+      await speakMessage(messageId, message.ttsToken, selectedCharacter)
     },
     [messages, selectedCharacter, speakMessage],
   )

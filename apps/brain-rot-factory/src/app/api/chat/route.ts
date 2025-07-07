@@ -6,6 +6,7 @@ import { generateResponse } from '@/lib/ai-cache'
 import { auth } from '@/lib/auth-instance'
 import { consumeRateLimit, getRateLimitStatus } from '@/lib/rate-limit'
 import { RATE_LIMIT_MESSAGES } from '@/lib/rate-limit-constants'
+import { generateTTSToken, storeTTSToken } from '@/lib/tts-token'
 import type { BrainRotCharacter } from '@/types/characters'
 
 // Force dynamic rendering for API routes - no caching at route level
@@ -117,11 +118,16 @@ export async function POST(request: NextRequest) {
       `Response generated for ${character.name} (cached: ${result.cached}, source: ${result.source}, time: ${totalTime}ms)`,
     )
 
-    // Include rate limit info in successful response
+    // Generate TTS token for this chat response
+    const ttsToken = generateTTSToken()
+    await storeTTSToken(ttsToken, result.response, character.id, sessionId)
+
+    // Include rate limit info and TTS token in successful response
     return NextResponse.json(
       {
         response: result.response,
         threadId: sessionId, // Return the original sessionId as threadId for frontend
+        ttsToken, // Include the TTS token for audio generation
         rateLimitInfo: {
           limit: rateLimitResult.limit,
           remaining: rateLimitResult.remaining,

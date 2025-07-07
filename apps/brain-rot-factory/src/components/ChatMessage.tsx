@@ -11,6 +11,7 @@ export interface ChatMessage {
   content: string
   timestamp: Date
   character?: BrainRotCharacter
+  ttsToken?: string // TTS token for audio generation (only for assistant messages)
 }
 
 interface ChatMessageProps {

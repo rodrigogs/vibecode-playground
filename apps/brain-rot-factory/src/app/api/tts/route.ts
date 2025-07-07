@@ -3,9 +3,7 @@ import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
 import { generateTTSAudio, type TTSOptions } from '@/lib/ai-cache'
-import { auth } from '@/lib/auth-instance'
-import { consumeRateLimit, getRateLimitStatus } from '@/lib/rate-limit'
-import { RATE_LIMIT_MESSAGES } from '@/lib/rate-limit-constants'
+import { validateAndConsumeTTSToken } from '@/lib/tts-token'
 import { getCharacterVoice } from '@/lib/tts-utils'
 import type { BrainRotCharacter } from '@/types/characters'
 
@@ -13,80 +11,54 @@ import type { BrainRotCharacter } from '@/types/characters'
 export const dynamic = 'force-dynamic'
 
 interface TTSRequest {
-  text: string
   character?: BrainRotCharacter
   voice?: TTSVoice
   instructions?: string // Only works with gpt-4o-mini-tts
-  speed?: number // Does not work with gpt-4o-mini-tts
   format?: 'mp3' | 'opus' | 'aac' | 'flac' | 'wav' | 'pcm'
-  fingerprint?: string // Browser fingerprint for rate limiting
+  ttsToken: string // Required: Token from chat generation to validate TTS request
 }
 
 export async function POST(request: NextRequest) {
   try {
-    // Get session for rate limiting
-    const session = await auth()
-
     const body: TTSRequest = await request.json()
 
-    // Apply rate limiting to TTS endpoint
-    const rateLimitCheck = await getRateLimitStatus(session, body.fingerprint)
-
-    if (!rateLimitCheck.allowed) {
-      if (rateLimitCheck.requiresAuth) {
-        return NextResponse.json(
-          {
-            error: 'Rate limit exceeded',
-            message: RATE_LIMIT_MESSAGES.IP_LIMIT_EXCEEDED,
-          },
-          {
-            status: 429,
-            headers: {
-              'X-RateLimit-Limit': rateLimitCheck.limit.toString(),
-              'X-RateLimit-Remaining': rateLimitCheck.remaining.toString(),
-              'X-RateLimit-Reset': new Date(
-                rateLimitCheck.resetTime,
-              ).toISOString(),
-              'X-RateLimit-RequiresAuth': 'true',
-            },
-          },
-        )
-      } else {
-        return NextResponse.json(
-          {
-            error: 'Daily limit exceeded',
-            message: RATE_LIMIT_MESSAGES.USER_LIMIT_EXCEEDED,
-          },
-          {
-            status: 429,
-            headers: {
-              'X-RateLimit-Limit': rateLimitCheck.limit.toString(),
-              'X-RateLimit-Remaining': rateLimitCheck.remaining.toString(),
-              'X-RateLimit-Reset': new Date(
-                rateLimitCheck.resetTime,
-              ).toISOString(),
-            },
-          },
-        )
-      }
-    }
-
-    if (!body.text || typeof body.text !== 'string') {
+    // Validate required TTS token
+    if (!body.ttsToken) {
       return NextResponse.json(
-        { error: 'Text is required and must be a string' },
+        {
+          error: 'TTS token required',
+          message:
+            'A valid TTS token from chat generation is required to generate audio.',
+        },
         { status: 400 },
       )
     }
 
-    if (body.text.length > 4096) {
+    // Validate and consume the TTS token
+    const tokenResult = await validateAndConsumeTTSToken(body.ttsToken)
+
+    if (!tokenResult.valid) {
+      return NextResponse.json(
+        {
+          error: 'Invalid TTS token',
+          message:
+            tokenResult.error ||
+            'The provided TTS token is invalid or has been used.',
+        },
+        { status: 403 },
+      )
+    }
+
+    // Use the text from the token (ensures consistency with chat generation)
+    const textToSpeak = tokenResult.tokenData!.text
+
+    // Validate text length
+    if (textToSpeak.length > 4096) {
       return NextResponse.json(
         { error: 'Text must be 4096 characters or less' },
         { status: 400 },
       )
     }
-
-    // Consume rate limit
-    const rateLimitResult = await consumeRateLimit(session, body.fingerprint)
 
     // Determine voice based on character or use provided voice
     const voice = body.voice || getCharacterVoice(body.character)
@@ -100,11 +72,15 @@ export async function POST(request: NextRequest) {
     }
 
     console.info(
-      `Generating TTS for character: ${body.character?.name || 'default'}`,
+      `Generating TTS for character: ${body.character?.name || 'default'} with token: ${body.ttsToken.substring(0, 12)}...`,
     )
 
-    // Generate speech using the cached TTS system
-    const result = await generateTTSAudio(body.text, body.character, ttsOptions)
+    // Generate speech using the cached TTS system with the validated text
+    const result = await generateTTSAudio(
+      textToSpeak,
+      body.character,
+      ttsOptions,
+    )
 
     // Validate audio data
     if (!result.audio || result.audio.length === 0) {
@@ -127,9 +103,7 @@ export async function POST(request: NextRequest) {
         'X-TTS-Model': result.model,
         'X-TTS-Voice': result.voice,
         'X-Cache': result.cached ? 'HIT' : 'MISS',
-        'X-RateLimit-Limit': rateLimitResult.limit.toString(),
-        'X-RateLimit-Remaining': rateLimitResult.remaining.toString(),
-        'X-RateLimit-Reset': new Date(rateLimitResult.resetTime).toISOString(),
+        'X-TTS-Token': body.ttsToken.substring(0, 12) + '...', // Show partial token for debugging
       },
     })
   } catch (error) {
