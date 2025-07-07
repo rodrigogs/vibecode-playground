@@ -1,8 +1,10 @@
+import Image from 'next/image'
 import { useEffect, useRef } from 'react'
 
 import ChatMessage, {
   type ChatMessage as ChatMessageType,
 } from '@/components/ChatMessage'
+import { getCharacterImage } from '@/lib/characterUtils'
 import type { BrainRotCharacter } from '@/types/characters'
 
 interface ChatHistoryProps {
@@ -11,6 +13,7 @@ interface ChatHistoryProps {
   isSpeaking: boolean
   currentSpeakingMessageId: string | null
   isLoadingTTS: boolean
+  isLoading?: boolean // AI is generating response
   onSpeakMessage: (messageId: string) => void
 }
 
@@ -20,6 +23,7 @@ export default function ChatHistory({
   isSpeaking,
   currentSpeakingMessageId,
   isLoadingTTS,
+  isLoading = false,
   onSpeakMessage,
 }: ChatHistoryProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -31,8 +35,30 @@ export default function ChatHistory({
 
   if (messages.length === 0) {
     return (
-      <div className="flex-1 flex items-center justify-center text-gray-400">
-        <p>Start a conversation with {selectedCharacter.name}!</p>
+      <div className="flex-1 flex items-center justify-center">
+        {/* Modern Floating Orbs Animation */}
+        <div className="relative flex items-center justify-center">
+          {/* Background glow */}
+          <div className="absolute inset-0 w-32 h-32 bg-gradient-to-r from-purple-400/10 to-pink-400/10 rounded-full blur-2xl animate-pulse"></div>
+
+          {/* Main floating orbs container */}
+          <div className="relative flex items-center space-x-2">
+            {/* Orb 1 */}
+            <div className="w-3 h-3 bg-gradient-to-br from-purple-400/70 to-purple-500/70 backdrop-blur-sm rounded-full border border-white/10 shadow-lg animate-bounce"></div>
+
+            {/* Orb 2 */}
+            <div className="w-4 h-4 bg-gradient-to-br from-purple-500/60 to-pink-500/60 backdrop-blur-sm rounded-full border border-white/20 shadow-lg animate-bounce delay-200"></div>
+
+            {/* Orb 3 */}
+            <div className="w-3 h-3 bg-gradient-to-br from-pink-400/70 to-pink-500/70 backdrop-blur-sm rounded-full border border-white/10 shadow-lg animate-bounce delay-400"></div>
+          </div>
+
+          {/* Floating accent particles */}
+          <div className="absolute -top-8 left-4 w-2 h-2 bg-purple-300/30 rounded-full animate-ping delay-1000"></div>
+          <div className="absolute -bottom-8 right-4 w-1.5 h-1.5 bg-pink-300/30 rounded-full animate-ping delay-1500"></div>
+          <div className="absolute top-6 -left-8 w-1 h-1 bg-blue-300/40 rounded-full animate-ping delay-2000"></div>
+          <div className="absolute bottom-6 -right-8 w-1 h-1 bg-purple-200/40 rounded-full animate-ping delay-2500"></div>
+        </div>
       </div>
     )
   }
@@ -49,6 +75,33 @@ export default function ChatHistory({
           onSpeakMessage={onSpeakMessage}
         />
       ))}
+
+      {/* AI Typing Indicator */}
+      {isLoading && (
+        <div className="flex items-start space-x-3 animate-fade-in">
+          {/* Character Avatar */}
+          <div className="w-8 h-8 rounded-full overflow-hidden bg-purple-600/20 flex-shrink-0 relative">
+            <Image
+              src={`/images/characters/${getCharacterImage(selectedCharacter)}`}
+              alt={selectedCharacter.name}
+              fill
+              className="object-cover"
+              unoptimized
+            />
+          </div>
+
+          {/* Typing Bubble */}
+          <div className="bg-gradient-to-br from-purple-600/20 to-pink-600/20 backdrop-blur-sm border border-purple-500/30 rounded-2xl rounded-bl-sm p-4 max-w-xs">
+            <div className="flex items-center space-x-1">
+              {/* Typing dots */}
+              <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce"></div>
+              <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce delay-200"></div>
+              <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce delay-400"></div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div ref={messagesEndRef} />
     </div>
   )

@@ -288,7 +288,7 @@ export default function CharacterFilters({
 
   return (
     <div className={`${className}`} ref={containerRef}>
-      <div className="flex flex-wrap items-center gap-4">
+      <div className="flex flex-wrap items-center justify-center gap-4">
         {/* Popularity Filter */}
         <div className="relative">
           <button
