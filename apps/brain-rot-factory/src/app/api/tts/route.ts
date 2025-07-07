@@ -3,7 +3,10 @@ import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
 import { generateTTSAudio, type TTSOptions } from '@/lib/ai-cache'
-import { validateAndConsumeTTSToken } from '@/lib/tts-token'
+import {
+  cacheAudioWithToken,
+  validateAndConsumeTTSToken,
+} from '@/lib/tts-token'
 import { getCharacterVoice } from '@/lib/tts-utils'
 import type { BrainRotCharacter } from '@/types/characters'
 
@@ -49,6 +52,29 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Check if audio is already cached for replay
+    if (tokenResult.tokenData.cachedAudio) {
+      console.info(
+        `Returning cached audio for token: ${body.ttsToken.substring(0, 12)}...`,
+      )
+
+      const cachedAudio = tokenResult.tokenData.cachedAudio
+      const audioArray = new Uint8Array(cachedAudio.data)
+
+      return new Response(audioArray, {
+        status: 200,
+        headers: {
+          'Content-Type': cachedAudio.contentType,
+          'Content-Length': cachedAudio.data.length.toString(),
+          'Cache-Control': 'public, max-age=3600', // Cache for 1 hour
+          'X-TTS-Model': cachedAudio.model,
+          'X-TTS-Voice': cachedAudio.voice,
+          'X-Cache': 'TOKEN-HIT', // Indicates audio served from token cache
+          'X-TTS-Token': body.ttsToken.substring(0, 12) + '...', // Show partial token for debugging
+        },
+      })
+    }
+
     // Use the text from the token (ensures consistency with chat generation)
     const textToSpeak = tokenResult.tokenData!.text
 
@@ -91,6 +117,15 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Cache the generated audio with the token for future replay
+    await cacheAudioWithToken(
+      body.ttsToken,
+      result.audio,
+      result.format,
+      result.voice,
+      result.model,
+    )
+
     // Return audio as response using Uint8Array from Buffer
     const audioArray = new Uint8Array(result.audio)
 
@@ -102,7 +137,8 @@ export async function POST(request: NextRequest) {
         'Cache-Control': 'public, max-age=3600', // Cache for 1 hour
         'X-TTS-Model': result.model,
         'X-TTS-Voice': result.voice,
-        'X-Cache': result.cached ? 'HIT' : 'MISS',
+        'X-Cache': result.cached ? 'HIT' : 'MISS', // AI cache status
+        'X-TTS-Cache': 'GENERATED', // Indicates newly generated and cached
         'X-TTS-Token': body.ttsToken.substring(0, 12) + '...', // Show partial token for debugging
       },
     })

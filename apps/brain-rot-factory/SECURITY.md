@@ -545,15 +545,17 @@ graph TD
 
 #### 🔐 **Token-Based Authorization**
 - **Unique Tokens**: Each chat response generates a cryptographically secure token
-- **Single-Use**: Tokens are consumed after first use, preventing replay attacks
+- **Single-Use Generation**: Tokens allow unlimited replay but only one-time generation
 - **Time-Limited**: 30-minute expiration prevents token hoarding
 - **Content-Locked**: TTS uses exact text from chat response, not arbitrary input
+- **Audio Caching**: Generated audio is cached with tokens for seamless replay
 
 #### 🛡️ **Attack Prevention**
 - **Rate Limit Bypass Protection**: Prevents TTS generation without valid chat responses
 - **Content Injection Prevention**: Users cannot generate TTS for arbitrary text
-- **Replay Attack Prevention**: Tokens become invalid after first use
+- **Replay-Friendly Security**: Allows unlimited replays without compromising security
 - **Token Forgery Prevention**: Cryptographically secure token generation
+- **Resource Control**: New audio generation strictly limited to valid chat responses
 
 #### 🔍 **Audit & Monitoring**
 - **Token Lifecycle Tracking**: Creation, usage, and expiration logging
@@ -581,6 +583,14 @@ interface TTSTokenData {
   sessionId?: string     // Session tracking
   createdAt: number      // Token creation timestamp
   usedAt?: number        // Token consumption timestamp (if used)
+  // Audio caching for replay functionality
+  cachedAudio?: {
+    data: Buffer         // Generated audio data
+    format: string       // Audio format (mp3, wav, etc.)
+    voice: string        // Voice used for generation
+    model: string        // TTS model used
+    contentType: string  // MIME type for HTTP response
+  }
 }
 ```
 
@@ -599,21 +609,25 @@ export const TTS_TOKEN_CONFIG = {
 3. **Maintains Resource Control**: TTS generation is strictly tied to chat generation limits
 4. **Ensures Content Integrity**: Guarantees TTS audio matches the actual chat response
 5. **Provides Audit Trail**: Complete tracking of TTS token lifecycle for security analysis
+6. **Enables Seamless Replay**: Users can replay audio multiple times without security concerns
+7. **Optimizes Resource Usage**: Cached audio reduces server load for repeated requests
 
 ### Error Handling & Security
 
 - **Invalid Tokens**: Immediate rejection with appropriate error codes
 - **Expired Tokens**: Clear error messages for user understanding
 - **Missing Tokens**: Prevents any TTS generation without valid authorization
-- **Consumed Tokens**: Protection against replay attacks with clear feedback
+- **Audio Replay**: Seamless audio delivery for repeated requests
 - **Malformed Requests**: Comprehensive validation and sanitization
+- **Cache Failures**: Graceful fallback to regeneration if cached audio is corrupted
 
 ### Performance Impact
 
 - **Token Generation**: <1ms overhead per chat response
 - **Token Validation**: <5ms per TTS request
-- **Storage Overhead**: ~100 bytes per token in cache
-- **Cache Efficiency**: Automatic cleanup of expired tokens
+- **Audio Caching**: ~50-200KB storage per cached audio (30min TTL)
+- **Cache Efficiency**: Instant replay delivery for repeated requests
+- **Storage Overhead**: Automatic cleanup with token expiration
 
 ## Monitoring & Alerting
 

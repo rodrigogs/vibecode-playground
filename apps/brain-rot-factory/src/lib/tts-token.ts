@@ -20,6 +20,14 @@ export interface TTSTokenData {
   sessionId?: string // Optional session tracking
   createdAt: number
   usedAt?: number // When the token was consumed for TTS
+  // Audio caching for replay functionality
+  cachedAudio?: {
+    data: Buffer // The generated audio data
+    format: string // Audio format (mp3, wav, etc.)
+    voice: string // Voice used for generation
+    model: string // TTS model used
+    contentType: string // MIME type for HTTP response
+  }
 }
 
 export interface TTSTokenResult {
@@ -62,7 +70,8 @@ export async function storeTTSToken(
 }
 
 /**
- * Validate and consume a TTS token
+ * Validate a TTS token and check for cached audio
+ * Returns cached audio if available, or marks token for audio generation
  */
 export async function validateAndConsumeTTSToken(
   token: string,
@@ -84,17 +93,30 @@ export async function validateAndConsumeTTSToken(
     }
   }
 
-  if (tokenData.usedAt) {
+  // If audio is already cached, return it immediately (allow replay)
+  if (tokenData.cachedAudio) {
+    console.info(
+      `TTS token replay: ${token.substring(0, 12)}... returning cached audio`,
+    )
+
     return {
-      valid: false,
-      error: 'Token already used',
+      valid: true,
+      tokenData,
     }
   }
 
-  // Mark token as used
+  // If token was already used but no cached audio, something went wrong
+  if (tokenData.usedAt) {
+    return {
+      valid: false,
+      error: 'Token already used but no cached audio available',
+    }
+  }
+
+  // Mark token as used (first-time generation)
   tokenData.usedAt = Date.now()
 
-  // Store the updated token data (still with TTL for audit purposes)
+  // Store the updated token data (audio will be cached after generation)
   const remainingTTL =
     tokenData.createdAt + TTS_TOKEN_CONFIG.TOKEN_TTL - Date.now()
   if (remainingTTL > 0) {
@@ -102,7 +124,7 @@ export async function validateAndConsumeTTSToken(
   }
 
   console.info(
-    `TTS token consumed: ${token.substring(0, 12)}... for "${tokenData.text.substring(0, 50)}..."`,
+    `TTS token consumed for generation: ${token.substring(0, 12)}... for "${tokenData.text.substring(0, 50)}..."`,
   )
 
   return {
@@ -170,4 +192,44 @@ export async function cleanupExpiredTokens(): Promise<number> {
   }
 
   return cleaned
+}
+
+/**
+ * Cache generated audio with the TTS token for replay functionality
+ */
+export async function cacheAudioWithToken(
+  token: string,
+  audioData: Buffer,
+  format: string,
+  voice: string,
+  model: string,
+): Promise<void> {
+  const cacheKey = `${TTS_TOKEN_CONFIG.TOKEN_PREFIX}${token}`
+  const tokenData = await cache.get<TTSTokenData>(cacheKey)
+
+  if (!tokenData) {
+    console.warn(
+      `Attempted to cache audio for non-existent token: ${token.substring(0, 12)}...`,
+    )
+    return
+  }
+
+  // Add cached audio to token data
+  tokenData.cachedAudio = {
+    data: audioData,
+    format,
+    voice,
+    model,
+    contentType: `audio/${format}`,
+  }
+
+  // Update the token with cached audio, keeping the original TTL
+  const remainingTTL =
+    tokenData.createdAt + TTS_TOKEN_CONFIG.TOKEN_TTL - Date.now()
+  if (remainingTTL > 0) {
+    await cache.set(cacheKey, tokenData, remainingTTL)
+    console.info(
+      `Audio cached for token: ${token.substring(0, 12)}... (${audioData.length} bytes, ${format})`,
+    )
+  }
 }
