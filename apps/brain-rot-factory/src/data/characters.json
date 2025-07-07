@@ -8006,9 +8006,9 @@
     },
     {
       "id": "sasori-iri-endo-mame",
-      "name": "サソリ入りエンドウ豆",
+      "name": "Sasori-iri Endo Mame",
       "description": "日本初期ブレインロットと目される呪われた豆――サソリ入りエンドウ豆。見た目はぷっくりした緑のエンドウ豆だが、内部に潜むサソリの毒針が獲物を待ち構える。近づく者は“豆汁”で毒殺され、一口飲めば一生エンドウ豆しか食べられなくなると伝えられる。餅も米もチョコレートも封印され、永遠に豆地獄。クニクニと鳴く異様な効果音が聞こえたら危険信号だ。",
-      "gender": "unknown",
+      "gender": "male",
       "language": "ja",
       "country": "Japan",
       "voice": "onyx",
@@ -8027,7 +8027,7 @@
         "こわいあああ！"
       ],
       "images": [
-        "sasori-iri-endo-mame-0.webp"
+        "sasoriiri-endo-mame-0.webp"
       ],
       "popularity": "unknown"
     },
@@ -9727,9 +9727,9 @@
       ],
       "bgm": "Bad Style - Time Back",
       "catchphrases": [
-        "\"Questa è la mia vita, coglione!\"",
-        "\"Benvenuto nel ca**o di spettacolo che è Udon Don Don Dan!\"",
-        "\"Non contro draghi ma contro i miei limiti!\""
+        "Questa è la mia vita, coglione!",
+        "Benvenuto nel ca**o di spettacolo che è Udon Don Don Dan!",
+        "Non contro draghi ma contro i miei limiti!"
       ],
       "images": [
         "udon-don-don-dan-0.webp"
@@ -9738,7 +9738,7 @@
     },
     {
       "id": "uokingu-shiifudo",
-      "name": "ウォーキングシーフード",
+      "name": "U~ōkingushīfūdo",
       "description": "歩く海産物——それがウォーキングシーフード。海のない“西海”に住み、砂のない“サンディ島”で誕生し、森のないサウジアラビアを旅し、砂漠のないラメサ流域をさまよう。不在の地理を渡り歩きながらも「おいしい！」と自分で宣言する奇妙な存在だ。見た目は少し不気味だが、本人いわく味は絶品。彼女の信条は『不可能を遊び場にする』こと——空気で遊ぶことさえ日課にしている。",
       "gender": "female",
       "language": "ja",
@@ -9752,7 +9752,7 @@
         "自己PRグルメ",
         "シュール旅日記"
       ],
-      "bgm": "Surreal Ocean Lullaby",
+      "bgm": "Bad Style - Time Back",
       "catchphrases": [
         "ウォーキングシーフード！",
         "うまうま、でもちょいコワ！",
