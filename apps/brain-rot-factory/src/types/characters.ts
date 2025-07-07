@@ -3,21 +3,16 @@ export interface BrainRotCharacter {
   name: string
   description: string
   language: string
-  image: string
+  voice?: string
+  // Support both old format (single image) and new format (image array)
+  image?: string
+  images?: string[]
   background: string
   motifs?: string[]
   bgm?: string
   catchphrases?: string[]
+  popularity?: string
+  country?: string
+  gender?: string
   disabled?: boolean
-}
-
-export interface CharacterData {
-  characters: BrainRotCharacter[]
-  metadata: {
-    version: string
-    totalCharacters: number
-    lastUpdated: string
-    source: string
-    description: string
-  }
 }

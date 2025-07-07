@@ -8,11 +8,11 @@ export default function Header() {
   const t = useTranslations('Header')
 
   return (
-    <header className="py-4">
+    <header>
       {/* Main Header Content */}
       <div className="max-w-6xl mx-auto">
         {/* Title and Auth Button Container */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center mb-4">
           {/* Logo Section - Left (3 columns on desktop) */}
           <div className="lg:col-span-3 flex justify-center lg:justify-start order-1">
             <a
@@ -26,6 +26,7 @@ export default function Header() {
                 alt="Brain-rot Factory Logo"
                 width={200}
                 height={200}
+                priority
                 className="opacity-80 -my-6 hover:animation-paused cursor-pointer transition-all duration-300"
                 style={{
                   filter: `
@@ -64,18 +65,18 @@ export default function Header() {
           </div>
         </div>
 
+        {/* Description */}
+        <div className="text-center mb-8">
+          <p className="text-sm text-gray-200 max-w-2xl mx-auto leading-relaxed font-medium">
+            {t('subtitle')}
+          </p>
+        </div>
+
         {/* Small discrete separator between header and content below */}
         <div
           id="header-separator"
           className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-50 mb-8"
         ></div>
-
-        {/* Description */}
-        <div className="text-center">
-          <p className="text-sm text-gray-200 max-w-3xl mx-auto leading-relaxed font-medium">
-            {t('subtitle')}
-          </p>
-        </div>
       </div>
     </header>
   )

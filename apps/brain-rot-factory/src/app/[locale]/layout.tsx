@@ -8,6 +8,7 @@ import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 
 import AuthProvider from '@/components/AuthProvider'
+import LocaleWrapper from '@/components/LocaleWrapper'
 import { routing } from '@/i18n/routing'
 
 const geistSans = Geist({
@@ -57,7 +58,8 @@ export default async function LocaleLayout({
   children: React.ReactNode
   params: Promise<{ locale: string }>
 }) {
-  const { locale } = await params
+  const resolvedParams = await params
+  const locale = resolvedParams.locale || routing.defaultLocale
 
   // Ensure that the incoming `locale` is valid
   if (!routing.locales.includes(locale as (typeof routing.locales)[number])) {
@@ -74,7 +76,9 @@ export default async function LocaleLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NextIntlClientProvider messages={messages}>
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            <LocaleWrapper fallbackLocale={locale}>{children}</LocaleWrapper>
+          </AuthProvider>
         </NextIntlClientProvider>
         <Analytics />
       </body>

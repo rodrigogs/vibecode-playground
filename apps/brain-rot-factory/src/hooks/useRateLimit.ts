@@ -48,7 +48,7 @@ export function useRateLimit(): UseRateLimitResult {
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error'
       setError(`Rate limit check failed: ${errorMessage}`)
-      console.error('Rate limit check error:', err)
+      // Rate limit check error
     } finally {
       setIsLoading(false)
     }

@@ -12,7 +12,6 @@
   "module": "./dist/esm/src/index.js",
   "types": "./dist/esm/src/index.d.ts",
   "scripts": {
-    "lawl": "tsc --version",
     "build:esm": "rimraf dist/esm && tsc --project tsconfig.esm.json",
     "build:cjs": "rimraf dist/cjs && tsc --project tsconfig.cjs.json",
     "build": "concurrently \"npm run build:cjs\" \"npm run build:esm\"",

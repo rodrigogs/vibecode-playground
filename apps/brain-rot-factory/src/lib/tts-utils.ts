@@ -1,3 +1,4 @@
+import { getCharacterVoice as selectVoice } from '@/lib/voice-selection'
 import type { BrainRotCharacter } from '@/types/characters'
 
 /**
@@ -81,9 +82,8 @@ CORE VOICE STYLE:
 
 /**
  * Get appropriate voice for character
- * Now using the requested "ash" voice which is available in the latest OpenAI TTS API
+ * Enhanced with gender-based voice selection using the new voice configuration
  */
-export function getCharacterVoice(): 'ash' {
-  // This can be enhanced with character-specific voice mapping
-  return 'ash'
+export function getCharacterVoice(character?: BrainRotCharacter): string {
+  return selectVoice(character)
 }

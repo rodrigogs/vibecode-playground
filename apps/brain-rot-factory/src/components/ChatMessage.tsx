@@ -2,6 +2,7 @@ import { Loader2, Volume2, VolumeX } from 'lucide-react'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 
+import { getCharacterImage } from '@/lib/characterUtils'
 import type { BrainRotCharacter } from '@/types/characters'
 
 export interface ChatMessage {
@@ -107,7 +108,7 @@ export default function ChatMessage({
               }`}
             >
               <Image
-                src={`/images/${selectedCharacter.image}`}
+                src={`/images/characters/${getCharacterImage(selectedCharacter)}`}
                 alt={selectedCharacter.name}
                 fill
                 className="object-cover"

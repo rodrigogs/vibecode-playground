@@ -1,0 +1,56 @@
+import type { Country, CountryImageElement } from '../types/index.js'
+
+export const resolveCountry = (countryImage: unknown): Country | undefined => {
+  const flagSrc = (countryImage as CountryImageElement).attr('src')
+  if (!flagSrc) return 'Unknown'
+
+  // Extract filename from URL (handles both thumbnail and direct URLs)
+  const filename = flagSrc.split('/').pop() || ''
+
+  // Simple mapping based on filename patterns
+  if (filename.includes('Italy')) return 'Italy'
+  if (filename.includes('Indonesia')) return 'Indonesia'
+  if (filename.includes('NLOP')) return 'Netherlands'
+  if (filename.includes('Spain')) return 'Spain'
+  if (filename.includes('Mexico')) return 'Mexico'
+  if (filename.includes('Americcaaaaa')) return 'United States'
+  if (filename.includes('Vietnam')) return 'Vietnam'
+  if (filename.includes('Saudi_Arabia')) return 'Saudi Arabia'
+  if (filename.includes('Brazil')) return 'Brazil'
+  if (filename.includes('Romania')) return 'Romania'
+  if (filename.includes('United_Kingdom')) return 'United Kingdom'
+  if (filename.includes('Sweden')) return 'Sweden'
+  if (filename.includes('Switzerland')) return 'Switzerland'
+  if (filename.includes('Albania')) return 'Albania'
+  if (filename.includes('Iceland')) return 'Iceland'
+  if (filename.includes('Esperanto')) return 'Esperanto'
+  if (filename.includes('Portugal')) return 'Portugal'
+  if (filename.includes('China')) return 'China'
+  if (filename.includes('Israel')) return 'Israel'
+  if (filename.includes('Chile')) return 'Chile'
+  if (filename.includes('Australia')) return 'Australia'
+  if (filename.includes('France')) return 'France'
+  if (filename.includes('Russia')) return 'Russia'
+  if (filename.includes('Japan')) return 'Japan'
+  if (filename.includes('Turkey')) return 'Turkey'
+  if (filename.includes('Croatia')) return 'Croatia'
+  if (filename.includes('Venezuela')) return 'Venezuela'
+  if (filename.includes('Jordan')) return 'Jordan'
+  if (filename.includes('Bemba')) return 'Bemba'
+  if (filename.includes('Hausa')) return 'Hausa'
+  if (filename.includes('Filipino')) return 'Philippines'
+  if (filename.includes('Argentina')) return 'Argentina'
+  if (filename.includes('Basque')) return 'Basque'
+  if (filename.includes('Waray')) return 'Waray'
+  if (filename.includes('Cebuano')) return 'Cebuano'
+  if (filename.includes('Berber')) return 'Berber'
+  if (filename.includes('Kampampangan')) return 'Kampampangan'
+  if (filename.includes('Kanuri')) return 'Kanuri'
+  if (filename.includes('Kaixana')) return 'Kaixana'
+  if (filename.includes('pakistan')) return 'Pakistan'
+  if (filename.includes('Poland')) return 'Poland'
+  if (filename.includes('Malaysia')) return 'Malaysia'
+  if (filename.includes('Unknown')) return 'Unknown'
+
+  return undefined // Return undefined when no country is found
+}

@@ -7,15 +7,23 @@ A Next.js web application that serves as your AI-powered companion for generatin
 - 🎨 **Modern UI**: Beautiful gradient interface with glass morphism effects
 - 🤖 **AI Integration**: Powered by the `@repo/ai` package from the Vibecode Playground monorepo
 - ⚡ **Real-time Chat**: Interactive chat interface for maximum brain-rot generation
-- 🎭 **Chaotic Responses**: Pre-loaded with hilariously unhinged AI responses
+- 🎭 **Chaotic Responses**: AI-generated unhinged and brain-rot style content
 - 📱 **Responsive Design**: Works perfectly on desktop and mobile devices
+- 🔐 **Authentication**: GitHub OAuth integration with NextAuth.js
+- 🌍 **Internationalization**: Multi-language support (EN, IT, PT, ID)
+- 🎵 **Audio Features**: Text-to-speech with bizarre audio distortion effects
+- 🎠 **Character Carousel**: Interactive character selection with Swiper
+- 📊 **Ready for Analytics**: Vercel Analytics dependency installed (integration pending)
 
 ## Tech Stack
 
 - **Next.js 15** - React framework with App Router
 - **TypeScript** - Type-safe development
 - **Tailwind CSS** - Utility-first styling
+- **NextAuth.js** - Authentication system
+- **Next-intl** - Internationalization
 - **Lucide React** - Beautiful icons
+- **Swiper** - Touch slider component
 - **Monorepo Integration** - Uses shared packages from the Vibecode Playground ecosystem
 
 ## Development
@@ -25,19 +33,24 @@ A Next.js web application that serves as your AI-powered companion for generatin
 npm run dev
 
 # Or run specifically for this app
-cd apps/brain-rot-assistant
+cd apps/brain-rot-factory
 npm run dev
 ```
 
-The app will be available at `http://localhost:3000`.
+The app will be available at `http://localhost:3000` (default Next.js port).
 
 ## API Routes
 
 - `POST /api/chat` - Main chat endpoint for generating brain-rot content
+- `POST /api/tts` - Text-to-speech generation with audio distortion
+- `GET /api/rate-limit` - Check current rate limiting status
+- `POST /api/rate-limit` - Update rate limiting
+- `GET /api/auth/[...nextauth]` - NextAuth.js authentication  
+- `GET /api/admin/rate-limit` - Admin rate limit management
 
 ## Integration with Monorepo
 
-This app leverages several packages from the Vibe Rot monorepo:
+This app leverages several packages from the Vibecode Playground monorepo:
 
 - `@repo/ai` - AI capabilities and LangChain integration
 - `@repo/cache` - Caching system for responses
@@ -49,9 +62,17 @@ This app leverages several packages from the Vibe Rot monorepo:
 ## Environment Variables
 
 ```bash
-OPENAI_API_KEY=      # For AI functionality
-DEEPSEEK_API_URL=    # DeepSeek API
-DEEPSEEK_API_KEY=    # DeepSeek key
+# AI Functionality
+OPENAI_API_KEY=       # Required for OpenAI features
+DEEPSEEK_API_KEY=     # Optional - DeepSeek alternative AI
+
+# Authentication
+AUTH_SECRET=          # NextAuth.js secret key
+GITHUB_ID=           # GitHub OAuth app client ID
+GITHUB_SECRET=       # GitHub OAuth app client secret
+
+# Optional
+DATA_DIR=            # Custom data directory (defaults to ~/.brain-rot-factory)
 ```
 
 ## Commands
@@ -66,4 +87,9 @@ npm run clean        # Clean build artifacts
 
 ---
 
-*Part of the Vibe Rot monorepo - Modern TypeScript monorepo with Turbo for high-performance builds.*
+*Part of the Vibecode Playground monorepo - Modern TypeScript monorepo with Turbo for high-performance builds.*
+
+## Documentation
+
+- [Audio Distortion System](./AUDIO_DISTORTION.md) - Comprehensive guide to the bizarre audio distortion engine
+- [Authentication Setup](./AUTH_SETUP.md) - GitHub OAuth configuration and setup instructions

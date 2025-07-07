@@ -1,0 +1,35 @@
+{
+  "name": "brain-rot-crawler",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/esm/src/index.js",
+  "scripts": {
+    "dev": "npx dotenv-cli -e .env -- tsx src/index.ts",
+    "build": "rimraf dist/cjs && tsc --project tsconfig.json",
+    "build:watch": "tsc --project tsconfig.json --watch",
+    "clean": "rimraf dist .turbo coverage",
+    "lint": "eslint .",
+    "lint:fix": "npm run lint -- --fix",
+    "test": "vitest run --pass-with-no-tests",
+    "test:unit": "npm run test -- --project unit --pass-with-no-tests",
+    "test:integration": "npm run test -- --project integration --pass-with-no-tests"
+  },
+  "dependencies": {
+    "@repo/ai": "*",
+    "@repo/cache": "*",
+    "@repo/utils": "*",
+    "axios": "^1.10.0",
+    "axios-ddos-guard-bypass": "^1.0.3",
+    "cheerio": "^1.1.0",
+    "file-type": "^19.5.0",
+    "sharp": "^0.33.5",
+    "tough-cookie": "^4.1.4",
+    "zod": "^3.25.67"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "*",
+    "@repo/test": "*",
+    "@repo/typescript-config": "*"
+  }
+}

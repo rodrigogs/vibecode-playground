@@ -9,7 +9,56 @@
     "selectCharacter": "Pilih Karakter Brain-rot",
     "noCharacters": "Tidak ada karakter tersedia",
     "previousCharacter": "Karakter sebelumnya",
-    "nextCharacter": "Karakter berikutnya"
+    "nextCharacter": "Karakter berikutnya",
+    "searchPlaceholder": "Cari berdasarkan nama, popularitas, atau negara...",
+    "searchResults": "Ditemukan {count} dari {total} karakter",
+    "noSearchResults": "Tidak ada karakter ditemukan. Coba cari dengan kata kunci yang berbeda.",
+    "clearSearch": "Hapus pencarian",
+    "filterPopularity": "Filter berdasarkan popularitas",
+    "filterCountry": "Filter berdasarkan negara",
+    "filterGender": "Filter berdasarkan jenis kelamin",
+    "loading": "Memuat...",
+    "loadMore": "Muat lebih banyak karakter",
+    "filters": {
+      "popularity": {
+        "label": "Popularitas",
+        "all": "Semua Tingkat Popularitas",
+        "allDescription": "Tampilkan semua karakter",
+        "top-5": "Top 5",
+        "top-5Description": "Karakter paling terkenal",
+        "well-known": "Terkenal",
+        "well-knownDescription": "Karakter populer",
+        "decently-known": "Cukup Dikenal",
+        "decently-knownDescription": "Cukup dikenal",
+        "unknown": "Tidak Dikenal",
+        "unknownDescription": "Karakter kurang dikenal"
+      },
+      "country": {
+        "label": "Negara",
+        "all": "Semua Negara",
+        "allDescription": "Karakter dari mana saja"
+      },
+      "gender": {
+        "label": "Jenis Kelamin",
+        "all": "Semua Jenis Kelamin",
+        "allDescription": "Karakter dari semua jenis kelamin",
+        "male": "Laki-laki",
+        "maleDescription": "Karakter laki-laki",
+        "female": "Perempuan",
+        "femaleDescription": "Karakter perempuan"
+      },
+      "clearFilters": "Hapus semua filter"
+    },
+    "popularity": {
+      "all": "Semua Popularitas",
+      "top-5": "Top 5",
+      "well-known": "Terkenal",
+      "decently-known": "Cukup Dikenal",
+      "unknown": "Tidak Dikenal"
+    },
+    "country": {
+      "all": "Semua Negara"
+    }
   },
   "Chat": {
     "placeholder": "Tulis pesan di sini...",

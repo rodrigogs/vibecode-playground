@@ -9,8 +9,8 @@ export async function GET() {
     const rateLimitStatus = await getRateLimitStatus(session)
 
     return NextResponse.json(rateLimitStatus)
-  } catch (error) {
-    console.error('Rate limit check error:', error)
+  } catch {
+    // Rate limit check error
     return NextResponse.json(
       { error: 'Failed to check rate limit' },
       { status: 500 },

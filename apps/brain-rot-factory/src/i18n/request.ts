@@ -17,7 +17,6 @@ export default getRequestConfig(async ({ requestLocale }) => {
     locale,
     messages: (await import(`../messages/${locale}.json`)).default,
     timeZone: 'America/Sao_Paulo', // Default timezone for PT-BR
-    now: new Date(),
     formats: {
       dateTime: {
         short: {

@@ -26,8 +26,8 @@ export async function GET() {
       totalIpEntries: debugInfo.ipKeys.length,
       totalUserEntries: debugInfo.userKeys.length,
     })
-  } catch (error) {
-    console.error('Rate limit debug error:', error)
+  } catch {
+    // Rate limit debug error
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 },
@@ -65,8 +65,8 @@ export async function DELETE(request: Request) {
         { status: 400 },
       )
     }
-  } catch (error) {
-    console.error('Rate limit reset error:', error)
+  } catch {
+    // Rate limit reset error
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 },

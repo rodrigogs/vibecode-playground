@@ -68,8 +68,8 @@ async function generateAIResponseWithFallback(
       source: 'ai' as const,
       timestamp: Date.now(),
     }
-  } catch (error) {
-    console.error('AI Error:', error)
+  } catch {
+    // AI Error
     return {
       response: generateDeveloperCurseResponse(character, message),
       source: 'fallback' as const,
@@ -125,44 +125,49 @@ async function generateTTSAudioWithFallback(
   character?: BrainRotCharacter,
   options: TTSOptions = {},
 ): Promise<TTSCacheResult> {
-  try {
-    // Check if OpenAI API key is available
-    if (!process.env.OPENAI_API_KEY) {
-      throw new Error('OpenAI API key not configured')
-    }
+  // Check if OpenAI API key is available
+  if (!process.env.OPENAI_API_KEY) {
+    throw new Error('OpenAI API key not configured')
+  }
 
-    const tts = createTTSService({
-      apiKey: process.env.OPENAI_API_KEY,
-    })
+  const tts = createTTSService({
+    apiKey: process.env.OPENAI_API_KEY,
+  })
 
-    // Generate brain-rot specific instructions
-    const { generateBrainRotInstructions } = await import('@/lib/tts-utils')
-    const brainRotInstructions = generateBrainRotInstructions(
-      character,
-      options.instructions,
+  // Generate brain-rot specific instructions
+  const { generateBrainRotInstructions } = await import('@/lib/tts-utils')
+  const brainRotInstructions = generateBrainRotInstructions(
+    character,
+    options.instructions,
+  )
+
+  // Get appropriate voice for character if not provided in options
+  const { getCharacterVoice } = await import('@/lib/tts-utils')
+  const selectedVoice = options.voice || getCharacterVoice(character)
+
+  if (!selectedVoice) {
+    throw new Error(
+      `No voice selected for character: ${character?.name || 'unknown'}. Voice selection failed.`,
     )
+  }
 
-    const ttsOptions = {
-      model: 'gpt-4o-mini-tts' as const,
-      voice: (options.voice || 'ash') as TTSVoice,
-      response_format: options.format || 'mp3',
-      instructions: brainRotInstructions,
-    }
+  const ttsOptions = {
+    model: 'gpt-4o-mini-tts' as const,
+    voice: selectedVoice as TTSVoice,
+    response_format: options.format || 'mp3',
+    instructions: brainRotInstructions,
+  }
 
-    const result = await tts.generateSpeech(text, ttsOptions)
+  const result = await tts.generateSpeech(text, ttsOptions)
 
-    // Convert Buffer to array for serialization compatibility
-    return {
-      audioData: Array.from(result.audio),
-      size: result.audio.length,
-      format: result.format,
-      model: result.model,
-      voice: result.voice,
-      timestamp: Date.now(),
-    }
-  } catch (error) {
-    console.error('TTS Error:', error)
-    throw error
+  // Convert Buffer to array for serialization compatibility
+  return {
+    audioData: Array.from(result.audio),
+    size: result.audio.length,
+    format: result.format,
+    model: result.model,
+    voice: result.voice,
+    timestamp: Date.now(),
   }
 }
 

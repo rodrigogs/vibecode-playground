@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl'
 import ChatHistory from '@/components/ChatHistory'
 import ChatInput from '@/components/ChatInput'
 import type { ChatMessage } from '@/components/ChatMessage'
+import { getCharacterImage } from '@/lib/characterUtils'
 import type { BrainRotCharacter } from '@/types/characters'
 
 interface ChatInterfaceProps {
@@ -41,12 +42,12 @@ export default function ChatInterface({
   return (
     <div className="max-w-4xl mx-auto">
       {/* Chat Container */}
-      <div className="bg-gradient-to-r from-purple-600/20 to-pink-600/20 backdrop-blur-sm rounded-2xl border border-purple-500/30 flex flex-col h-[80vh]">
+      <div className="bg-gradient-to-r from-purple-600/20 to-pink-600/20 backdrop-blur-sm rounded-2xl border border-purple-500/30 flex flex-col h-[85vh]">
         {/* Header with Character Info */}
         <div className="flex items-center gap-4 p-6 border-b border-purple-500/20">
           <div className="relative w-16 h-16 rounded-full overflow-hidden bg-purple-600/20">
             <Image
-              src={`/images/${selectedCharacter.image}`}
+              src={`/images/characters/${getCharacterImage(selectedCharacter)}`}
               alt={selectedCharacter.name}
               fill
               className="object-cover"

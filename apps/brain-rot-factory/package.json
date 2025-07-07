@@ -10,7 +10,10 @@
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
-    "clean": "npx -y rimraf .next .turbo coverage"
+    "clean": "npx -y rimraf .next .turbo coverage",
+    "test": "vitest run --pass-with-no-tests",
+    "test:unit": "npm run test -- --project unit --pass-with-no-tests",
+    "test:integration": "npm run test -- --project integration --pass-with-no-tests"
   },
   "dependencies": {
     "@repo/ai": "*",

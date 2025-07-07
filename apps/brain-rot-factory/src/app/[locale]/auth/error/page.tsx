@@ -3,7 +3,7 @@
 import { Home, LogIn } from 'lucide-react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
-import { Suspense } from 'react'
+import React, { Suspense } from 'react'
 
 function ErrorContent() {
   const searchParams = useSearchParams()

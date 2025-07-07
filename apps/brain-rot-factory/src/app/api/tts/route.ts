@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Determine voice based on character or use provided voice
-    const voice = body.voice || getCharacterVoice()
+    const voice = body.voice || getCharacterVoice(body.character)
     const format = body.format || 'mp3'
 
     // Prepare TTS options
@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
 
     // Validate audio data
     if (!result.audio || result.audio.length === 0) {
-      console.error('TTS Error: Empty audio data received')
+      // TTS Error: Empty audio data received
       return NextResponse.json(
         { error: 'Empty audio data generated' },
         { status: 500 },
@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
       },
     })
   } catch (error) {
-    console.error('TTS Error:', error)
+    // TTS Error
 
     if (error instanceof Error) {
       if (error.message.includes('API key')) {

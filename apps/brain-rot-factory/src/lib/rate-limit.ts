@@ -182,8 +182,8 @@ export async function checkRateLimit(
       console.info(
         `Cleared IP rate limit for ${ip} (user ${userId} is logged in)`,
       )
-    } catch (error) {
-      console.error('Error clearing IP rate limit:', error)
+    } catch {
+      // Error clearing IP rate limit
     }
 
     const remaining = Math.max(0, RATE_LIMITS.USER_DAILY_LIMIT - userInfo.count)
@@ -247,8 +247,8 @@ export async function consumeRateLimit(
       console.info(
         `Cleared IP rate limit for ${ip} during consumption (user ${userId} is logged in)`,
       )
-    } catch (error) {
-      console.error('Error clearing IP rate limit during consumption:', error)
+    } catch {
+      // Error clearing IP rate limit during consumption
     }
 
     const userInfo = await getUserRateLimit(userId)

@@ -9,7 +9,56 @@
     "selectCharacter": "Seleziona Personaggio Brain-rot",
     "noCharacters": "Nessun personaggio disponibile",
     "previousCharacter": "Personaggio precedente",
-    "nextCharacter": "Personaggio successivo"
+    "nextCharacter": "Personaggio successivo",
+    "searchPlaceholder": "Cerca per nome, popolarità o paese...",
+    "searchResults": "Trovati {count} di {total} personaggi",
+    "noSearchResults": "Nessun personaggio trovato. Prova a cercare un termine diverso.",
+    "clearSearch": "Cancella ricerca",
+    "filterPopularity": "Filtra per popolarità",
+    "filterCountry": "Filtra per paese",
+    "filterGender": "Filtra per genere",
+    "loading": "Caricamento...",
+    "loadMore": "Carica più personaggi",
+    "filters": {
+      "popularity": {
+        "label": "Popolarità",
+        "all": "Tutti i Livelli di Popolarità",
+        "allDescription": "Mostra tutti i personaggi",
+        "top-5": "Top 5",
+        "top-5Description": "Personaggi più famosi",
+        "well-known": "Ben Conosciuto",
+        "well-knownDescription": "Personaggi popolari",
+        "decently-known": "Discretamente Conosciuto",
+        "decently-knownDescription": "Moderatamente conosciuto",
+        "unknown": "Sconosciuto",
+        "unknownDescription": "Personaggi meno conosciuti"
+      },
+      "country": {
+        "label": "Paese",
+        "all": "Tutti i Paesi",
+        "allDescription": "Personaggi da ovunque"
+      },
+      "gender": {
+        "label": "Genere",
+        "all": "Tutti i Generi",
+        "allDescription": "Personaggi di tutti i generi",
+        "male": "Maschio",
+        "maleDescription": "Personaggi maschili",
+        "female": "Femmina",
+        "femaleDescription": "Personaggi femminili"
+      },
+      "clearFilters": "Cancella tutti i filtri"
+    },
+    "popularity": {
+      "all": "Tutte le Popolarità",
+      "top-5": "Top 5",
+      "well-known": "Ben Conosciuto",
+      "decently-known": "Discretamente Conosciuto",
+      "unknown": "Sconosciuto"
+    },
+    "country": {
+      "all": "Tutti i Paesi"
+    }
   },
   "Chat": {
     "placeholder": "Scrivi un messaggio qui...",

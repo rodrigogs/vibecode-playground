@@ -16,8 +16,8 @@ export default function SignIn() {
     setIsLoading((prev) => ({ ...prev, [provider]: true }))
     try {
       await signIn(provider, { callbackUrl: '/' })
-    } catch (error) {
-      console.error('Sign in error:', error)
+    } catch {
+      // Sign in error
     } finally {
       setIsLoading((prev) => ({ ...prev, [provider]: false }))
     }

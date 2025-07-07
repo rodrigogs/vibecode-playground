@@ -12,7 +12,11 @@
     "DEEPSEEK_API_KEY",
     "AUTH_SECRET",
     "GITHUB_ID",
-    "GITHUB_SECRET"
+    "GITHUB_SECRET",
+    "API_PORT",
+    "DEBUG_LOGS",
+    "LOG_LEVEL",
+    "ENABLE_DEVTOOLS"
   ],
   "tasks": {
     "clean": {

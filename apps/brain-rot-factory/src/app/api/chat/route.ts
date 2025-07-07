@@ -134,8 +134,8 @@ export async function POST(request: NextRequest) {
         },
       },
     )
-  } catch (error) {
-    console.error('Route Error:', error)
+  } catch {
+    // Route Error
 
     // For errors, we'll generate a simple fallback without caching
     if (character) {

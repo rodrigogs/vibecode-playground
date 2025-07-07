@@ -23,6 +23,8 @@ import {
 import { Swiper, SwiperSlide } from 'swiper/react'
 import type { Swiper as SwiperCore } from 'swiper/types'
 
+import { getCharacterImage } from '@/lib/characterUtils'
+
 import type { BrainRotCharacter } from '../types/characters'
 // Import custom styles
 import styles from './BrainRotCarousel.module.css'
@@ -32,6 +34,9 @@ interface BrainRotCarouselProps {
   selectedCharacter: BrainRotCharacter | null
   onCharacterSelect: (character: BrainRotCharacter) => void
   className?: string
+  onLoadMore?: () => void
+  hasMore?: boolean
+  isLoading?: boolean
 }
 
 interface CarouselStats {
@@ -45,18 +50,16 @@ export default function BrainRotCarousel({
   selectedCharacter,
   onCharacterSelect,
   className = '',
+  onLoadMore,
+  hasMore = false,
+  isLoading = false,
 }: BrainRotCarouselProps) {
   const t = useTranslations('Characters')
 
   // Refs for Swiper instances
   const swiperRef = useRef<SwiperCore | null>(null)
-
-  // State management
-  const [stats, setStats] = useState<CarouselStats>({
-    currentSlide: 0,
-    totalSlides: characters.length,
-    isAutoplayRunning: true,
-  })
+  // Ref for the last slide to trigger loading more
+  const lastSlideRef = useRef<HTMLDivElement>(null)
 
   // Memoized breakpoints configuration
   const breakpoints = React.useMemo(
@@ -120,9 +123,79 @@ export default function BrainRotCarousel({
     [],
   )
 
+  // Calculate if we have enough slides for proper looping
+  // We need at least as many slides as the maximum slidesPerView across all breakpoints
+  const maxSlidesPerView = Math.max(
+    1, // 320px and 480px breakpoints
+    1.5, // 768px breakpoint
+    2.5, // 1024px breakpoint
+    3, // 1280px breakpoint
+  )
+
+  // Enable loop only when we have enough slides to avoid Swiper warnings
+  // We need at least double the max slides per view for seamless looping
+  const hasEnoughSlidesForLoop =
+    characters.length >= Math.ceil(maxSlidesPerView * 2)
+
+  // For very small datasets (1-2 characters), we'll duplicate them to enable looping
+  const shouldDuplicateForLoop = characters.length > 0 && characters.length < 4
+  const displayCharacters = shouldDuplicateForLoop
+    ? [...characters, ...characters, ...characters].slice(
+        0,
+        Math.max(6, characters.length * 3),
+      )
+    : characters
+
+  // Final loop decision: enable if we have enough original slides OR if we're using duplicated slides
+  const enableLoop = hasEnoughSlidesForLoop || shouldDuplicateForLoop
+
+  // Track current slide for lazy loading
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0)
+
+  // Lazy loading: Track which slides are near the viewport
+  const [nearViewportSlides, setNearViewportSlides] = useState<Set<number>>(
+    new Set([0, 1, 2]),
+  )
+
+  // Update near viewport slides when current slide changes
+  useEffect(() => {
+    const currentIndex = currentSlideIndex
+    const totalSlides = displayCharacters.length
+    const buffer = 2 // Load 2 slides before and after current
+
+    const newNearViewportSlides = new Set<number>()
+
+    for (let i = -buffer; i <= buffer; i++) {
+      let index = currentIndex + i
+
+      // Handle wrapping for loop mode
+      if (enableLoop && totalSlides > 0) {
+        if (index < 0) index = totalSlides + index
+        if (index >= totalSlides) index = index - totalSlides
+      } else {
+        // For non-loop mode, clamp to boundaries
+        index = Math.max(0, Math.min(totalSlides - 1, index))
+      }
+
+      if (index >= 0 && index < totalSlides) {
+        newNearViewportSlides.add(index)
+      }
+    }
+
+    setNearViewportSlides(newNearViewportSlides)
+  }, [currentSlideIndex, displayCharacters.length, enableLoop])
+
+  // State management
+  const [stats, setStats] = useState<CarouselStats>({
+    currentSlide: 0,
+    totalSlides: displayCharacters.length,
+    isAutoplayRunning: true,
+  })
+
   // Handlers
   const handleSlideChange = useCallback((swiper: SwiperCore) => {
     const newSlide = swiper.realIndex
+    setCurrentSlideIndex(newSlide) // Update for virtual rendering
     setStats((prev) => {
       if (prev.currentSlide !== newSlide) {
         return {
@@ -153,27 +226,46 @@ export default function BrainRotCarousel({
     }))
   }, [stats.isAutoplayRunning])
 
-  const goToSlide = useCallback((index: number) => {
-    if (!swiperRef.current) return
-    swiperRef.current.slideToLoop(index)
-  }, [])
+  const goToSlide = useCallback(
+    (index: number) => {
+      if (!swiperRef.current) return
+      // Use slideToLoop only when loop is enabled, otherwise use slideTo
+      if (enableLoop) {
+        swiperRef.current.slideToLoop(index)
+      } else {
+        swiperRef.current.slideTo(index)
+      }
+    },
+    [enableLoop],
+  )
 
   const handleCharacterClick = useCallback(
     (character: BrainRotCharacter) => {
       onCharacterSelect(character)
-      // Find the index and slide to it
-      const index = characters.findIndex((c) => c.id === character.id)
+      // Find the index in the display array and slide to it
+      const index = displayCharacters.findIndex((c) => c.id === character.id)
       if (index !== -1) {
         goToSlide(index)
       }
     },
-    [characters, onCharacterSelect, goToSlide],
+    [displayCharacters, onCharacterSelect, goToSlide],
   )
 
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!swiperRef.current) return
+
+      // Don't interfere with input fields
+      const activeElement = document.activeElement
+      if (
+        activeElement &&
+        (activeElement.tagName === 'INPUT' ||
+          activeElement.tagName === 'TEXTAREA' ||
+          activeElement.getAttribute('contenteditable') === 'true')
+      ) {
+        return
+      }
 
       switch (e.key) {
         case 'ArrowLeft':
@@ -194,14 +286,59 @@ export default function BrainRotCarousel({
           break
         case 'End':
           e.preventDefault()
-          goToSlide(characters.length - 1)
+          goToSlide(displayCharacters.length - 1)
           break
       }
     }
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [toggleAutoplay, goToSlide, characters.length])
+  }, [toggleAutoplay, goToSlide, displayCharacters.length])
+
+  // Intersection observer to load more characters seamlessly
+  useEffect(() => {
+    if (!onLoadMore || !hasMore || isLoading) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries
+        if (entry.isIntersecting) {
+          onLoadMore()
+        }
+      },
+      {
+        threshold: 0.1, // Trigger when 10% of the element is visible
+        rootMargin: '50px', // Trigger 50px before the element comes into view
+      },
+    )
+
+    const currentRef = lastSlideRef.current
+    if (currentRef) {
+      observer.observe(currentRef)
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef)
+      }
+    }
+  }, [onLoadMore, hasMore, isLoading, characters.length])
+
+  // Calculate which slide should have the observer
+  const triggerLoadIndex = Math.max(0, displayCharacters.length - 3) // Trigger 3 slides before the end
+
+  // Handle empty state
+  if (characters.length === 0) {
+    return (
+      <div
+        className={`${styles.brainRotCarouselContainer || 'brain-rot-carousel-container'} ${className}`}
+      >
+        <div className="text-center py-12">
+          <p className="text-white/60 text-lg">{t('noCharacters')}</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div
@@ -224,7 +361,7 @@ export default function BrainRotCarousel({
           effect="coverflow"
           grabCursor={true}
           centeredSlides={true}
-          loop={true}
+          loop={enableLoop}
           slidesPerView={3}
           spaceBetween={30}
           coverflowEffect={{
@@ -234,14 +371,14 @@ export default function BrainRotCarousel({
             modifier: 1,
             slideShadows: false,
           }}
-          centeredSlidesBounds={true}
+          centeredSlidesBounds={!enableLoop}
           slideToClickedSlide={true}
           pagination={{
             clickable: true,
             dynamicBullets: true,
             dynamicMainBullets: 3,
             renderBullet: (index: number, className: string) => {
-              const character = characters[index]
+              const character = displayCharacters[index]
               return `<span class="${className}" title="${character?.name || `Slide ${index + 1}`}"></span>`
             },
           }}
@@ -265,7 +402,7 @@ export default function BrainRotCarousel({
             thresholdDelta: 50,
           }}
           breakpoints={breakpoints}
-          loopAdditionalSlides={2}
+          loopAdditionalSlides={enableLoop ? 2 : 0}
           initialSlide={0}
           watchSlidesProgress={true}
           updateOnWindowResize={true}
@@ -273,9 +410,10 @@ export default function BrainRotCarousel({
           observeSlideChildren={true}
           className={styles.brainRotMainCarousel || 'brain-rot-main-carousel'}
         >
-          {characters.map((character, index) => (
-            <SwiperSlide key={character.id}>
+          {displayCharacters.map((character, index) => (
+            <SwiperSlide key={`${character.id}-${index}`}>
               <div
+                ref={index === triggerLoadIndex ? lastSlideRef : undefined}
                 onClick={() => handleCharacterClick(character)}
                 className={`group cursor-pointer transition-all duration-300 rounded-2xl p-6 border-2 backdrop-blur-sm h-full flex flex-col relative overflow-hidden w-full max-w-xs mx-auto ${
                   selectedCharacter?.id === character.id
@@ -294,15 +432,24 @@ export default function BrainRotCarousel({
               >
                 {/* Character Image */}
                 <div className="relative w-full h-48 mb-4 rounded-xl overflow-hidden bg-gradient-to-br from-purple-600/20 to-pink-600/20">
-                  <Image
-                    src={`/images/${character.image}`}
-                    alt={character.name}
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-110"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    priority={index < 3}
-                    loading={index < 3 ? 'eager' : 'lazy'}
-                  />
+                  {nearViewportSlides.has(index) ? (
+                    <Image
+                      src={`/images/characters/${getCharacterImage(character)}`}
+                      alt={character.name}
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-110"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      priority={index < 3}
+                      loading={index < 3 ? 'eager' : 'lazy'}
+                    />
+                  ) : (
+                    // Placeholder for lazy-loaded images
+                    <div className="w-full h-full bg-gradient-to-br from-purple-600/10 to-pink-600/10 flex items-center justify-center">
+                      <div className="text-purple-300/50 text-sm">
+                        Loading...
+                      </div>
+                    </div>
+                  )}
 
                   {/* Overlay Gradient */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

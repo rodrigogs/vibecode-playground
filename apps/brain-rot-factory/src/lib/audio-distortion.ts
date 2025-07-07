@@ -34,14 +34,9 @@ export class BizarreAudioDistorter {
    * Load audio from URL and prepare for processing
    */
   async loadAudio(url: string): Promise<void> {
-    try {
-      const response = await fetch(url)
-      const arrayBuffer = await response.arrayBuffer()
-      this.sourceBuffer = await this.audioContext.decodeAudioData(arrayBuffer)
-    } catch (error) {
-      console.error('Failed to load audio:', error)
-      throw error
-    }
+    const response = await fetch(url)
+    const arrayBuffer = await response.arrayBuffer()
+    this.sourceBuffer = await this.audioContext.decodeAudioData(arrayBuffer)
   }
 
   /**
