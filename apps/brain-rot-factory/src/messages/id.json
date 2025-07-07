@@ -97,6 +97,14 @@
     "networkError": "Kesalahan jaringan. Periksa koneksi Anda.",
     "rateLimitExceeded": "Terlalu banyak permintaan. Silakan coba lagi nanti.",
     "unauthorized": "Anda harus masuk untuk mengakses fitur ini",
+    "chat": {
+      "rateLimitExceeded": "Batas kecepatan terlampaui. Silakan coba lagi nanti.",
+      "requestFailed": "Gagal mendapatkan respons. Silakan coba lagi.",
+      "unexpectedError": "Maaf, terjadi kesalahan. Silakan coba lagi."
+    },
+    "fingerprint": {
+      "generationFailed": "Gagal menghasilkan sidik jari"
+    },
     "tts": {
       "tokenRequired": "Token TTS yang valid dari generasi chat diperlukan untuk menghasilkan audio.",
       "invalidToken": "Token TTS yang diberikan tidak valid atau sudah digunakan.",

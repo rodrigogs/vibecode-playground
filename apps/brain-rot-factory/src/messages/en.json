@@ -97,6 +97,14 @@
     "networkError": "Network error. Please check your connection.",
     "rateLimitExceeded": "Too many requests. Please try again later.",
     "unauthorized": "You need to be signed in to access this feature",
+    "chat": {
+      "rateLimitExceeded": "Rate limit exceeded. Please try again later.",
+      "requestFailed": "Failed to get response. Please try again.",
+      "unexpectedError": "Sorry, something went wrong. Please try again."
+    },
+    "fingerprint": {
+      "generationFailed": "Failed to generate fingerprint"
+    },
     "tts": {
       "tokenRequired": "A valid TTS token from chat generation is required to generate audio.",
       "invalidToken": "The provided TTS token is invalid or has been used.",

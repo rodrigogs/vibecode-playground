@@ -97,6 +97,14 @@
     "networkError": "Errore di rete. Controlla la tua connessione.",
     "rateLimitExceeded": "Troppe richieste. Riprova più tardi.",
     "unauthorized": "Devi accedere per utilizzare questa funzione",
+    "chat": {
+      "rateLimitExceeded": "Limite di velocità superato. Riprova più tardi.",
+      "requestFailed": "Impossibile ottenere risposta. Riprova.",
+      "unexpectedError": "Scusa, qualcosa è andato storto. Riprova."
+    },
+    "fingerprint": {
+      "generationFailed": "Impossibile generare l'impronta digitale"
+    },
     "tts": {
       "tokenRequired": "È richiesto un token TTS valido dalla generazione di chat per generare audio.",
       "invalidToken": "Il token TTS fornito non è valido o è già stato utilizzato.",

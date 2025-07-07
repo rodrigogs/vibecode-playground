@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { useCallback, useState } from 'react'
 
 import type { ChatMessage } from '@/components/ChatMessage'
@@ -33,6 +34,8 @@ export function useChat({
   selectedCharacter,
   onNotificationSound,
 }: UseChatProps): UseChatReturn {
+  const t = useTranslations('Errors.chat')
+
   // Browser fingerprinting for enhanced rate limiting
   const { fingerprint } = useFingerprint()
 
@@ -100,8 +103,8 @@ export function useChat({
           // Handle rate limit errors specifically
           const errorMessage =
             res.status === 429
-              ? data.message || 'Rate limit exceeded. Please try again later.'
-              : data.message || 'Failed to get response. Please try again.'
+              ? data.message || t('rateLimitExceeded')
+              : data.message || t('requestFailed')
 
           const errorChatMessage: ChatMessage = {
             id: Date.now().toString(),
@@ -144,7 +147,7 @@ export function useChat({
         const errorChatMessage: ChatMessage = {
           id: Date.now().toString(),
           type: 'error',
-          content: 'Sorry, something went wrong. Please try again.',
+          content: t('unexpectedError'),
           timestamp: new Date(),
         }
 
@@ -160,6 +163,7 @@ export function useChat({
       fingerprint,
       onNotificationSound,
       refreshRateLimit,
+      t,
     ],
   )
 

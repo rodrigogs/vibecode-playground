@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 
 import { generateClientFingerprint } from '@/lib/client-fingerprint'
@@ -8,6 +9,7 @@ import { generateClientFingerprint } from '@/lib/client-fingerprint'
  * Hook to generate and manage browser fingerprint
  */
 export function useFingerprint() {
+  const t = useTranslations('Errors.fingerprint')
   const [fingerprint, setFingerprint] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -30,11 +32,7 @@ export function useFingerprint() {
         }
       } catch (err) {
         if (isMounted) {
-          setError(
-            err instanceof Error
-              ? err.message
-              : 'Failed to generate fingerprint',
-          )
+          setError(err instanceof Error ? err.message : t('generationFailed'))
         }
       } finally {
         if (isMounted) {
@@ -48,7 +46,7 @@ export function useFingerprint() {
     return () => {
       isMounted = false
     }
-  }, [])
+  }, [t])
 
   return {
     fingerprint,

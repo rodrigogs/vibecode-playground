@@ -1,7 +1,7 @@
 {
   "Header": {
     "title": "Fábrica de Brain-rot",
-    "subtitle": "Mergulhe em conversas hilarias e absurdas com personagens únicos de IA inspirados no brain-rot italiano. Escolha seu favorito abaixo e prepare-se para diálogos que vão derreter seus neurônios com puro entretenimento!",
+    "subtitle": "Mergulhe em conversas hilariantes e absurdas com personagens únicos de IA inspirados na cultura brain-rot italiana. Escolha seu favorito abaixo e prepare-se para diálogos que vão derreter seus neurônios com puro entretenimento!",
     "signIn": "Entrar",
     "signOut": "Sair"
   },
@@ -97,6 +97,14 @@
     "networkError": "Erro de rede. Verifique sua conexão.",
     "rateLimitExceeded": "Muitas solicitações. Tente novamente mais tarde.",
     "unauthorized": "Você precisa estar logado para acessar este recurso",
+    "chat": {
+      "rateLimitExceeded": "Limite de taxa excedido. Tente novamente mais tarde.",
+      "requestFailed": "Falha ao obter resposta. Tente novamente.",
+      "unexpectedError": "Desculpe, algo deu errado. Tente novamente."
+    },
+    "fingerprint": {
+      "generationFailed": "Falha ao gerar impressão digital"
+    },
     "tts": {
       "tokenRequired": "Um token TTS válido da geração de chat é necessário para gerar áudio.",
       "invalidToken": "O token TTS fornecido é inválido ou já foi usado.",
