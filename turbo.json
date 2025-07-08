@@ -13,6 +13,8 @@
     "AUTH_SECRET",
     "GITHUB_ID",
     "GITHUB_SECRET",
+    "GOOGLE_ID",
+    "GOOGLE_SECRET",
     "API_PORT",
     "DEBUG_LOGS",
     "LOG_LEVEL",
