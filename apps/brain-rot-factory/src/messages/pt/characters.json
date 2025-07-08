@@ -1,0 +1,56 @@
+{
+  "selectCharacter": "Escolha Seu Personagem Brain-rot",
+  "noCharacters": "Nenhum personagem disponível",
+  "previousCharacter": "Personagem anterior",
+  "nextCharacter": "Próximo personagem",
+  "searchPlaceholder": "Buscar personagens...",
+  "searchResults": "Encontrados {count} de {total} personagens",
+  "noSearchResults": "Nenhum personagem encontrado. Tente buscar um termo diferente.",
+  "clearSearch": "Limpar busca",
+  "filterPopularity": "Filtrar por popularidade",
+  "filterCountry": "Filtrar por país",
+  "filterGender": "Filtrar por gênero",
+  "loading": "Carregando...",
+  "loadMore": "Carregar mais personagens",
+  "selected": "Selecionado",
+  "filters": {
+    "popularity": {
+      "label": "Popularidade",
+      "all": "Todos os Níveis de Popularidade",
+      "allDescription": "Mostrar todos os personagens",
+      "top-5": "Top 5",
+      "top-5Description": "Personagens mais famosos",
+      "well-known": "Bem Conhecido",
+      "well-knownDescription": "Personagens populares",
+      "decently-known": "Razoavelmente Conhecido",
+      "decently-knownDescription": "Moderadamente conhecido",
+      "unknown": "Desconhecido",
+      "unknownDescription": "Personagens menos conhecidos"
+    },
+    "country": {
+      "label": "País",
+      "all": "Todos os Países",
+      "allDescription": "Personagens de todos os lugares"
+    },
+    "gender": {
+      "label": "Gênero",
+      "all": "Todos os Gêneros",
+      "allDescription": "Personagens de todos os gêneros",
+      "male": "Masculino",
+      "maleDescription": "Personagens masculinos",
+      "female": "Feminino",
+      "femaleDescription": "Personagens femininos"
+    },
+    "clearFilters": "Limpar todos os filtros"
+  },
+  "popularity": {
+    "all": "Todas as Popularidades",
+    "top-5": "Top 5",
+    "well-known": "Bem Conhecido",
+    "decently-known": "Razoavelmente Conhecido",
+    "unknown": "Desconhecido"
+  },
+  "country": {
+    "all": "Todos os Países"
+  }
+}

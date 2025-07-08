@@ -1,0 +1,83 @@
+{
+  "title": "About Brain-rot Factory",
+  "subtitle": "A vibe coding adventure",
+  "introduction": "Welcome to the story behind Brain-rot Factory - a project born from an authentic collaboration between human creativity and AI assistance, where we discovered the true potential of coding together.",
+  "journey": {
+    "title": "Our Coding Adventure",
+    "description": "What started as a simple idea became an incredible journey of discovery. Rodrigo, a Brazilian developer, and GitHub Copilot embarked on a vibe coding adventure that pushed the boundaries of what's possible when humans and AI truly collaborate as partners."
+  },
+  "collaboration": {
+    "title": "The Partnership",
+    "description": "This wasn't just about using AI as a tool - it was about creating a genuine partnership. Every feature, every design decision, every line of code was shaped through real-time dialogue, creative brainstorming, and mutual learning.",
+    "highlights": [
+      "Real-time creative problem solving and architectural decisions",
+      "Continuous dialogue and iterative refinement of ideas",
+      "Shared ownership of creative solutions and technical challenges",
+      "Learning from each other's strengths and perspectives",
+      "Building trust through transparent communication"
+    ]
+  },
+  "development": {
+    "title": "Development Process",
+    "description": "Every line of code, every design decision, and every feature was crafted through collaborative discussion and refinement.",
+    "features": [
+      "Next.js 15 with App Router for modern web development",
+      "TypeScript for type safety and better developer experience",
+      "Tailwind CSS for responsive and beautiful UI",
+      "NextAuth.js for secure authentication",
+      "Internationalization (i18n) with next-intl",
+      "AI-powered conversations with multiple providers",
+      "Text-to-speech integration for enhanced UX",
+      "Rate limiting and security measures"
+    ]
+  },
+  "philosophy": {
+    "title": "Our Philosophy",
+    "description": "We believe in the power of collaboration - not just between humans, but between humans and AI. This project demonstrates that the future of development lies in partnership, not replacement.",
+    "principles": [
+      "Open source and transparent development",
+      "Accessibility and inclusivity by design",
+      "Continuous learning and improvement",
+      "Community-driven innovation",
+      "Ethical AI implementation"
+    ]
+  },
+  "team": {
+    "title": "The Team",
+    "human": {
+      "name": "Rodrigo Gomes",
+      "role": "Developer & Vision Architect",
+      "description": "Brazilian developer passionate about creating meaningful digital experiences. Brings years of expertise in full-stack development and a vision for innovative user interactions."
+    },
+    "ai": {
+      "name": "GitHub Copilot",
+      "role": "AI Development Partner",
+      "description": "AI assistant that helped shape every aspect of the project, from architecture decisions to implementation details, always learning and adapting to create the best possible outcome."
+    }
+  },
+  "impact": {
+    "title": "Impact & Learning",
+    "description": "This project taught us valuable lessons about the future of software development and the potential of human-AI collaboration.",
+    "lessons": [
+      "AI can enhance human creativity without replacing it",
+      "Collaborative development leads to better solutions",
+      "Real-time feedback accelerates the development process",
+      "The combination of human intuition and AI efficiency is powerful",
+      "Open source projects benefit from diverse perspectives"
+    ]
+  },
+  "future": {
+    "title": "Looking Forward",
+    "description": "Brain-rot Factory is just the beginning. We're excited to see how this project evolves and what new adventures await in the intersection of human creativity and artificial intelligence."
+  },
+  "acknowledgments": {
+    "title": "Acknowledgments",
+    "description": "Special thanks to the open source community, the creators of the amazing tools we used, and everyone who believes in the power of collaborative innovation."
+  },
+  "openSource": {
+    "title": "Open Source",
+    "description": "This project is open source and available on GitHub. We encourage contributions, feedback, and forks. Let's build the future together!",
+    "githubLink": "View on GitHub",
+    "licenseText": "Released under the MIT License"
+  }
+}

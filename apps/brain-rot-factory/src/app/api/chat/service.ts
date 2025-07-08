@@ -105,5 +105,28 @@ export async function generateAIResponse(
     },
   )
 
-  return result.messages[result.messages.length - 1].content
+  // Extract content from the AI message, handling both string and array formats
+  const lastMessage = result.messages[result.messages.length - 1]
+  const content = lastMessage.content
+
+  // Handle different content types from the modular messages approach
+  if (typeof content === 'string') {
+    return content
+  } else if (Array.isArray(content)) {
+    // Extract text content from content blocks
+    return content
+      .map((block) => {
+        if (typeof block === 'string') {
+          return block
+        } else if (block && typeof block === 'object' && 'text' in block) {
+          return block.text
+        } else if (block && typeof block === 'object' && 'content' in block) {
+          return block.content
+        }
+        return ''
+      })
+      .join('')
+  }
+
+  return ''
 }

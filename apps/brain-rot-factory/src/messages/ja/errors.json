@@ -1,0 +1,28 @@
+{
+  "generic": "予期しないエラーが発生しました",
+  "networkError": "ネットワークエラー。接続を確認してください。",
+  "rateLimitExceeded": "リクエストが多すぎます。後でもう一度試してください。",
+  "unauthorized": "このリソースにアクセスするにはログインが必要です",
+  "chat": {
+    "rateLimitExceeded": "レート制限を超えました。後でもう一度試してください。",
+    "requestFailed": "応答の取得に失敗しました。もう一度試してください。",
+    "unexpectedError": "申し訳ありませんが、何かがうまくいきませんでした。もう一度試してください。"
+  },
+  "fingerprint": {
+    "generationFailed": "フィンガープリントの生成に失敗しました"
+  },
+  "tts": {
+    "tokenRequired": "音声を生成するには、チャット生成からの有効なTTSトークンが必要です。",
+    "invalidToken": "提供されたTTSトークンは無効か、すでに使用されています。",
+    "tokenExpired": "トークンが見つからないか、期限切れです",
+    "tokenAlreadyUsed": "トークンはすでに使用されていますが、利用可能なキャッシュされた音声がありません",
+    "invalidFormat": "無効なトークン形式",
+    "textTooLong": "テキストは4096文字以下である必要があります",
+    "generationFailed": "音声の生成に失敗しました。もう一度試してください。",
+    "emptyAudio": "空の音声データが生成されました",
+    "playbackError": "音声合成の再生中にエラーが発生しました。音声エラー: {error}",
+    "serviceNotConfigured": "TTSサービスが設定されていません",
+    "serviceUnavailable": "TTSサービスは一時的に利用できません",
+    "internalError": "音声の生成に失敗しました"
+  }
+}

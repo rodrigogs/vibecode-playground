@@ -1,0 +1,27 @@
+{
+  "placeholder": "在此输入消息...",
+  "send": "发送",
+  "loading": "生成回复中...",
+  "error": "出了点问题。请重试。",
+  "speak": "朗读回复",
+  "stop": "停止",
+  "close": "关闭聊天",
+  "chattingWith": "聊天对象：",
+  "errorPrefix": "错误：",
+  "loadingRateLimit": "加载速率限制中...",
+  "emptyChatMessage": "开始与{characterName}对话，见证脑残现象！",
+  "rateLimit": {
+    "ipLimitExceeded": "您已达到 {limit} 次生成的限制。请登录以继续，每天最多 {userLimit} 次生成。",
+    "userLimitExceeded": "您已达到每日 {limit} 次生成的限制。更多获取额外生成的方式即将推出！",
+    "anonymousRemaining": "剩余 {remaining} 次生成（共 {limit} 次）。",
+    "anonymousSignInPrompt": "登录以获得每天最多 {limit} 次生成。",
+    "anonymousSignInPromptLast": "登录以获得每天 {limit} 次生成。",
+    "userRemaining": "剩余 {remaining} 次每日生成（共 {limit} 次）。更多获取额外生成的方式即将推出！",
+    "reachedLimit": "您已达到限制。请",
+    "signInToContinue": "登录",
+    "toContinueWithMore": "以继续更多生成。",
+    "signInToGetMore": "登录",
+    "toGetMoreGenerations": "以获得每天更多生成。",
+    "resetIn": "{time} 后重置"
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "selectCharacter": "Choose Your Brain-rot Character",
+  "noCharacters": "No characters available",
+  "previousCharacter": "Previous character",
+  "nextCharacter": "Next character",
+  "searchPlaceholder": "Search characters...",
+  "searchResults": "Found {count} of {total} characters",
+  "noSearchResults": "No characters found. Try searching for a different term.",
+  "clearSearch": "Clear search",
+  "filterPopularity": "Filter by popularity",
+  "filterCountry": "Filter by country",
+  "filterGender": "Filter by gender",
+  "loading": "Loading...",
+  "loadMore": "Load more characters",
+  "selected": "Selected",
+  "filters": {
+    "popularity": {
+      "label": "Popularity",
+      "all": "All Popularity Levels",
+      "allDescription": "Show all characters",
+      "top-5": "Top 5",
+      "top-5Description": "Most famous characters",
+      "well-known": "Well Known",
+      "well-knownDescription": "Popular characters",
+      "decently-known": "Decently Known",
+      "decently-knownDescription": "Moderately known",
+      "unknown": "Unknown",
+      "unknownDescription": "Lesser known characters"
+    },
+    "country": {
+      "label": "Country",
+      "all": "All Countries",
+      "allDescription": "Characters from everywhere"
+    },
+    "gender": {
+      "label": "Gender",
+      "all": "All Genders",
+      "allDescription": "Characters of all genders",
+      "male": "Male",
+      "maleDescription": "Male characters",
+      "female": "Female",
+      "femaleDescription": "Female characters"
+    },
+    "clearFilters": "Clear all filters"
+  },
+  "popularity": {
+    "all": "All Popularity",
+    "top-5": "Top 5",
+    "well-known": "Well Known",
+    "decently-known": "Decently Known",
+    "unknown": "Unknown"
+  },
+  "country": {
+    "all": "All Countries"
+  }
+}

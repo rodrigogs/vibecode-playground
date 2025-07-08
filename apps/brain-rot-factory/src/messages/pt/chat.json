@@ -1,0 +1,27 @@
+{
+  "placeholder": "Digite sua mensagem aqui...",
+  "send": "Enviar",
+  "loading": "Gerando resposta...",
+  "error": "Algo deu errado. Tente novamente.",
+  "speak": "Falar Resposta",
+  "stop": "Parar",
+  "close": "Fechar Chat",
+  "chattingWith": "Conversando com:",
+  "errorPrefix": "Erro:",
+  "loadingRateLimit": "Carregando limite de taxa...",
+  "emptyChatMessage": "Comece a conversar com {characterName} e veja o brain-rot acontecer!",
+  "rateLimit": {
+    "ipLimitExceeded": "Você atingiu seu limite de {limit} gerações. Faça login para continuar com até {userLimit} gerações por dia.",
+    "userLimitExceeded": "Você atingiu seu limite diário de {limit} gerações. Mais maneiras de obter gerações adicionais em breve!",
+    "anonymousRemaining": "{remaining} de {limit} gerações restantes.",
+    "anonymousSignInPrompt": "Faça login para obter até {limit} gerações por dia.",
+    "anonymousSignInPromptLast": "Faça login para obter {limit} gerações por dia.",
+    "userRemaining": "{remaining} de {limit} gerações diárias restantes. Mais maneiras de obter gerações adicionais em breve!",
+    "reachedLimit": "Você atingiu seu limite. Por favor",
+    "signInToContinue": "faça login",
+    "toContinueWithMore": "para continuar com mais gerações.",
+    "signInToGetMore": "Faça login",
+    "toGetMoreGenerations": "para obter mais gerações por dia.",
+    "resetIn": "Redefinir em {time}"
+  }
+}

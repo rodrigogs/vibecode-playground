@@ -1,0 +1,28 @@
+{
+  "generic": "发生了意外错误",
+  "networkError": "网络错误。请检查您的连接。",
+  "rateLimitExceeded": "请求过多。请稍后重试。",
+  "unauthorized": "您需要登录才能访问此资源",
+  "chat": {
+    "rateLimitExceeded": "超出速率限制。请稍后重试。",
+    "requestFailed": "获取回复失败。请重试。",
+    "unexpectedError": "抱歉，出了点问题。请重试。"
+  },
+  "fingerprint": {
+    "generationFailed": "指纹生成失败"
+  },
+  "tts": {
+    "tokenRequired": "需要聊天生成的有效 TTS 令牌才能生成音频。",
+    "invalidToken": "提供的 TTS 令牌无效或已被使用。",
+    "tokenExpired": "令牌未找到或已过期",
+    "tokenAlreadyUsed": "令牌已使用但没有可用的缓存音频",
+    "invalidFormat": "令牌格式无效",
+    "textTooLong": "文本必须在 4096 个字符或更少",
+    "generationFailed": "语音生成失败。请重试。",
+    "emptyAudio": "生成了空的音频数据",
+    "playbackError": "文本转语音播放时发生错误。音频错误：{error}",
+    "serviceNotConfigured": "TTS 服务未配置",
+    "serviceUnavailable": "TTS 服务暂时不可用",
+    "internalError": "语音生成失败"
+  }
+}

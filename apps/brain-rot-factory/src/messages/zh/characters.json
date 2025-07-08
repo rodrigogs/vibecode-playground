@@ -1,0 +1,56 @@
+{
+  "selectCharacter": "选择你的脑残角色",
+  "noCharacters": "没有可用的角色",
+  "previousCharacter": "上一个角色",
+  "nextCharacter": "下一个角色",
+  "searchPlaceholder": "搜索角色...",
+  "searchResults": "找到 {count} 个角色（共 {total} 个）",
+  "noSearchResults": "未找到角色。请尝试不同的搜索词。",
+  "clearSearch": "清除搜索",
+  "filterPopularity": "按热度筛选",
+  "filterCountry": "按国家筛选",
+  "filterGender": "按性别筛选",
+  "loading": "加载中...",
+  "loadMore": "加载更多",
+  "selected": "已选择",
+  "filters": {
+    "popularity": {
+      "label": "热度",
+      "all": "所有热度等级",
+      "allDescription": "显示所有角色",
+      "top-5": "前5名",
+      "top-5Description": "最著名的角色",
+      "well-known": "知名",
+      "well-knownDescription": "热门角色",
+      "decently-known": "一般知名",
+      "decently-knownDescription": "中等知名度",
+      "unknown": "未知",
+      "unknownDescription": "较少知名的角色"
+    },
+    "country": {
+      "label": "国家",
+      "all": "所有国家",
+      "allDescription": "来自各地的角色"
+    },
+    "gender": {
+      "label": "性别",
+      "all": "所有性别",
+      "allDescription": "所有性别的角色",
+      "male": "男性",
+      "maleDescription": "男性角色",
+      "female": "女性",
+      "femaleDescription": "女性角色"
+    },
+    "clearFilters": "清除所有筛选"
+  },
+  "popularity": {
+    "all": "所有热度",
+    "top-5": "前5名",
+    "well-known": "知名",
+    "decently-known": "一般知名",
+    "unknown": "未知"
+  },
+  "country": {
+    "all": "所有国家"
+  }
+}

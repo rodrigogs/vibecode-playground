@@ -1,0 +1,28 @@
+{
+  "generic": "Terjadi kesalahan tak terduga",
+  "networkError": "Kesalahan jaringan. Periksa koneksi Anda.",
+  "rateLimitExceeded": "Terlalu banyak permintaan. Silakan coba lagi nanti.",
+  "unauthorized": "Anda harus masuk untuk mengakses fitur ini",
+  "chat": {
+    "rateLimitExceeded": "Batas kecepatan terlampaui. Silakan coba lagi nanti.",
+    "requestFailed": "Gagal mendapatkan respons. Silakan coba lagi.",
+    "unexpectedError": "Maaf, terjadi kesalahan. Silakan coba lagi."
+  },
+  "fingerprint": {
+    "generationFailed": "Gagal menghasilkan sidik jari"
+  },
+  "tts": {
+    "tokenRequired": "Token TTS yang valid dari generasi chat diperlukan untuk menghasilkan audio.",
+    "invalidToken": "Token TTS yang diberikan tidak valid atau sudah digunakan.",
+    "tokenExpired": "Token tidak ditemukan atau sudah kedaluwarsa",
+    "tokenAlreadyUsed": "Token sudah digunakan tetapi tidak ada audio cache yang tersedia",
+    "invalidFormat": "Format token tidak valid",
+    "textTooLong": "Teks harus 4096 karakter atau kurang",
+    "generationFailed": "Gagal menghasilkan suara. Silakan coba lagi.",
+    "emptyAudio": "Data audio kosong dihasilkan",
+    "playbackError": "Terjadi kesalahan selama pemutaran text-to-speech. Kesalahan audio: {error}",
+    "serviceNotConfigured": "Layanan TTS tidak dikonfigurasi",
+    "serviceUnavailable": "Layanan TTS sementara tidak tersedia",
+    "internalError": "Gagal menghasilkan suara"
+  }
+}

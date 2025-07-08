@@ -1,0 +1,82 @@
+{
+  "title": "Tentang Brain-rot Factory",
+  "subtitle": "Petualangan coding penuh vibe",
+  "introduction": "Selamat datang di cerita di balik Brain-rot Factory - sebuah proyek yang lahir dari kolaborasi antara kreativitas manusia dan bantuan AI.",
+  "journey": {
+    "title": "Perjalanan Kami",
+    "description": "Proyek ini merupakan petualangan coding yang unik di mana pengembang Rodrigo Gomes dan GitHub Copilot bekerja sama untuk menciptakan sesuatu yang benar-benar istimewa."
+  },
+  "collaboration": {
+    "title": "Kolaborasi Manusia-AI",
+    "description": "Brain-rot Factory adalah hasil dari kolaborasi yang intens antara visi manusia dan kecerdasan buatan. Bersama-sama, kami menjelajahi batas-batas dari apa yang mungkin ketika kreativitas bertemu teknologi.",
+    "highlights": [
+      "Pemecahan masalah real-time dengan bantuan AI",
+      "Pengembangan iteratif dengan umpan balik berkelanjutan",
+      "Solusi kreatif yang muncul dari sinergi manusia-AI",
+      "Belajar dan beradaptasi bersama sepanjang proses"
+    ]
+  },
+  "development": {
+    "title": "Proses Pengembangan",
+    "description": "Setiap baris kode, setiap keputusan desain, dan setiap fitur dibuat melalui diskusi kolaboratif dan penyempurnaan.",
+    "features": [
+      "Next.js 15 dengan App Router untuk pengembangan web modern",
+      "TypeScript untuk keamanan tipe dan pengalaman pengembang yang lebih baik",
+      "Tailwind CSS untuk UI responsif dan indah",
+      "NextAuth.js untuk autentikasi yang aman",
+      "Internasionalisasi (i18n) dengan next-intl",
+      "Percakapan bertenaga AI dengan multiple provider",
+      "Integrasi text-to-speech untuk UX yang ditingkatkan",
+      "Rate limiting dan langkah-langkah keamanan"
+    ]
+  },
+  "philosophy": {
+    "title": "Filosofi Kami",
+    "description": "Kami percaya pada kekuatan kolaborasi - bukan hanya antara manusia, tetapi antara manusia dan AI. Proyek ini menunjukkan bahwa masa depan pengembangan terletak pada kemitraan, bukan penggantian.",
+    "principles": [
+      "Pengembangan open source dan transparan",
+      "Aksesibilitas dan inklusivitas berdasarkan desain",
+      "Pembelajaran dan peningkatan berkelanjutan",
+      "Inovasi yang didorong komunitas",
+      "Implementasi AI yang etis"
+    ]
+  },
+  "team": {
+    "title": "Tim",
+    "human": {
+      "name": "Rodrigo Gomes",
+      "role": "Pengembang & Arsitek Visi",
+      "description": "Pengembang Brasil yang bersemangat menciptakan pengalaman digital yang bermakna. Membawa pengalaman bertahun-tahun dalam pengembangan full-stack dan visi untuk interaksi pengguna yang inovatif."
+    },
+    "ai": {
+      "name": "GitHub Copilot",
+      "role": "Partner Pengembangan AI",
+      "description": "Asisten AI yang membantu membentuk setiap aspek proyek, dari keputusan arsitektur hingga detail implementasi, selalu belajar dan beradaptasi untuk menciptakan hasil terbaik yang mungkin."
+    }
+  },
+  "impact": {
+    "title": "Dampak & Pembelajaran",
+    "description": "Proyek ini mengajarkan kami pelajaran berharga tentang masa depan pengembangan perangkat lunak dan potensi kolaborasi manusia-AI.",
+    "lessons": [
+      "AI dapat meningkatkan kreativitas manusia tanpa menggantikannya",
+      "Pengembangan kolaboratif menghasilkan solusi yang lebih baik",
+      "Umpan balik real-time mempercepat proses pengembangan",
+      "Kombinasi intuisi manusia dan efisiensi AI sangat kuat",
+      "Proyek open source mendapat manfaat dari perspektif yang beragam"
+    ]
+  },
+  "future": {
+    "title": "Memandang ke Depan",
+    "description": "Brain-rot Factory hanyalah awal. Kami sangat senang melihat bagaimana proyek ini berkembang dan petualangan baru apa yang menanti di persimpangan kreativitas manusia dan kecerdasan buatan."
+  },
+  "acknowledgments": {
+    "title": "Ucapan Terima Kasih",
+    "description": "Terima kasih khusus kepada komunitas open source, para pembuat alat-alat luar biasa yang kami gunakan, dan semua orang yang percaya pada kekuatan inovasi kolaboratif."
+  },
+  "openSource": {
+    "title": "Open Source",
+    "description": "Proyek ini adalah open source dan tersedia di GitHub. Kami mendorong kontribusi, umpan balik, dan fork. Mari membangun masa depan bersama!",
+    "githubLink": "Lihat di GitHub",
+    "licenseText": "Dirilis di bawah Lisensi MIT"
+  }
+}

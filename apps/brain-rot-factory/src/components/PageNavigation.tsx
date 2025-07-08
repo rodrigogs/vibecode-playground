@@ -28,7 +28,7 @@ export default function PageNavigation({
         {/* Back button - sempre à esquerda */}
         <button
           onClick={handleBack}
-          className="inline-flex items-center gap-2 text-purple-300 hover:text-purple-200 transition-colors duration-200"
+          className="inline-flex items-center gap-2 text-purple-300 hover:text-purple-200 transition-colors duration-200 cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4" />
           Voltar

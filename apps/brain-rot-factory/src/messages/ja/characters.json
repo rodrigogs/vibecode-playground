@@ -1,0 +1,56 @@
+{
+  "selectCharacter": "ブレインロットキャラクターを選択",
+  "noCharacters": "キャラクターが利用できません",
+  "previousCharacter": "前のキャラクター",
+  "nextCharacter": "次のキャラクター",
+  "searchPlaceholder": "キャラクターを検索...",
+  "searchResults": "{total}件中{count}件のキャラクターが見つかりました",
+  "noSearchResults": "キャラクターが見つかりません。別の検索語を試してください。",
+  "clearSearch": "検索をクリア",
+  "filterPopularity": "人気度でフィルタ",
+  "filterCountry": "国でフィルタ",
+  "filterGender": "性別でフィルタ",
+  "loading": "読み込み中...",
+  "loadMore": "さらに読み込む",
+  "selected": "選択済み",
+  "filters": {
+    "popularity": {
+      "label": "人気度",
+      "all": "すべての人気度レベル",
+      "allDescription": "すべてのキャラクターを表示",
+      "top-5": "トップ5",
+      "top-5Description": "最も有名なキャラクター",
+      "well-known": "よく知られている",
+      "well-knownDescription": "人気のキャラクター",
+      "decently-known": "それなりに知られている",
+      "decently-knownDescription": "適度に知られている",
+      "unknown": "未知",
+      "unknownDescription": "あまり知られていないキャラクター"
+    },
+    "country": {
+      "label": "国",
+      "all": "すべての国",
+      "allDescription": "あらゆる場所のキャラクター"
+    },
+    "gender": {
+      "label": "性別",
+      "all": "すべての性別",
+      "allDescription": "すべての性別のキャラクター",
+      "male": "男性",
+      "maleDescription": "男性キャラクター",
+      "female": "女性",
+      "femaleDescription": "女性キャラクター"
+    },
+    "clearFilters": "すべてのフィルタをクリア"
+  },
+  "popularity": {
+    "all": "すべての人気度",
+    "top-5": "トップ5",
+    "well-known": "よく知られている",
+    "decently-known": "それなりに知られている",
+    "unknown": "未知"
+  },
+  "country": {
+    "all": "すべての国"
+  }
+}

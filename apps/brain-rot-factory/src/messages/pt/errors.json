@@ -1,0 +1,28 @@
+{
+  "generic": "Ocorreu um erro inesperado",
+  "networkError": "Erro de rede. Verifique sua conexão.",
+  "rateLimitExceeded": "Muitas solicitações. Tente novamente mais tarde.",
+  "unauthorized": "Você precisa estar logado para acessar este recurso",
+  "chat": {
+    "rateLimitExceeded": "Limite de taxa excedido. Tente novamente mais tarde.",
+    "requestFailed": "Falha ao obter resposta. Tente novamente.",
+    "unexpectedError": "Desculpe, algo deu errado. Tente novamente."
+  },
+  "fingerprint": {
+    "generationFailed": "Falha ao gerar impressão digital"
+  },
+  "tts": {
+    "tokenRequired": "Um token TTS válido da geração de chat é necessário para gerar áudio.",
+    "invalidToken": "O token TTS fornecido é inválido ou já foi usado.",
+    "tokenExpired": "Token não encontrado ou expirado",
+    "tokenAlreadyUsed": "Token já usado mas nenhum áudio em cache disponível",
+    "invalidFormat": "Formato de token inválido",
+    "textTooLong": "O texto deve ter 4096 caracteres ou menos",
+    "generationFailed": "Falha ao gerar fala. Tente novamente.",
+    "emptyAudio": "Dados de áudio vazios gerados",
+    "playbackError": "Erro durante a reprodução de texto para fala. Erro de áudio: {error}",
+    "serviceNotConfigured": "Serviço TTS não configurado",
+    "serviceUnavailable": "Serviço TTS temporariamente indisponível",
+    "internalError": "Falha ao gerar fala"
+  }
+}

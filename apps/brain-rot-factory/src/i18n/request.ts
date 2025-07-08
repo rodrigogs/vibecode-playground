@@ -1,5 +1,7 @@
 import { getRequestConfig } from 'next-intl/server'
 
+import { mergeMessages } from '@/messages'
+
 // Can be imported from a shared config
 export const locales = ['en', 'pt', 'id', 'it', 'ja', 'zh'] as const
 export const defaultLocale = 'en' as const
@@ -15,7 +17,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
 
   return {
     locale,
-    messages: (await import(`../messages/${locale}.json`)).default,
+    messages: await mergeMessages(locale),
     timeZone: 'America/Sao_Paulo', // Default timezone for PT-BR
     formats: {
       dateTime: {

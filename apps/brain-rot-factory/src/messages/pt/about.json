@@ -1,0 +1,82 @@
+{
+  "title": "Sobre a Brain-rot Factory",
+  "subtitle": "Uma aventura de coding com vibe",
+  "introduction": "Bem-vindo à história por trás da Brain-rot Factory - um projeto nascido da colaboração entre criatividade humana e assistência de IA.",
+  "journey": {
+    "title": "Nossa Jornada",
+    "description": "Este projeto representa uma aventura única de coding onde o desenvolvedor Rodrigo Gomes e o GitHub Copilot trabalharam juntos para criar algo verdadeiramente especial."
+  },
+  "collaboration": {
+    "title": "Colaboração Humano-IA",
+    "description": "A Brain-rot Factory é o resultado de uma colaboração intensa entre visão humana e inteligência artificial. Juntos, exploramos os limites do que é possível quando criatividade encontra tecnologia.",
+    "highlights": [
+      "Resolução de problemas em tempo real com assistência de IA",
+      "Desenvolvimento iterativo com feedback contínuo",
+      "Soluções criativas emergindo da sinergia humano-IA",
+      "Aprendizado e adaptação conjunta durante todo o processo"
+    ]
+  },
+  "development": {
+    "title": "Processo de Desenvolvimento",
+    "description": "Cada linha de código, cada decisão de design e cada funcionalidade foi criada através de discussão colaborativa e refinamento.",
+    "features": [
+      "Next.js 15 com App Router para desenvolvimento web moderno",
+      "TypeScript para segurança de tipos e melhor experiência de desenvolvimento",
+      "Tailwind CSS para UI responsiva e bonita",
+      "NextAuth.js para autenticação segura",
+      "Internacionalização (i18n) com next-intl",
+      "Conversas alimentadas por IA com múltiplos provedores",
+      "Integração de text-to-speech para UX aprimorada",
+      "Rate limiting e medidas de segurança"
+    ]
+  },
+  "philosophy": {
+    "title": "Nossa Filosofia",
+    "description": "Acreditamos no poder da colaboração - não apenas entre humanos, mas entre humanos e IA. Este projeto demonstra que o futuro do desenvolvimento está na parceria, não na substituição.",
+    "principles": [
+      "Desenvolvimento open source e transparente",
+      "Acessibilidade e inclusividade por design",
+      "Aprendizado e melhoria contínua",
+      "Inovação direcionada pela comunidade",
+      "Implementação ética de IA"
+    ]
+  },
+  "team": {
+    "title": "A Equipe",
+    "human": {
+      "name": "Rodrigo Gomes",
+      "role": "Desenvolvedor & Arquiteto de Visão",
+      "description": "Desenvolvedor brasileiro apaixonado por criar experiências digitais significativas. Traz anos de expertise em desenvolvimento full-stack e uma visão para interações inovadoras do usuário."
+    },
+    "ai": {
+      "name": "GitHub Copilot",
+      "role": "Parceiro de Desenvolvimento IA",
+      "description": "Assistente de IA que ajudou a moldar cada aspecto do projeto, desde decisões de arquitetura até detalhes de implementação, sempre aprendendo e se adaptando para criar o melhor resultado possível."
+    }
+  },
+  "impact": {
+    "title": "Impacto & Aprendizado",
+    "description": "Este projeto nos ensinou lições valiosas sobre o futuro do desenvolvimento de software e o potencial da colaboração humano-IA.",
+    "lessons": [
+      "IA pode potencializar a criatividade humana sem substituí-la",
+      "Desenvolvimento colaborativo leva a soluções melhores",
+      "Feedback em tempo real acelera o processo de desenvolvimento",
+      "A combinação de intuição humana e eficiência da IA é poderosa",
+      "Projetos open source se beneficiam de perspectivas diversas"
+    ]
+  },
+  "future": {
+    "title": "Olhando para o Futuro",
+    "description": "A Brain-rot Factory é apenas o começo. Estamos animados para ver como este projeto evolui e que novas aventuras nos aguardam na intersecção da criatividade humana e inteligência artificial."
+  },
+  "acknowledgments": {
+    "title": "Agradecimentos",
+    "description": "Agradecimentos especiais à comunidade open source, aos criadores das ferramentas incríveis que usamos, e a todos que acreditam no poder da inovação colaborativa."
+  },
+  "openSource": {
+    "title": "Open Source",
+    "description": "Este projeto é open source e está disponível no GitHub. Encorajamos contribuições, feedback e forks. Vamos construir o futuro juntos!",
+    "githubLink": "Ver no GitHub",
+    "licenseText": "Lançado sob a Licença MIT"
+  }
+}

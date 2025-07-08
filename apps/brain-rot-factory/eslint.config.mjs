@@ -17,6 +17,8 @@ const eslintConfig = [
     rules: {
       // Allow default exports for Next.js pages and layouts
       'import/no-default-export': 'off',
+      // Allow local TypeScript modules without .js extension in Next.js
+      'file-extension-in-import-ts/file-extension-in-import-ts': 'off',
     },
   },
 ]
