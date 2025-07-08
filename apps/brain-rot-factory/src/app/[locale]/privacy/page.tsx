@@ -1,14 +1,19 @@
 'use client'
 
-import Link from 'next/link'
 import { useTranslations } from 'next-intl'
+
+import PageNavigation from '@/components/PageNavigation'
 
 export default function PrivacyPolicy() {
   const t = useTranslations('Legal')
 
+  const rightNavigationLinks = [{ href: '/terms', label: t('termsTitle') }]
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-16">
+        <PageNavigation rightLinks={rightNavigationLinks} />
+
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
@@ -351,24 +356,6 @@ export default function PrivacyPolicy() {
                   </div>
                 </div>
               </section>
-            </div>
-
-            {/* Navigation */}
-            <div className="mt-12 pt-8 border-t border-white/20">
-              <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
-                <Link
-                  href="/"
-                  className="inline-flex items-center px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors duration-200"
-                >
-                  ← {t('backToHome')}
-                </Link>
-                <Link
-                  href="/terms"
-                  className="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200"
-                >
-                  {t('viewTermsOfService')} →
-                </Link>
-              </div>
             </div>
           </div>
         </div>

@@ -5,6 +5,7 @@ export const RATE_LIMIT_CONFIG = {
   RESET_TIME_HOURS: 24,
 } as const
 
+// API response messages (for backwards compatibility)
 export const RATE_LIMIT_MESSAGES = {
   IP_LIMIT_EXCEEDED: `You have reached your limit of ${RATE_LIMIT_CONFIG.IP_LIMIT} generations. Please sign in to continue with up to ${RATE_LIMIT_CONFIG.USER_DAILY_LIMIT} generations per day.`,
   USER_LIMIT_EXCEEDED: `You have reached your daily limit of ${RATE_LIMIT_CONFIG.USER_DAILY_LIMIT} generations. More ways to get additional generations coming soon!`,

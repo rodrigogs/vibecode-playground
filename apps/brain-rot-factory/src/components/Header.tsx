@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 
 import AuthButton from '@/components/AuthButton'
@@ -15,12 +16,7 @@ export default function Header() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center mb-4">
           {/* Logo Section - Left (3 columns on desktop) */}
           <div className="lg:col-span-3 flex justify-center lg:justify-start order-1">
-            <a
-              href="https://github.com/rodrigogs/vibecode-playground"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="View source code on GitHub"
-            >
+            <Link href="/about" title={t('aboutLink')}>
               <Image
                 src="/images/logo.png"
                 alt="Brain-rot Factory Logo"
@@ -43,7 +39,7 @@ export default function Header() {
                 }}
                 unoptimized
               />
-            </a>
+            </Link>
           </div>
 
           {/* Title Section - Center (6 columns on desktop) */}
@@ -66,10 +62,21 @@ export default function Header() {
         </div>
 
         {/* Description */}
-        <div className="text-center mb-8">
-          <p className="text-sm text-gray-200 max-w-2xl mx-auto leading-relaxed font-medium">
-            {t('subtitle')}
-          </p>
+        <div className="text-center pt-4 mb-4">
+          <div className="max-w-xl mx-auto">
+            <h2 className="text-gray leading-relaxed">
+              {t('subtitle')}
+              <a
+                href={t('subtitleLinkUrl')}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-purple-400 hover:text-pink-400 transition-colors duration-200 underline"
+              >
+                {t('subtitleLink')}
+              </a>
+              {t('subtitleAfterLink')}
+            </h2>
+          </div>
         </div>
 
         {/* Small discrete separator between header and content below */}

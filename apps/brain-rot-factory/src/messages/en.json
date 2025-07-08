@@ -1,16 +1,20 @@
 {
   "Header": {
     "title": "Brain-rot Factory",
-    "subtitle": "Dive into hilarious and absurd conversations with unique AI characters inspired by Italian brain-rot culture. Choose your favorite below and get ready for mind-melting dialogues filled with pure entertainment!",
+    "subtitle": "Burn some brain cells for free chatting with your favorite ",
+    "subtitleLink": "Italian brain-rot",
+    "subtitleAfterLink": " character — you don't seem to be using them anyway",
+    "subtitleLinkUrl": "https://italianbrainrot.miraheze.org",
     "signIn": "Sign in",
-    "signOut": "Sign out"
+    "signOut": "Sign out",
+    "aboutLink": "About"
   },
   "Characters": {
     "selectCharacter": "Choose Your Brain-rot Character",
     "noCharacters": "No characters available",
     "previousCharacter": "Previous character",
     "nextCharacter": "Next character",
-    "searchPlaceholder": "Search by name, popularity, or country...",
+    "searchPlaceholder": "Search characters...",
     "searchResults": "Found {count} of {total} characters",
     "noSearchResults": "No characters found. Try searching for a different term.",
     "clearSearch": "Clear search",
@@ -19,6 +23,7 @@
     "filterGender": "Filter by gender",
     "loading": "Loading...",
     "loadMore": "Load more characters",
+    "selected": "Selected",
     "filters": {
       "popularity": {
         "label": "Popularity",
@@ -65,10 +70,26 @@
     "send": "Send",
     "loading": "Generating response...",
     "error": "Something went wrong. Please try again.",
-    "rateLimit": "Rate limit exceeded. Please try again later.",
     "speak": "Speak Response",
     "stop": "Stop",
-    "close": "Close Chat"
+    "close": "Close Chat",
+    "chattingWith": "Chatting with:",
+    "errorPrefix": "Error:",
+    "loadingRateLimit": "Loading rate limit...",
+    "rateLimit": {
+      "ipLimitExceeded": "You have reached your limit of {limit} generations. Please sign in to continue with up to {userLimit} generations per day.",
+      "userLimitExceeded": "You have reached your daily limit of {limit} generations. More ways to get additional generations coming soon!",
+      "anonymousRemaining": "{remaining} of {limit} generations remaining.",
+      "anonymousSignInPrompt": "Sign in to get up to {limit} generations per day.",
+      "anonymousSignInPromptLast": "Sign in to get {limit} generations per day.",
+      "userRemaining": "{remaining} of {limit} daily generations remaining. More ways to get additional generations coming soon!",
+      "reachedLimit": "You have reached your limit. Please",
+      "signInToContinue": "sign in",
+      "toContinueWithMore": "to continue with more generations.",
+      "signInToGetMore": "Sign in",
+      "toGetMoreGenerations": "to get more generations per day.",
+      "resetIn": "Reset in {time}"
+    }
   },
   "Footer": {
     "poweredBy": "Powered by",
@@ -84,7 +105,6 @@
     "loginTitle": "Login to Brain-rot Factory",
     "loginSubtitle": "Choose your preferred authentication method",
     "continueWith": "Continue with {provider}",
-    "moreProviders": "More authentication providers coming soon...",
     "terms": "By signing in, you agree to our Terms of Service and Privacy Policy.",
     "termsPrefix": "By signing in, you agree to our",
     "termsLink": "Terms of Service",
@@ -276,5 +296,90 @@
     "responseTimeText": "Within 15 days (as required by LGPD)",
     "anpdContact": "Brazilian Data Protection Authority (ANPD)",
     "anpdContactText": "You can also file a complaint directly with ANPD at https://www.gov.br/anpd/"
+  },
+  "About": {
+    "title": "About Brain-rot Factory",
+    "subtitle": "A vibe coding adventure",
+    "introduction": "Welcome to the story behind Brain-rot Factory - a project born from the collaboration between human creativity and AI assistance.",
+    "journey": {
+      "title": "Our Journey",
+      "description": "This project represents a unique coding adventure where developer Rodrigo Gomes and GitHub Copilot worked together to create something truly special."
+    },
+    "collaboration": {
+      "title": "Human-AI Collaboration",
+      "description": "Brain-rot Factory is the result of an intense collaboration between human vision and artificial intelligence. Together, we explored the boundaries of what's possible when creativity meets technology.",
+      "highlights": [
+        "Real-time problem solving with AI assistance",
+        "Iterative development with continuous feedback",
+        "Creative solutions emerging from human-AI synergy",
+        "Learning and adapting together throughout the process"
+      ]
+    },
+    "development": {
+      "title": "Development Process",
+      "description": "Every line of code, every design decision, and every feature was crafted through collaborative discussion and refinement.",
+      "features": [
+        "Next.js 15 with App Router for modern web development",
+        "TypeScript for type safety and better developer experience",
+        "Tailwind CSS for responsive and beautiful UI",
+        "NextAuth.js for secure authentication",
+        "Internationalization (i18n) with next-intl",
+        "AI-powered conversations with multiple providers",
+        "Text-to-speech integration for enhanced UX",
+        "Rate limiting and security measures"
+      ]
+    },
+    "philosophy": {
+      "title": "Our Philosophy",
+      "description": "We believe in the power of collaboration - not just between humans, but between humans and AI. This project demonstrates that the future of development lies in partnership, not replacement.",
+      "principles": [
+        "Open source and transparent development",
+        "Accessibility and inclusivity by design",
+        "Continuous learning and improvement",
+        "Community-driven innovation",
+        "Ethical AI implementation"
+      ]
+    },
+    "team": {
+      "title": "The Team",
+      "human": {
+        "name": "Rodrigo Gomes",
+        "role": "Developer & Vision Architect",
+        "description": "Brazilian developer passionate about creating meaningful digital experiences. Brings years of expertise in full-stack development and a vision for innovative user interactions."
+      },
+      "ai": {
+        "name": "GitHub Copilot",
+        "role": "AI Development Partner",
+        "description": "AI assistant that helped shape every aspect of the project, from architecture decisions to implementation details, always learning and adapting to create the best possible outcome."
+      }
+    },
+    "impact": {
+      "title": "Impact & Learning",
+      "description": "This project taught us valuable lessons about the future of software development and the potential of human-AI collaboration.",
+      "lessons": [
+        "AI can enhance human creativity without replacing it",
+        "Collaborative development leads to better solutions",
+        "Real-time feedback accelerates the development process",
+        "The combination of human intuition and AI efficiency is powerful",
+        "Open source projects benefit from diverse perspectives"
+      ]
+    },
+    "future": {
+      "title": "Looking Forward",
+      "description": "Brain-rot Factory is just the beginning. We're excited to see how this project evolves and what new adventures await in the intersection of human creativity and artificial intelligence."
+    },
+    "acknowledgments": {
+      "title": "Acknowledgments",
+      "description": "Special thanks to the open source community, the creators of the amazing tools we used, and everyone who believes in the power of collaborative innovation."
+    },
+    "openSource": {
+      "title": "Open Source",
+      "description": "This project is open source and available on GitHub. We encourage contributions, feedback, and forks. Let's build the future together!",
+      "githubLink": "View on GitHub",
+      "licenseText": "Released under the MIT License"
+    }
+  },
+  "PageNavigation": {
+    "back": "Back"
   }
 }

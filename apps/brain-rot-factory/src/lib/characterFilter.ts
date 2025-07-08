@@ -8,17 +8,13 @@ export function filterCharacters(
   genderFilter: string,
 ): BrainRotCharacter[] {
   return characters.filter((character) => {
-    // Text search filter - search in name, description, and catchphrases
+    // Text search filter - search in name and description only
     const query = searchQuery.toLowerCase().trim()
     const matchesSearch =
       !query ||
       (character.name && character.name.toLowerCase().includes(query)) ||
       (character.description &&
-        character.description.toLowerCase().includes(query)) ||
-      (character.catchphrases &&
-        character.catchphrases.some((phrase) =>
-          phrase.toLowerCase().includes(query),
-        ))
+        character.description.toLowerCase().includes(query))
 
     // Popularity filter
     const matchesPopularity =

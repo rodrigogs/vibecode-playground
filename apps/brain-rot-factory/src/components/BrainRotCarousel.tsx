@@ -482,7 +482,7 @@ export default function BrainRotCarousel({
                     <div className="text-center">
                       <span className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-sm px-4 py-2 rounded-full font-semibold animate-pulse">
                         <span className="w-2 h-2 bg-white rounded-full animate-ping"></span>
-                        Selected
+                        {t('selected')}
                       </span>
                     </div>
                   )}

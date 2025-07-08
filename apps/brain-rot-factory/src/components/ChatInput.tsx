@@ -86,34 +86,40 @@ export default function ChatInput({
                         {rateLimitInfo.requiresAuth &&
                         !rateLimitInfo.allowed ? (
                           <>
-                            You have reached your limit. Please{' '}
+                            {t('rateLimit.reachedLimit')}{' '}
                             <Link
                               href="/auth/signin"
                               className="text-purple-300 hover:text-purple-200 underline transition-colors duration-200"
                             >
-                              sign in
+                              {t('rateLimit.signInToContinue')}
                             </Link>{' '}
-                            to continue with more generations.
+                            {t('rateLimit.toContinueWithMore')}
                           </>
                         ) : !rateLimitInfo.isLoggedIn &&
                           rateLimitInfo.allowed ? (
                           <>
-                            {rateLimitInfo.remaining} of {rateLimitInfo.limit}{' '}
-                            generations remaining.{' '}
+                            {t('rateLimit.anonymousRemaining', {
+                              remaining: rateLimitInfo.remaining,
+                              limit: rateLimitInfo.limit,
+                            })}{' '}
                             <Link
                               href="/auth/signin"
                               className="text-purple-300 hover:text-purple-200 underline transition-colors duration-200"
                             >
-                              Sign in
+                              {t('rateLimit.signInToGetMore')}
                             </Link>{' '}
-                            to get more generations per day.
+                            {t('rateLimit.toGetMoreGenerations')}
                           </>
                         ) : (
-                          getRateLimitMessage(rateLimitInfo)
+                          getRateLimitMessage(rateLimitInfo, (key, params) =>
+                            t(key, params),
+                          )
                         )}
                         {!rateLimitInfo.allowed && timeUntilReset > 0 && (
                           <span className="text-orange-300/60 ml-1">
-                            Reset in {formatTimeUntilReset(timeUntilReset)}
+                            {t('rateLimit.resetIn', {
+                              time: formatTimeUntilReset(timeUntilReset),
+                            })}
                           </span>
                         )}
                       </span>
@@ -123,7 +129,7 @@ export default function ChatInput({
                   <div className="relative z-10 px-6 pb-3 pt-1">
                     <div className="flex items-center justify-center gap-2 text-xs text-white/30">
                       <div className="w-1 h-1 rounded-full bg-white/20"></div>
-                      <span className="text-xs">Loading rate limit...</span>
+                      <span className="text-xs">{t('loadingRateLimit')}</span>
                     </div>
                   </div>
                 )}

@@ -1,16 +1,20 @@
 {
   "Header": {
     "title": "Brain-rot Factory",
-    "subtitle": "Entra in conversazioni divertenti e assurde con personaggi AI unici ispirati alla cultura brain-rot italiana. Scegli il tuo preferito qui sotto e preparati a dialoghi esilaranti!",
+    "subtitle": "Brucia qualche neurone gratis chattando con il tuo personaggio preferito del ",
+    "subtitleLink": "brain-rot italiano",
+    "subtitleAfterLink": " — tanto non sembri usarli comunque",
+    "subtitleLinkUrl": "https://italianbrainrot.miraheze.org",
     "signIn": "Accedi",
-    "signOut": "Esci"
+    "signOut": "Esci",
+    "aboutLink": "Chi siamo"
   },
   "Characters": {
     "selectCharacter": "Seleziona Personaggio Brain-rot",
     "noCharacters": "Nessun personaggio disponibile",
     "previousCharacter": "Personaggio precedente",
     "nextCharacter": "Personaggio successivo",
-    "searchPlaceholder": "Cerca per nome, popolarità o paese...",
+    "searchPlaceholder": "Cerca personaggi...",
     "searchResults": "Trovati {count} di {total} personaggi",
     "noSearchResults": "Nessun personaggio trovato. Prova a cercare un termine diverso.",
     "clearSearch": "Cancella ricerca",
@@ -19,6 +23,7 @@
     "filterGender": "Filtra per genere",
     "loading": "Caricamento...",
     "loadMore": "Carica più personaggi",
+    "selected": "Selezionato",
     "filters": {
       "popularity": {
         "label": "Popolarità",
@@ -65,10 +70,26 @@
     "send": "Invia",
     "loading": "Sto generando una risposta...",
     "error": "Si è verificato un errore. Riprova.",
-    "rateLimit": "Limite di utilizzo raggiunto. Riprova più tardi.",
     "speak": "Pronuncia Risposta",
     "stop": "Ferma",
-    "close": "Chiudi Chat"
+    "close": "Chiudi Chat",
+    "chattingWith": "Chatting con:",
+    "errorPrefix": "Errore:",
+    "loadingRateLimit": "Caricamento limite di velocità...",
+    "rateLimit": {
+      "ipLimitExceeded": "Hai raggiunto il tuo limite di {limit} generazioni. Accedi per continuare con fino a {userLimit} generazioni al giorno.",
+      "userLimitExceeded": "Hai raggiunto il tuo limite giornaliero di {limit} generazioni. Presto più modi per ottenere generazioni aggiuntive!",
+      "anonymousRemaining": "{remaining} di {limit} generazioni rimanenti.",
+      "anonymousSignInPrompt": "Accedi per ottenere fino a {limit} generazioni al giorno.",
+      "anonymousSignInPromptLast": "Accedi per ottenere {limit} generazioni al giorno.",
+      "userRemaining": "{remaining} di {limit} generazioni giornaliere rimanenti. Presto più modi per ottenere generazioni aggiuntive!",
+      "reachedLimit": "Hai raggiunto il tuo limite. Per favore",
+      "signInToContinue": "accedi",
+      "toContinueWithMore": "per continuare con più generazioni.",
+      "signInToGetMore": "Accedi",
+      "toGetMoreGenerations": "per ottenere più generazioni al giorno.",
+      "resetIn": "Ripristina in {time}"
+    }
   },
   "Footer": {
     "poweredBy": "Powered by",
@@ -84,7 +105,6 @@
     "loginTitle": "Accedi a Brain-rot Factory",
     "loginSubtitle": "Scegli il tuo metodo di autenticazione preferito",
     "continueWith": "Continua con {provider}",
-    "moreProviders": "Altri provider in arrivo...",
     "terms": "Accedendo, accetti i nostri Termini di Servizio e l'Informativa sulla Privacy.",
     "termsPrefix": "Accedendo, accetti",
     "termsLink": "Termini di Servizio",
@@ -276,5 +296,90 @@
     "responseTimeText": "Entro 15 giorni (come previsto dalla LGPD)",
     "anpdContact": "Autorità brasiliana per la protezione dei dati (ANPD)",
     "anpdContactText": "Puoi anche presentare un reclamo direttamente all'ANPD su https://www.gov.br/anpd/"
+  },
+  "About": {
+    "title": "Riguardo Brain-rot Factory",
+    "subtitle": "Un'avventura di coding con vibe",
+    "introduction": "Benvenuti nella storia dietro Brain-rot Factory - un progetto nato dalla collaborazione tra creatività umana e assistenza AI.",
+    "journey": {
+      "title": "Il Nostro Viaggio",
+      "description": "Questo progetto rappresenta un'avventura unica di coding dove lo sviluppatore Rodrigo Gomes e GitHub Copilot hanno lavorato insieme per creare qualcosa di veramente speciale."
+    },
+    "collaboration": {
+      "title": "Collaborazione Umano-AI",
+      "description": "Brain-rot Factory è il risultato di una collaborazione intensa tra visione umana e intelligenza artificiale. Insieme, abbiamo esplorato i confini di ciò che è possibile quando la creatività incontra la tecnologia.",
+      "highlights": [
+        "Risoluzione di problemi in tempo reale con assistenza AI",
+        "Sviluppo iterativo con feedback continuo",
+        "Soluzioni creative emergenti dalla sinergia umano-AI",
+        "Apprendimento e adattamento insieme durante tutto il processo"
+      ]
+    },
+    "development": {
+      "title": "Processo di Sviluppo",
+      "description": "Ogni linea di codice, ogni decisione di design e ogni funzionalità è stata creata attraverso discussioni collaborative e raffinamento.",
+      "features": [
+        "Next.js 15 con App Router per lo sviluppo web moderno",
+        "TypeScript per la sicurezza dei tipi e una migliore esperienza di sviluppo",
+        "Tailwind CSS per UI responsive e bella",
+        "NextAuth.js per autenticazione sicura",
+        "Internazionalizzazione (i18n) con next-intl",
+        "Conversazioni alimentate da AI con provider multipli",
+        "Integrazione text-to-speech per UX migliorata",
+        "Rate limiting e misure di sicurezza"
+      ]
+    },
+    "philosophy": {
+      "title": "La Nostra Filosofia",
+      "description": "Crediamo nel potere della collaborazione - non solo tra umani, ma tra umani e AI. Questo progetto dimostra che il futuro dello sviluppo risiede nella partnership, non nella sostituzione.",
+      "principles": [
+        "Sviluppo open source e trasparente",
+        "Accessibilità e inclusività per design",
+        "Apprendimento e miglioramento continui",
+        "Innovazione guidata dalla comunità",
+        "Implementazione etica dell'AI"
+      ]
+    },
+    "team": {
+      "title": "Il Team",
+      "human": {
+        "name": "Rodrigo Gomes",
+        "role": "Sviluppatore & Architetto della Visione",
+        "description": "Sviluppatore brasiliano appassionato di creare esperienze digitali significative. Porta anni di esperienza nello sviluppo full-stack e una visione per interazioni utente innovative."
+      },
+      "ai": {
+        "name": "GitHub Copilot",
+        "role": "Partner di Sviluppo AI",
+        "description": "Assistente AI che ha aiutato a modellare ogni aspetto del progetto, dalle decisioni architetturali ai dettagli di implementazione, sempre imparando e adattandosi per creare il miglior risultato possibile."
+      }
+    },
+    "impact": {
+      "title": "Impatto & Apprendimento",
+      "description": "Questo progetto ci ha insegnato lezioni preziose sul futuro dello sviluppo software e il potenziale della collaborazione umano-AI.",
+      "lessons": [
+        "L'AI può potenziare la creatività umana senza sostituirla",
+        "Lo sviluppo collaborativo porta a soluzioni migliori",
+        "Il feedback in tempo reale accelera il processo di sviluppo",
+        "La combinazione di intuizione umana ed efficienza AI è potente",
+        "I progetti open source beneficiano di prospettive diverse"
+      ]
+    },
+    "future": {
+      "title": "Guardando al Futuro",
+      "description": "Brain-rot Factory è solo l'inizio. Siamo entusiasti di vedere come questo progetto evolve e quali nuove avventure ci aspettano nell'intersezione tra creatività umana e intelligenza artificiale."
+    },
+    "acknowledgments": {
+      "title": "Ringraziamenti",
+      "description": "Ringraziamenti speciali alla comunità open source, ai creatori degli strumenti incredibili che abbiamo usato, e a tutti coloro che credono nel potere dell'innovazione collaborativa."
+    },
+    "openSource": {
+      "title": "Open Source",
+      "description": "Questo progetto è open source ed è disponibile su GitHub. Incoraggiamo contributi, feedback e fork. Costruiamo il futuro insieme!",
+      "githubLink": "Vedi su GitHub",
+      "licenseText": "Rilasciato sotto Licenza MIT"
+    }
+  },
+  "PageNavigation": {
+    "back": "Indietro"
   }
 }

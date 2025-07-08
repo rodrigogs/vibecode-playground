@@ -1,6 +1,7 @@
 'use client'
 
 import { Search, X } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 
 interface CharacterSearchBarProps {
@@ -14,6 +15,7 @@ export default function CharacterSearchBar({
   onSearchChange,
   className = '',
 }: CharacterSearchBarProps) {
+  const t = useTranslations('Characters')
   const [isFocused, setIsFocused] = useState(false)
 
   const handleClear = () => {
@@ -54,7 +56,7 @@ export default function CharacterSearchBar({
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
               className={`relative z-10 flex-1 h-10 pr-2 py-2 bg-transparent ${isFocused ? 'text-white' : 'text-white/90'} placeholder-white/30 focus:outline-none transition-colors duration-300 text-sm`}
-              placeholder="Search by name, description, or catchphrase..."
+              placeholder={t('searchPlaceholder')}
               autoComplete="off"
               spellCheck="false"
               autoCorrect="off"

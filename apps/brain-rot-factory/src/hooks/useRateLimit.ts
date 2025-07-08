@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react'
 
-import { RATE_LIMIT_MESSAGES } from '@/lib/rate-limit-constants'
+import { RATE_LIMIT_CONFIG } from '@/lib/rate-limit-constants'
 
 export interface RateLimitInfo {
   limit: number
@@ -106,27 +106,43 @@ export function formatTimeUntilReset(milliseconds: number): string {
   }
 }
 
-export function getRateLimitMessage(info: RateLimitInfo | null): string {
+export function getRateLimitMessage(
+  info: RateLimitInfo | null,
+  t: (key: string, params?: Record<string, string | number>) => string,
+): string {
   if (!info) return ''
 
   if (!info.allowed) {
     if (info.requiresAuth) {
-      return RATE_LIMIT_MESSAGES.IP_LIMIT_EXCEEDED
+      return t('rateLimit.ipLimitExceeded', {
+        limit: RATE_LIMIT_CONFIG.IP_LIMIT,
+        userLimit: RATE_LIMIT_CONFIG.USER_DAILY_LIMIT,
+      })
     } else {
-      return RATE_LIMIT_MESSAGES.USER_LIMIT_EXCEEDED
+      return t('rateLimit.userLimitExceeded', {
+        limit: RATE_LIMIT_CONFIG.USER_DAILY_LIMIT,
+      })
     }
   }
 
   if (info.isLoggedIn) {
-    return RATE_LIMIT_MESSAGES.USER_REMAINING(info.remaining, info.limit)
+    return t('rateLimit.userRemaining', {
+      remaining: info.remaining,
+      limit: info.limit,
+    })
   } else {
-    const baseMessage = RATE_LIMIT_MESSAGES.ANONYMOUS_REMAINING(
-      info.remaining,
-      info.limit,
-    )
-    const authPrompt = RATE_LIMIT_MESSAGES.ANONYMOUS_SIGN_IN_PROMPT(
-      info.remaining,
-    )
-    return baseMessage + authPrompt
+    const baseMessage = t('rateLimit.anonymousRemaining', {
+      remaining: info.remaining,
+      limit: info.limit,
+    })
+    const authPrompt =
+      info.remaining <= 1
+        ? t('rateLimit.anonymousSignInPromptLast', {
+            limit: RATE_LIMIT_CONFIG.USER_DAILY_LIMIT,
+          })
+        : t('rateLimit.anonymousSignInPrompt', {
+            limit: RATE_LIMIT_CONFIG.USER_DAILY_LIMIT,
+          })
+    return baseMessage + ' ' + authPrompt
   }
 }

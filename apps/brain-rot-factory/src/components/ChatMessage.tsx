@@ -122,7 +122,9 @@ export default function ChatMessage({
                 message.type === 'error' ? 'text-red-300' : 'text-green-300'
               }`}
             >
-              {message.type === 'error' ? 'Error:' : selectedCharacter.name}
+              {message.type === 'error'
+                ? t('errorPrefix')
+                : selectedCharacter.name}
             </h3>
           </div>
 
