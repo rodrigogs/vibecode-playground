@@ -76,6 +76,7 @@
     "chattingWith": "聊天对象：",
     "errorPrefix": "错误：",
     "loadingRateLimit": "加载速率限制中...",
+    "emptyChatMessage": "开始与{characterName}对话，见证脑残现象！",
     "rateLimit": {
       "ipLimitExceeded": "您已达到 {limit} 次生成的限制。请登录以继续，每天最多 {userLimit} 次生成。",
       "userLimitExceeded": "您已达到每日 {limit} 次生成的限制。更多获取额外生成的方式即将推出！",

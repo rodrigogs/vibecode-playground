@@ -76,6 +76,7 @@
     "chattingWith": "Chatting dengan:",
     "errorPrefix": "Kesalahan:",
     "loadingRateLimit": "Memuat batas kecepatan...",
+    "emptyChatMessage": "Mulai berbicara dengan {characterName} dan saksikan brain-rot terjadi!",
     "rateLimit": {
       "ipLimitExceeded": "Anda telah mencapai batas {limit} generasi. Silakan masuk untuk melanjutkan dengan hingga {userLimit} generasi per hari.",
       "userLimitExceeded": "Anda telah mencapai batas harian {limit} generasi. Lebih banyak cara untuk mendapatkan generasi tambahan segera hadir!",

@@ -76,6 +76,7 @@
     "chattingWith": "Conversando com:",
     "errorPrefix": "Erro:",
     "loadingRateLimit": "Carregando limite de taxa...",
+    "emptyChatMessage": "Comece a conversar com {characterName} e veja o brain-rot acontecer!",
     "rateLimit": {
       "ipLimitExceeded": "Você atingiu seu limite de {limit} gerações. Faça login para continuar com até {userLimit} gerações por dia.",
       "userLimitExceeded": "Você atingiu seu limite diário de {limit} gerações. Mais maneiras de obter gerações adicionais em breve!",

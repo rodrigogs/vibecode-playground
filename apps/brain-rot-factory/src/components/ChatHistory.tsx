@@ -39,25 +39,28 @@ export default function ChatHistory({
         {/* Modern Floating Orbs Animation */}
         <div className="relative flex items-center justify-center">
           {/* Background glow */}
-          <div className="absolute inset-0 w-32 h-32 bg-gradient-to-r from-purple-400/10 to-pink-400/10 rounded-full blur-2xl animate-pulse"></div>
+          <div
+            className="absolute inset-0 w-32 h-32 bg-gradient-to-r from-purple-400/5 to-pink-400/5 rounded-full blur-2xl animate-pulse"
+            style={{ animationDuration: '3s' }}
+          ></div>
 
           {/* Main floating orbs container */}
           <div className="relative flex items-center space-x-2">
             {/* Orb 1 */}
-            <div className="w-3 h-3 bg-gradient-to-br from-purple-400/70 to-purple-500/70 backdrop-blur-sm rounded-full border border-white/10 shadow-lg animate-bounce"></div>
+            <div className="w-3 h-3 bg-gradient-to-br from-purple-400/10 to-purple-500/10 backdrop-blur-sm rounded-full border border-white/5 shadow-lg animate-bounce"></div>
 
             {/* Orb 2 */}
-            <div className="w-4 h-4 bg-gradient-to-br from-purple-500/60 to-pink-500/60 backdrop-blur-sm rounded-full border border-white/20 shadow-lg animate-bounce delay-200"></div>
+            <div className="w-4 h-4 bg-gradient-to-br from-purple-500/5 to-pink-500/5 backdrop-blur-sm rounded-full border border-white/10 shadow-lg animate-bounce delay-200"></div>
 
             {/* Orb 3 */}
-            <div className="w-3 h-3 bg-gradient-to-br from-pink-400/70 to-pink-500/70 backdrop-blur-sm rounded-full border border-white/10 shadow-lg animate-bounce delay-400"></div>
+            <div className="w-3 h-3 bg-gradient-to-br from-pink-400/10 to-pink-500/10 backdrop-blur-sm rounded-full border border-white/5 shadow-lg animate-bounce delay-400"></div>
           </div>
 
           {/* Floating accent particles */}
-          <div className="absolute -top-8 left-4 w-2 h-2 bg-purple-300/30 rounded-full animate-ping delay-1000"></div>
-          <div className="absolute -bottom-8 right-4 w-1.5 h-1.5 bg-pink-300/30 rounded-full animate-ping delay-1500"></div>
-          <div className="absolute top-6 -left-8 w-1 h-1 bg-blue-300/40 rounded-full animate-ping delay-2000"></div>
-          <div className="absolute bottom-6 -right-8 w-1 h-1 bg-purple-200/40 rounded-full animate-ping delay-2500"></div>
+          <div className="absolute -top-8 left-4 w-2 h-2 bg-purple-300/15 rounded-full animate-ping delay-1000"></div>
+          <div className="absolute -bottom-8 right-4 w-1.5 h-1.5 bg-pink-300/15 rounded-full animate-ping delay-1500"></div>
+          <div className="absolute top-6 -left-8 w-1 h-1 bg-blue-300/20 rounded-full animate-ping delay-2000"></div>
+          <div className="absolute bottom-6 -right-8 w-1 h-1 bg-purple-200/20 rounded-full animate-ping delay-2500"></div>
         </div>
       </div>
     )

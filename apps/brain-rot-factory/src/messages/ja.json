@@ -76,6 +76,7 @@
     "chattingWith": "チャット中:",
     "errorPrefix": "エラー:",
     "loadingRateLimit": "レート制限を読み込み中...",
+    "emptyChatMessage": "{characterName}と話し始めて、ブレインロットを見てみましょう！",
     "rateLimit": {
       "ipLimitExceeded": "{limit}回の生成制限に達しました。ログインして1日最大{userLimit}回の生成を続行してください。",
       "userLimitExceeded": "1日の{limit}回の生成制限に達しました。追加の生成を取得する方法を準備中です！",
