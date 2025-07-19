@@ -22,6 +22,7 @@ interface ChatInterfaceProps {
   onSubmit: (e: React.FormEvent) => void
   onSpeakMessage: (messageId: string) => void
   rateLimitRefreshKey?: number
+  onRateLimitRefresh?: () => void
 }
 
 export default function ChatInterface({
@@ -37,6 +38,7 @@ export default function ChatInterface({
   onSubmit,
   onSpeakMessage,
   rateLimitRefreshKey,
+  onRateLimitRefresh,
 }: ChatInterfaceProps) {
   const t = useTranslations('Chat')
   const [showImageModal, setShowImageModal] = useState(false)
@@ -175,6 +177,7 @@ export default function ChatInterface({
           isLoading={isLoading}
           onSubmit={onSubmit}
           rateLimitRefreshKey={rateLimitRefreshKey}
+          onRateLimitRefresh={onRateLimitRefresh}
         />
       </div>
     </div>

@@ -154,3 +154,16 @@ body {
             drop-shadow(0 0 90px rgba(255, 255, 255, 0.4));
   }
 }
+
+/* Shimmer animation for ad button - properly contained */
+@keyframes shimmerSlide {
+  0% {
+    transform: translateX(-150%) skewX(-12deg);
+  }
+  50% {
+    transform: translateX(0%) skewX(-12deg);
+  }
+  100% {
+    transform: translateX(150%) skewX(-12deg);
+  }
+}

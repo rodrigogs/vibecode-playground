@@ -1,9 +1,12 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
-import { validateRequest } from '@/app/api/chat/validation'
 import { generateResponse } from '@/lib/ai-cache'
 import { auth } from '@/lib/auth-instance'
+import {
+  createValidationErrorResponse,
+  validateChatRequest,
+} from '@/lib/middleware/validation'
 import { consumeRateLimit, getRateLimitStatus } from '@/lib/rate-limit'
 import { RATE_LIMIT_MESSAGES } from '@/lib/rate-limit-constants'
 import { generateTTSToken, storeTTSToken } from '@/lib/tts-token'
@@ -12,28 +15,26 @@ import type { BrainRotCharacter } from '@/types/characters'
 // Force dynamic rendering for API routes - no caching at route level
 export const dynamic = 'force-dynamic'
 
-/**
- * Generate a thread ID for LangGraph conversation persistence
- */
-function generateThreadId(): string {
-  return `thread_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
-}
-
 export async function POST(request: NextRequest) {
-  let requestData: unknown
   let character: BrainRotCharacter | undefined
 
   try {
     // Get session for rate limiting
     const session = await auth()
 
-    // Parse request body first to get fingerprint data
-    requestData = await request.json()
-    const fingerprintData = (requestData as { fingerprint?: string })
-      ?.fingerprint
+    // Validate and sanitize request
+    const validationResult = await validateChatRequest(request)
+
+    // If validation failed, return the error response
+    if (!validationResult.isValid) {
+      return createValidationErrorResponse(validationResult.error!)
+    }
+
+    const { message, threadId, fingerprint } = validationResult.data!
+    character = validationResult.data!.character as BrainRotCharacter
 
     // Check enhanced rate limit with browser fingerprinting
-    const rateLimitCheck = await getRateLimitStatus(session, fingerprintData)
+    const rateLimitCheck = await getRateLimitStatus(session, fingerprint)
 
     if (!rateLimitCheck.allowed) {
       if (rateLimitCheck.requiresAuth) {
@@ -92,27 +93,23 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const validation = validateRequest(requestData)
-
-    // If validation failed, return the error response
-    if (validation instanceof NextResponse) {
-      return validation
-    }
-
-    const { message } = validation
-    character = validation.character
-    const sessionId = validation.threadId || generateThreadId()
+    // Smart thread management for conversation continuity
+    // If threadId provided, use it to continue existing conversation
+    // If not provided, generate new session for new conversation
+    const userIdentifier = session?.user?.id || 'anonymous'
+    const sessionId =
+      threadId || `${userIdentifier}_${character.id}_${Date.now()}`
 
     // Use sessionId as threadId for LangGraph conversation persistence
-    const threadId = `${character.id}_${sessionId}`
+    const threadIdForAI = `${character.id}_${sessionId}`
 
     // Consume enhanced rate limit - this increments the counter
-    const rateLimitResult = await consumeRateLimit(session, fingerprintData)
+    const rateLimitResult = await consumeRateLimit(session, fingerprint)
 
     // Use the cached response generator from ai-cache.ts
     const requestStartTime = Date.now()
     console.info(`Generating response for character: ${character.name}`)
-    const result = await generateResponse(character, message, threadId)
+    const result = await generateResponse(character, message, threadIdForAI)
     const totalTime = Date.now() - requestStartTime
     console.info(
       `Response generated for ${character.name} (cached: ${result.cached}, source: ${result.source}, time: ${totalTime}ms)`,
@@ -126,7 +123,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         response: result.response,
-        threadId: sessionId, // Return the original sessionId as threadId for frontend
+        threadId: sessionId, // Return the server-generated sessionId as threadId for frontend
         ttsToken, // Include the TTS token for audio generation
         rateLimitInfo: {
           limit: rateLimitResult.limit,
@@ -166,9 +163,7 @@ export async function POST(request: NextRequest) {
 
     // Try to get character info from the request for error response
     try {
-      if (!requestData) {
-        requestData = await request.json()
-      }
+      const requestData = await request.json()
       const characterFromRequest = (
         requestData as { character?: BrainRotCharacter }
       )?.character

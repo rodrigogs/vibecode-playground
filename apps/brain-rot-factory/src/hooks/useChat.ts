@@ -92,7 +92,7 @@ export function useChat({
           body: JSON.stringify({
             message: currentPrompt,
             character: selectedCharacter,
-            threadId: sessionId,
+            threadId: sessionId, // Send threadId for conversation continuity
             fingerprint, // Include browser fingerprint for enhanced rate limiting
           }),
         })
@@ -135,8 +135,8 @@ export function useChat({
         }
 
         // Update sessionId from response if provided
-        if (data.sessionId && data.sessionId !== sessionId) {
-          setSessionId(data.sessionId)
+        if (data.threadId && data.threadId !== sessionId) {
+          setSessionId(data.threadId)
         }
 
         // Refresh rate limit info after successful message

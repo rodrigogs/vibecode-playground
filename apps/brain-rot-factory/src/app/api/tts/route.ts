@@ -1,8 +1,11 @@
-import type { TTSVoice } from '@repo/ai'
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
 import { generateTTSAudio, type TTSOptions } from '@/lib/ai-cache'
+import {
+  createValidationErrorResponse,
+  validateTTSRequest,
+} from '@/lib/middleware/validation'
 import {
   cacheAudioWithToken,
   validateAndConsumeTTSToken,
@@ -13,32 +16,26 @@ import type { BrainRotCharacter } from '@/types/characters'
 // Force dynamic rendering for API routes - no caching at route level
 export const dynamic = 'force-dynamic'
 
-interface TTSRequest {
-  character?: BrainRotCharacter
-  voice?: TTSVoice
-  instructions?: string // Only works with gpt-4o-mini-tts
-  format?: 'mp3' | 'opus' | 'aac' | 'flac' | 'wav' | 'pcm'
-  ttsToken: string // Required: Token from chat generation to validate TTS request
-}
-
 export async function POST(request: NextRequest) {
   try {
-    const body: TTSRequest = await request.json()
+    // Validate and sanitize request
+    const validationResult = await validateTTSRequest(request)
 
-    // Validate required TTS token
-    if (!body.ttsToken) {
-      return NextResponse.json(
-        {
-          error: 'TTS token required',
-          message:
-            'A valid TTS token from chat generation is required to generate audio.',
-        },
-        { status: 400 },
-      )
+    // If validation failed, return the error response
+    if (!validationResult.isValid) {
+      return createValidationErrorResponse(validationResult.error!)
     }
 
+    const {
+      character,
+      voice: requestedVoice,
+      instructions,
+      format: requestedFormat,
+      ttsToken,
+    } = validationResult.data!
+
     // Validate and consume the TTS token
-    const tokenResult = await validateAndConsumeTTSToken(body.ttsToken)
+    const tokenResult = await validateAndConsumeTTSToken(ttsToken)
 
     if (!tokenResult.valid) {
       return NextResponse.json(
@@ -55,7 +52,7 @@ export async function POST(request: NextRequest) {
     // Check if audio is already cached for replay
     if (tokenResult.tokenData.cachedAudio) {
       console.info(
-        `Returning cached audio for token: ${body.ttsToken.substring(0, 12)}...`,
+        `Returning cached audio for token: ${ttsToken.substring(0, 12)}...`,
       )
 
       const cachedAudio = tokenResult.tokenData.cachedAudio
@@ -70,7 +67,7 @@ export async function POST(request: NextRequest) {
           'X-TTS-Model': cachedAudio.model,
           'X-TTS-Voice': cachedAudio.voice,
           'X-Cache': 'TOKEN-HIT', // Indicates audio served from token cache
-          'X-TTS-Token': body.ttsToken.substring(0, 12) + '...', // Show partial token for debugging
+          'X-TTS-Token': ttsToken.substring(0, 12) + '...', // Show partial token for debugging
         },
       })
     }
@@ -87,24 +84,25 @@ export async function POST(request: NextRequest) {
     }
 
     // Determine voice based on character or use provided voice
-    const voice = body.voice || getCharacterVoice(body.character)
-    const format = body.format || 'mp3'
+    const voice =
+      requestedVoice || getCharacterVoice(character as BrainRotCharacter)
+    const format = requestedFormat || 'mp3'
 
     // Prepare TTS options
     const ttsOptions: TTSOptions = {
       voice,
-      instructions: body.instructions,
+      instructions,
       format,
     }
 
     console.info(
-      `Generating TTS for character: ${body.character?.name || 'default'} with token: ${body.ttsToken.substring(0, 12)}...`,
+      `Generating TTS for character: ${character?.name || 'default'} with token: ${ttsToken.substring(0, 12)}...`,
     )
 
     // Generate speech using the cached TTS system with the validated text
     const result = await generateTTSAudio(
       textToSpeak,
-      body.character,
+      character as BrainRotCharacter,
       ttsOptions,
     )
 
@@ -119,7 +117,7 @@ export async function POST(request: NextRequest) {
 
     // Cache the generated audio with the token for future replay
     await cacheAudioWithToken(
-      body.ttsToken,
+      ttsToken,
       result.audio,
       result.format,
       result.voice,
@@ -139,7 +137,7 @@ export async function POST(request: NextRequest) {
         'X-TTS-Voice': result.voice,
         'X-Cache': result.cached ? 'HIT' : 'MISS', // AI cache status
         'X-TTS-Cache': 'GENERATED', // Indicates newly generated and cached
-        'X-TTS-Token': body.ttsToken.substring(0, 12) + '...', // Show partial token for debugging
+        'X-TTS-Token': ttsToken.substring(0, 12) + '...', // Show partial token for debugging
       },
     })
   } catch (error) {

@@ -8,42 +8,42 @@
 
 export interface FingerprintComponents {
   // Basic browser info
-  userAgent: string
-  language: string
-  timezone: string
+  userAgent?: string
+  language?: string
+  timezone?: string
 
   // Screen characteristics
-  screenResolution: string
-  colorDepth: number
-  devicePixelRatio: number
+  screenResolution?: string
+  colorDepth?: number
+  devicePixelRatio?: number
 
   // Hardware signals
-  hardwareConcurrency: number
+  hardwareConcurrency?: number
   deviceMemory?: number
 
   // Canvas fingerprint
-  canvasFingerprint: string
+  canvasFingerprint?: string
 
   // WebGL fingerprint
-  webglFingerprint: string
+  webglFingerprint?: string
 
   // Audio fingerprint
-  audioFingerprint: string
+  audioFingerprint?: string
 
   // Feature detection
-  featureSupport: string
+  featureSupport?: string
 
   // Font detection
-  fontFingerprint: string
+  fontFingerprint?: string
 
   // Plugin detection
-  pluginFingerprint: string
+  pluginFingerprint?: string
 
   // Session-specific
-  sessionId: string
+  sessionId?: string
 
   // Automation detection
-  automationFlags: string
+  automationFlags?: string
 }
 
 export interface FingerprintResult {
@@ -122,28 +122,31 @@ function analyzeSuspiciousFlags(automationFlags: string): string[] {
 export function processFingerprint(
   components: FingerprintComponents,
 ): FingerprintResult {
-  // Create composite fingerprint
+  // Create composite fingerprint with safe access to potentially undefined properties
   const compositeData = [
-    components.userAgent,
-    components.language,
-    components.timezone,
-    components.screenResolution,
-    components.colorDepth.toString(),
-    components.devicePixelRatio.toString(),
-    components.hardwareConcurrency.toString(),
+    components.userAgent || 'unknown',
+    components.language || 'unknown',
+    components.timezone || 'unknown',
+    components.screenResolution || 'unknown',
+    (components.colorDepth ?? 0).toString(),
+    (components.devicePixelRatio ?? 1).toString(),
+    (components.hardwareConcurrency ?? 1).toString(),
     components.deviceMemory?.toString() || 'unknown',
-    components.canvasFingerprint,
-    components.webglFingerprint,
-    components.audioFingerprint,
-    components.featureSupport,
-    components.fontFingerprint,
-    components.pluginFingerprint,
-    components.automationFlags,
+    components.canvasFingerprint || 'unknown',
+    components.webglFingerprint || 'unknown',
+    components.audioFingerprint || 'unknown',
+    components.featureSupport || 'unknown',
+    components.fontFingerprint || 'unknown',
+    components.pluginFingerprint || 'unknown',
+    components.sessionId || 'unknown',
+    components.automationFlags || 'unknown',
   ].join('|')
 
   const fingerprint = hashFingerprint(compositeData)
   const entropy = calculateEntropy(compositeData)
-  const suspiciousFlags = analyzeSuspiciousFlags(components.automationFlags)
+  const suspiciousFlags = analyzeSuspiciousFlags(
+    components.automationFlags || '',
+  )
 
   // Calculate confidence based on entropy and component availability
   let confidence = Math.min(entropy / 20, 1) // Normalize entropy to 0-1

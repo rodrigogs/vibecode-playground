@@ -1,27 +1,22 @@
 {
-  "placeholder": "Scrivi un messaggio qui...",
+  "placeholder": "Scrivi il tuo messaggio qui...",
   "send": "Invia",
-  "loading": "Sto generando una risposta...",
-  "error": "Si è verificato un errore. Riprova.",
+  "loading": "Generando risposta...",
   "speak": "Pronuncia Risposta",
   "stop": "Ferma",
   "close": "Chiudi Chat",
-  "chattingWith": "Chatting con:",
   "errorPrefix": "Errore:",
   "loadingRateLimit": "Caricamento limite di velocità...",
-  "emptyChatMessage": "Inizia a parlare con {characterName} e guarda il brain-rot scatenarsi!",
   "rateLimit": {
-    "ipLimitExceeded": "Hai raggiunto il tuo limite di {limit} generazioni. Accedi per continuare con fino a {userLimit} generazioni al giorno.",
-    "userLimitExceeded": "Hai raggiunto il tuo limite giornaliero di {limit} generazioni. Presto più modi per ottenere generazioni aggiuntive!",
-    "anonymousRemaining": "{remaining} di {limit} generazioni rimanenti.",
-    "anonymousSignInPrompt": "Accedi per ottenere fino a {limit} generazioni al giorno.",
-    "anonymousSignInPromptLast": "Accedi per ottenere {limit} generazioni al giorno.",
-    "userRemaining": "{remaining} di {limit} generazioni giornaliere rimanenti. Presto più modi per ottenere generazioni aggiuntive!",
-    "reachedLimit": "Hai raggiunto il tuo limite. Per favore",
-    "signInToContinue": "accedi",
-    "toContinueWithMore": "per continuare con più generazioni.",
+    "ipLimitExceeded": "Hai raggiunto il tuo limite di generazioni. Accedi per continuare con più generazioni al giorno.",
+    "userLimitExceeded": "Limite giornaliero raggiunto.",
+    "anonymousRemaining": "{remaining} generazioni rimanenti -",
+    "anonymousSignInPrompt": "Accedi per ottenere più generazioni al giorno.",
+    "anonymousSignInPromptLast": "Accedi per ottenere più generazioni al giorno.",
+    "userRemaining": "{remaining} generazioni giornaliere rimanenti.",
     "signInToGetMore": "Accedi",
     "toGetMoreGenerations": "per ottenere più generazioni al giorno.",
-    "resetIn": "Ripristina in {time}"
+    "watchAdForCredit": "Guarda un annuncio",
+    "watchAdToUnlock": "per sbloccare di più"
   }
 }

@@ -36,7 +36,9 @@ export class CustomAdapter implements CacheAdapter {
   }
 
   async set(key: string, value: unknown, ttl?: number): Promise<void> {
-    const fsTtl = this.fsTtl
+    // Use the passed TTL for both layers when explicitly provided,
+    // otherwise use the default TTLs for each layer
+    const fsTtl = ttl ?? this.fsTtl
     const memoryTtl = ttl ?? this.memoryTtl
 
     // Execute both operations in parallel for better performance
@@ -76,10 +78,17 @@ export class CustomAdapter implements CacheAdapter {
       const fsValue = await fsCache.get<T>(key)
 
       if (fsValue) {
-        // When copying from filesystem to memory cache, use the memory TTL
-        // This ensures consistency in expiration behavior
+        // When copying from filesystem to memory cache, we need to preserve
+        // the original TTL context. For rate limiting data, we should use
+        // a longer TTL to prevent premature expiration.
         try {
-          await memoryCache.set(key, fsValue, this.memoryTtl)
+          // Check if this is rate limit data and preserve longer TTL
+          const isRateLimitData = key.includes('rate_limit:')
+          const promotionTtl = isRateLimitData
+            ? Math.max(this.memoryTtl, 4 * 60 * 60 * 1000) // 4 hours minimum for rate limit data
+            : this.memoryTtl
+
+          await memoryCache.set(key, fsValue, promotionTtl)
         } catch {
           // If setting in memory cache fails, still return the value
         }

@@ -1,27 +1,22 @@
 {
-  "placeholder": "Tulis pesan di sini...",
+  "placeholder": "Ketik pesan Anda di sini...",
   "send": "Kirim",
-  "loading": "Membuat respons...",
-  "error": "Terjadi kesalahan. Silakan coba lagi.",
+  "loading": "Menghasilkan respons...",
   "speak": "Ucapkan Respons",
   "stop": "Berhenti",
   "close": "Tutup Chat",
-  "chattingWith": "Chatting dengan:",
   "errorPrefix": "Kesalahan:",
-  "loadingRateLimit": "Memuat batas kecepatan...",
-  "emptyChatMessage": "Mulai berbicara dengan {characterName} dan saksikan brain-rot terjadi!",
+  "loadingRateLimit": "Memuat batas tingkat...",
   "rateLimit": {
-    "ipLimitExceeded": "Anda telah mencapai batas {limit} generasi. Silakan masuk untuk melanjutkan dengan hingga {userLimit} generasi per hari.",
-    "userLimitExceeded": "Anda telah mencapai batas harian {limit} generasi. Lebih banyak cara untuk mendapatkan generasi tambahan segera hadir!",
-    "anonymousRemaining": "{remaining} dari {limit} generasi tersisa.",
-    "anonymousSignInPrompt": "Masuk untuk mendapatkan hingga {limit} generasi per hari.",
-    "anonymousSignInPromptLast": "Masuk untuk mendapatkan {limit} generasi per hari.",
-    "userRemaining": "{remaining} dari {limit} generasi harian tersisa. Lebih banyak cara untuk mendapatkan generasi tambahan segera hadir!",
-    "reachedLimit": "Anda telah mencapai batas. Silakan",
-    "signInToContinue": "masuk",
-    "toContinueWithMore": "untuk melanjutkan dengan lebih banyak generasi.",
+    "ipLimitExceeded": "Anda telah mencapai batas generasi. Silakan masuk untuk melanjutkan dengan lebih banyak generasi per hari.",
+    "userLimitExceeded": "Batas harian tercapai.",
+    "anonymousRemaining": "{remaining} generasi tersisa -",
+    "anonymousSignInPrompt": "Masuk untuk mendapatkan lebih banyak generasi per hari.",
+    "anonymousSignInPromptLast": "Masuk untuk mendapatkan lebih banyak generasi per hari.",
+    "userRemaining": "{remaining} generasi harian tersisa.",
     "signInToGetMore": "Masuk",
     "toGetMoreGenerations": "untuk mendapatkan lebih banyak generasi per hari.",
-    "resetIn": "Reset dalam {time}"
+    "watchAdForCredit": "Tonton iklan",
+    "watchAdToUnlock": "untuk membuka lebih banyak"
   }
 }

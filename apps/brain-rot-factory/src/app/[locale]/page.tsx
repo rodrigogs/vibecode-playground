@@ -64,10 +64,11 @@ export default function Home() {
     prompt,
     messages,
     isLoading,
-    rateLimitRefreshTrigger,
     setPrompt,
     handleSubmit,
     clearChat,
+    rateLimitRefreshTrigger,
+    refreshRateLimit,
   } = useChat({
     selectedCharacter,
     onNotificationSound: playBrainRotNotification,
@@ -192,6 +193,7 @@ export default function Home() {
               onSubmit={handleSubmit}
               onSpeakMessage={handleSpeakMessage}
               rateLimitRefreshKey={rateLimitRefreshTrigger}
+              onRateLimitRefresh={refreshRateLimit}
             />
           </div>
         )}

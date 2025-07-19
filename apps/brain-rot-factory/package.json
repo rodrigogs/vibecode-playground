@@ -16,10 +16,14 @@
     "test:integration": "npm run test -- --project integration --pass-with-no-tests"
   },
   "dependencies": {
+    "@capacitor-community/admob": "^7.0.3",
     "@repo/ai": "*",
     "@repo/cache": "*",
     "@repo/utils": "*",
+    "@types/jsonwebtoken": "^9.0.10",
     "@vercel/analytics": "^1.5.0",
+    "isomorphic-dompurify": "^2.26.0",
+    "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.516.0",
     "next": "15.3.3",
     "next-auth": "^5.0.0-beta.28",
@@ -40,6 +44,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.3.3",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vite-tsconfig-paths": "^5.1.4"
   }
 }

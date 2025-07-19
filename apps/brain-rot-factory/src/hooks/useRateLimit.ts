@@ -2,15 +2,15 @@
 
 import { useCallback, useEffect, useState } from 'react'
 
-import { RATE_LIMIT_CONFIG } from '@/lib/rate-limit-constants'
+import { useFingerprint } from '@/hooks/useFingerprint'
 
 export interface RateLimitInfo {
-  limit: number
   remaining: number
   resetTime: number
   requiresAuth: boolean
   isLoggedIn: boolean
   allowed: boolean
+  method: string
 }
 
 export interface UseRateLimitResult {
@@ -26,13 +26,20 @@ export function useRateLimit(): UseRateLimitResult {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [timeUntilReset, setTimeUntilReset] = useState(0)
+  const { fingerprint, isLoading: fingerprintLoading } = useFingerprint()
 
   const checkRateLimit = useCallback(async () => {
     try {
       setIsLoading(true)
       setError(null)
 
-      const response = await fetch('/api/rate-limit')
+      // Include fingerprint data to match the chat API behavior
+      const url = new URL('/api/rate-limit', window.location.origin)
+      if (fingerprint) {
+        url.searchParams.set('fingerprint', fingerprint)
+      }
+
+      const response = await fetch(url.toString())
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
@@ -52,7 +59,7 @@ export function useRateLimit(): UseRateLimitResult {
     } finally {
       setIsLoading(false)
     }
-  }, [])
+  }, [fingerprint])
 
   // Update time until reset every second
   useEffect(() => {
@@ -74,10 +81,13 @@ export function useRateLimit(): UseRateLimitResult {
     return () => clearInterval(interval)
   }, [rateLimitInfo?.resetTime])
 
-  // Initial load
+  // Only check rate limit when fingerprint loading is complete
+  // This prevents multiple requests during fingerprint generation
   useEffect(() => {
-    checkRateLimit()
-  }, [checkRateLimit])
+    if (!fingerprintLoading) {
+      checkRateLimit()
+    }
+  }, [fingerprintLoading, checkRateLimit])
 
   return {
     rateLimitInfo,
@@ -114,35 +124,24 @@ export function getRateLimitMessage(
 
   if (!info.allowed) {
     if (info.requiresAuth) {
-      return t('rateLimit.ipLimitExceeded', {
-        limit: RATE_LIMIT_CONFIG.IP_LIMIT,
-        userLimit: RATE_LIMIT_CONFIG.USER_DAILY_LIMIT,
-      })
+      return t('rateLimit.ipLimitExceeded')
     } else {
-      return t('rateLimit.userLimitExceeded', {
-        limit: RATE_LIMIT_CONFIG.USER_DAILY_LIMIT,
-      })
+      return t('rateLimit.userLimitExceeded')
     }
   }
 
   if (info.isLoggedIn) {
     return t('rateLimit.userRemaining', {
       remaining: info.remaining,
-      limit: info.limit,
     })
   } else {
     const baseMessage = t('rateLimit.anonymousRemaining', {
       remaining: info.remaining,
-      limit: info.limit,
     })
     const authPrompt =
       info.remaining <= 1
-        ? t('rateLimit.anonymousSignInPromptLast', {
-            limit: RATE_LIMIT_CONFIG.USER_DAILY_LIMIT,
-          })
-        : t('rateLimit.anonymousSignInPrompt', {
-            limit: RATE_LIMIT_CONFIG.USER_DAILY_LIMIT,
-          })
+        ? t('rateLimit.anonymousSignInPromptLast')
+        : t('rateLimit.anonymousSignInPrompt')
     return baseMessage + ' ' + authPrompt
   }
 }

@@ -3,11 +3,8 @@ import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import { useEffect } from 'react'
 
-import {
-  formatTimeUntilReset,
-  getRateLimitMessage,
-  useRateLimit,
-} from '@/hooks/useRateLimit'
+import { useFingerprint } from '@/hooks/useFingerprint'
+import { getRateLimitMessage, useRateLimit } from '@/hooks/useRateLimit'
 
 interface ChatInputProps {
   prompt: string
@@ -15,6 +12,7 @@ interface ChatInputProps {
   isLoading: boolean
   onSubmit: (e: React.FormEvent) => void
   rateLimitRefreshKey?: number
+  onRateLimitRefresh?: () => void
 }
 
 export default function ChatInput({
@@ -23,17 +21,77 @@ export default function ChatInput({
   isLoading,
   onSubmit,
   rateLimitRefreshKey,
+  onRateLimitRefresh,
 }: ChatInputProps) {
   const t = useTranslations('Chat')
-  const { rateLimitInfo, timeUntilReset, checkRateLimit } = useRateLimit()
+  const tCommon = useTranslations('common')
+  const { rateLimitInfo, checkRateLimit } = useRateLimit()
+  const { fingerprint } = useFingerprint()
 
-  // Update rate limit when refreshRateLimit prop changes
+  // Update rate limit only when refreshKey changes (not on every checkRateLimit change)
   useEffect(() => {
-    checkRateLimit()
+    if (rateLimitRefreshKey > 0) {
+      checkRateLimit()
+    }
   }, [rateLimitRefreshKey, checkRateLimit])
+
+  const handleWatchAd = async (e: React.MouseEvent) => {
+    e.preventDefault()
+
+    try {
+      // First, generate a secure ad token
+      const tokenResponse = await fetch('/api/rewarded-ad/generate-token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fingerprintData: fingerprint,
+        }),
+      })
+
+      if (!tokenResponse.ok) {
+        throw new Error('Failed to generate ad token')
+      }
+
+      const { adToken } = await tokenResponse.json()
+
+      // Call the actual rewarded ad API endpoint
+      const response = await fetch('/api/rewarded-ad/grant-credit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          adToken,
+          fingerprintData: fingerprint,
+        }),
+      })
+
+      const result = await response.json()
+
+      if (result.success) {
+        console.log('Ad credit granted successfully:', result.message)
+        // Refresh rate limit info after ad completion
+        await checkRateLimit()
+
+        // Notify parent component to refresh rate limit
+        if (onRateLimitRefresh) {
+          onRateLimitRefresh()
+        }
+      } else {
+        console.error('Failed to grant ad credit:', result.message)
+      }
+    } catch (error) {
+      console.error('Error watching ad:', error)
+    }
+  }
 
   const isDisabled =
     isLoading || !prompt.trim() || (rateLimitInfo && !rateLimitInfo.allowed)
+
+  // Check if user has hit the rate limit and show shortened message
+  const showShortRateLimitUI = rateLimitInfo && !rateLimitInfo.allowed
 
   return (
     <div className="border-t border-purple-500/20 p-6">
@@ -77,55 +135,105 @@ export default function ChatInput({
                   }}
                 />
 
-                {/* Rate Limit Info - integrated at bottom with glassy style */}
-                {rateLimitInfo ? (
+                {/* Rate Limit Info - shortened when limit reached */}
+                {showShortRateLimitUI ? (
+                  /* Shortened UI when rate limit is reached */
+                  <div className="relative z-10 px-6 pb-3 pt-1">
+                    <div className="flex items-center justify-center gap-2 text-xs text-white/40">
+                      <div className="w-1 h-1 rounded-full bg-orange-300/60 animate-pulse"></div>
+                      <div className="flex items-center gap-2">
+                        {rateLimitInfo.requiresAuth && (
+                          <>
+                            <Link
+                              href="/auth/signin"
+                              className="text-purple-300 hover:text-purple-200 underline transition-colors duration-200"
+                            >
+                              {t('rateLimit.signInToGetMore')}{' '}
+                              {t('rateLimit.toGetMoreGenerations')}
+                            </Link>
+                            <span className="text-white/40">
+                              {' '}
+                              {tCommon('or')}{' '}
+                            </span>
+                          </>
+                        )}
+                        <Link
+                          href="#"
+                          onClick={handleWatchAd}
+                          className="text-purple-300 hover:text-purple-200 underline transition-colors duration-200"
+                        >
+                          {t('rateLimit.watchAdForCredit')}
+                        </Link>
+                        <span className="text-white/40">
+                          {' '}
+                          {t('rateLimit.watchAdToUnlock')}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ) : rateLimitInfo ? (
+                  /* Normal UI when not at rate limit */
                   <div className="relative z-10 px-6 pb-3 pt-1">
                     <div className="flex items-center justify-center gap-2 text-xs text-white/40">
                       <div className="w-1 h-1 rounded-full bg-white/30 animate-pulse"></div>
-                      <span className="text-xs">
-                        {rateLimitInfo.requiresAuth &&
-                        !rateLimitInfo.allowed ? (
-                          <>
-                            {t('rateLimit.reachedLimit')}{' '}
-                            <Link
-                              href="/auth/signin"
-                              className="text-purple-300 hover:text-purple-200 underline transition-colors duration-200"
-                            >
-                              {t('rateLimit.signInToContinue')}
-                            </Link>{' '}
-                            {t('rateLimit.toContinueWithMore')}
-                          </>
-                        ) : !rateLimitInfo.isLoggedIn &&
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs">
+                          {!rateLimitInfo.isLoggedIn &&
                           rateLimitInfo.allowed ? (
-                          <>
-                            {t('rateLimit.anonymousRemaining', {
-                              remaining: rateLimitInfo.remaining,
-                              limit: rateLimitInfo.limit,
-                            })}{' '}
-                            <Link
-                              href="/auth/signin"
-                              className="text-purple-300 hover:text-purple-200 underline transition-colors duration-200"
-                            >
-                              {t('rateLimit.signInToGetMore')}
-                            </Link>{' '}
-                            {t('rateLimit.toGetMoreGenerations')}
-                          </>
-                        ) : (
-                          getRateLimitMessage(rateLimitInfo, (key, params) =>
-                            t(key, params),
-                          )
-                        )}
-                        {!rateLimitInfo.allowed && timeUntilReset > 0 && (
-                          <span className="text-orange-300/60 ml-1">
-                            {t('rateLimit.resetIn', {
-                              time: formatTimeUntilReset(timeUntilReset),
-                            })}
-                          </span>
-                        )}
-                      </span>
+                            <>
+                              {t('rateLimit.anonymousRemaining', {
+                                remaining: rateLimitInfo.remaining,
+                              })}{' '}
+                              <Link
+                                href="/auth/signin"
+                                className="text-purple-300 hover:text-purple-200 underline transition-colors duration-200"
+                              >
+                                {t('rateLimit.signInToGetMore')}
+                              </Link>
+                              <span className="text-white/40">
+                                {' '}
+                                {tCommon('or')}{' '}
+                              </span>
+                              <Link
+                                href="#"
+                                onClick={handleWatchAd}
+                                className="text-purple-300 hover:text-purple-200 underline transition-colors duration-200"
+                              >
+                                {t('rateLimit.watchAdForCredit')}
+                              </Link>
+                              <span className="text-white/40">
+                                {' '}
+                                {t('rateLimit.watchAdToUnlock')}
+                              </span>
+                            </>
+                          ) : rateLimitInfo.isLoggedIn ? (
+                            <>
+                              {t('rateLimit.userRemaining', {
+                                remaining: rateLimitInfo.remaining,
+                              })}{' '}
+                              <Link
+                                href="#"
+                                onClick={handleWatchAd}
+                                className="text-purple-300 hover:text-purple-200 underline transition-colors duration-200"
+                              >
+                                {t('rateLimit.watchAdForCredit')}
+                              </Link>
+                              <span className="text-white/40">
+                                {' '}
+                                {t('rateLimit.watchAdToUnlock')}
+                              </span>
+                            </>
+                          ) : (
+                            getRateLimitMessage(rateLimitInfo, (key, params) =>
+                              t(key, params),
+                            )
+                          )}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 ) : (
+                  /* Loading state */
                   <div className="relative z-10 px-6 pb-3 pt-1">
                     <div className="flex items-center justify-center gap-2 text-xs text-white/30">
                       <div className="w-1 h-1 rounded-full bg-white/20"></div>

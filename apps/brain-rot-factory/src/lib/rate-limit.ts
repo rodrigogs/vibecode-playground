@@ -1,18 +1,20 @@
-import { headers } from 'next/headers'
 import type { Session } from 'next-auth'
 
 import { cache } from '@/lib/backend-cache'
-import {
-  type FingerprintComponents,
-  type FingerprintResult,
-  processFingerprint,
-} from '@/lib/browser-fingerprinting'
+import { type FingerprintResult } from '@/lib/browser-fingerprinting'
 import { RATE_LIMIT_CONFIG } from '@/lib/rate-limit-constants'
+import {
+  type BurstLimitResult,
+  checkBurstRateLimit,
+} from '@/lib/utils/burst-rate-limit'
+import { cacheKeys } from '@/lib/utils/cache-keys'
+import { processFingerprintData } from '@/lib/utils/fingerprint'
+import { getIPForCacheKey } from '@/lib/utils/ip'
 
 // Rate limit configurations
 export const RATE_LIMITS = {
   IP_LIMIT: RATE_LIMIT_CONFIG.IP_LIMIT,
-  FINGERPRINT_LIMIT: RATE_LIMIT_CONFIG.IP_LIMIT * 2, // Slightly higher for fingerprint-based
+  FINGERPRINT_LIMIT: RATE_LIMIT_CONFIG.IP_LIMIT, // Same as IP limit
   USER_DAILY_LIMIT: RATE_LIMIT_CONFIG.USER_DAILY_LIMIT,
   RESET_TIME: RATE_LIMIT_CONFIG.RESET_TIME_HOURS * 60 * 60 * 1000,
   // Enhanced unique user detection thresholds
@@ -32,6 +34,7 @@ export interface RateLimitResult {
   confidence?: number
   fingerprint?: string // Partial fingerprint for logging
   suspiciousFlags?: string[] // Security flags detected
+  burstLimit?: BurstLimitResult // Burst rate limiting information
 }
 
 export interface RateLimitInfo {
@@ -44,47 +47,10 @@ export interface RateLimitInfo {
 }
 
 /**
- * Extract client IP from request headers
- */
-async function getClientIP(): Promise<string> {
-  const headersList = await headers()
-
-  // Check multiple headers for the real IP (in order of preference)
-  const forwardedFor = headersList.get('x-forwarded-for')
-  const realIP = headersList.get('x-real-ip')
-  const cfConnectingIP = headersList.get('cf-connecting-ip')
-
-  // x-forwarded-for can contain multiple IPs, take the first one
-  if (forwardedFor) {
-    const ips = forwardedFor.split(',').map((ip) => ip.trim())
-    return ips[0]
-  }
-
-  if (realIP) {
-    return realIP
-  }
-
-  if (cfConnectingIP) {
-    return cfConnectingIP
-  }
-
-  // Fallback to a default (this should rarely happen in production)
-  return '127.0.0.1'
-}
-
-/**
  * Generate cache keys for different rate limiting strategies
  */
 function getRateLimitKeys(ip: string, fingerprint?: string) {
-  const ipKey = `rate_limit:ip:${ip}`
-  const fingerprintKey = fingerprint
-    ? `rate_limit:fingerprint:${fingerprint}`
-    : null
-  const combinedKey = fingerprint
-    ? `rate_limit:combined:${ip}:${fingerprint}`
-    : ipKey
-
-  return { ipKey, fingerprintKey, combinedKey }
+  return cacheKeys.rateLimit.getKeys(ip, fingerprint)
 }
 
 /**
@@ -147,33 +113,6 @@ function analyzeSuspiciousBehavior(
 }
 
 /**
- * Process fingerprint data from client with enhanced analysis
- */
-function processFingerprintData(fingerprintData?: string): {
-  fingerprint?: string
-  confidence?: number
-  fingerprintResult?: FingerprintResult
-} {
-  if (!fingerprintData) {
-    return {}
-  }
-
-  try {
-    const components: FingerprintComponents = JSON.parse(fingerprintData)
-    const result: FingerprintResult = processFingerprint(components)
-
-    return {
-      fingerprint: result.fingerprint,
-      confidence: result.confidence,
-      fingerprintResult: result,
-    }
-  } catch (error) {
-    console.warn('Failed to process fingerprint data:', error)
-    return {}
-  }
-}
-
-/**
  * Enhanced rate limit info retrieval with sophisticated user detection
  */
 async function getRateLimitInfo(
@@ -185,49 +124,57 @@ async function getRateLimitInfo(
   info: RateLimitInfo
   method: 'ip' | 'fingerprint' | 'combined'
 }> {
-  const { ipKey, fingerprintKey, combinedKey } = getRateLimitKeys(
-    ip,
-    fingerprint,
-  )
+  const {
+    ip: ipKey,
+    fingerprint: fingerprintKey,
+    combined: combinedKey,
+  } = getRateLimitKeys(ip, fingerprint)
 
   let existingInfo: RateLimitInfo | null = null
   let method: 'ip' | 'fingerprint' | 'combined' = 'ip'
 
-  // Strategy selection based on fingerprint confidence
-  if (
-    fingerprint &&
-    confidence &&
-    confidence > RATE_LIMITS.HIGH_CONFIDENCE_THRESHOLD
-  ) {
-    // High confidence - use combined approach for maximum uniqueness
-    existingInfo = await cache.get<RateLimitInfo>(combinedKey)
-    if (existingInfo && existingInfo.resetTime > Date.now()) {
-      method = 'combined'
-    } else {
-      // Check fingerprint-only as fallback
+  try {
+    // Strategy selection based on fingerprint confidence
+    if (
+      fingerprint &&
+      confidence &&
+      confidence > RATE_LIMITS.HIGH_CONFIDENCE_THRESHOLD
+    ) {
+      // High confidence - use combined approach for maximum uniqueness
+      existingInfo = await cache.get<RateLimitInfo>(combinedKey)
+      if (existingInfo && existingInfo.resetTime > Date.now()) {
+        method = 'combined'
+      } else {
+        // Check fingerprint-only as fallback
+        existingInfo = await cache.get<RateLimitInfo>(fingerprintKey!)
+        if (existingInfo && existingInfo.resetTime > Date.now()) {
+          method = 'fingerprint'
+        }
+      }
+    } else if (
+      fingerprint &&
+      confidence &&
+      confidence > RATE_LIMITS.MEDIUM_CONFIDENCE_THRESHOLD
+    ) {
+      // Medium confidence - use fingerprint-only
       existingInfo = await cache.get<RateLimitInfo>(fingerprintKey!)
       if (existingInfo && existingInfo.resetTime > Date.now()) {
         method = 'fingerprint'
       }
     }
-  } else if (
-    fingerprint &&
-    confidence &&
-    confidence > RATE_LIMITS.MEDIUM_CONFIDENCE_THRESHOLD
-  ) {
-    // Medium confidence - use fingerprint-only
-    existingInfo = await cache.get<RateLimitInfo>(fingerprintKey!)
-    if (existingInfo && existingInfo.resetTime > Date.now()) {
-      method = 'fingerprint'
-    }
-  }
 
-  // Fallback to IP-based if no fingerprint method worked
-  if (!existingInfo || existingInfo.resetTime <= Date.now()) {
-    existingInfo = await cache.get<RateLimitInfo>(ipKey)
-    if (existingInfo && existingInfo.resetTime > Date.now()) {
-      method = 'ip'
+    // Fallback to IP-based if no fingerprint method worked
+    if (!existingInfo || existingInfo.resetTime <= Date.now()) {
+      existingInfo = await cache.get<RateLimitInfo>(ipKey)
+      if (existingInfo && existingInfo.resetTime > Date.now()) {
+        method = 'ip'
+      }
     }
+  } catch (error) {
+    console.warn('Cache error during rate limit check:', error)
+    // Fallback to default behavior on cache errors
+    existingInfo = null
+    method = 'ip'
   }
 
   // Analyze suspicious behavior and adjust confidence
@@ -242,7 +189,7 @@ async function getRateLimitInfo(
       count: 0,
       resetTime: Date.now() + RATE_LIMITS.RESET_TIME,
       lastSeen: Date.now(),
-      confidence: adjustedConfidence,
+      ...(fingerprintResult && { confidence: adjustedConfidence }),
       suspiciousFlags,
       fingerprintHistory: fingerprint ? [fingerprint] : [],
     }
@@ -263,7 +210,9 @@ async function getRateLimitInfo(
     }
   } else {
     // Update existing info with new analysis
-    existingInfo.confidence = adjustedConfidence
+    if (fingerprintResult) {
+      existingInfo.confidence = adjustedConfidence
+    }
     existingInfo.suspiciousFlags = suspiciousFlags
 
     // Update fingerprint history
@@ -289,45 +238,51 @@ async function updateRateLimitInfo(
   info: RateLimitInfo,
   method: 'ip' | 'fingerprint' | 'combined',
 ): Promise<void> {
-  const { ipKey, fingerprintKey, combinedKey } = getRateLimitKeys(
-    ip,
-    fingerprint,
-  )
+  const {
+    ip: ipKey,
+    fingerprint: fingerprintKey,
+    combined: combinedKey,
+  } = getRateLimitKeys(ip, fingerprint)
   const ttl = info.resetTime - Date.now()
 
   if (ttl <= 0) return
 
-  // Update based on method
-  switch (method) {
-    case 'combined':
-      if (fingerprint) {
-        await cache.set(combinedKey, info, ttl)
-        // Also update fingerprint-only for fallback
-        await cache.set(fingerprintKey!, info, ttl)
-      }
-      break
-    case 'fingerprint':
-      if (fingerprint && fingerprintKey) {
-        await cache.set(fingerprintKey, info, ttl)
-      }
-      break
-    case 'ip':
-    default:
-      await cache.set(ipKey, info, ttl)
-      break
-  }
+  try {
+    // Update based on method
+    switch (method) {
+      case 'combined':
+        if (fingerprint) {
+          await cache.set(combinedKey, info, ttl)
+          // Also update fingerprint-only for fallback
+          await cache.set(fingerprintKey!, info, ttl)
+        }
+        break
+      case 'fingerprint':
+        if (fingerprint && fingerprintKey) {
+          await cache.set(fingerprintKey, info, ttl)
+        }
+        break
+      case 'ip':
+      default:
+        await cache.set(ipKey, info, ttl)
+        break
+    }
 
-  // Enhanced logging with security information
-  const logDetails = {
-    method,
-    count: info.count,
-    limit: getLimit(method),
-    confidence: info.confidence,
-    suspiciousFlags: info.suspiciousFlags?.length || 0,
-    identifier: method === 'ip' ? ip : fingerprint?.substring(0, 8),
-  }
+    // Enhanced logging with security information
+    const logDetails = {
+      method,
+      count: info.count,
+      limit: getLimit(method),
+      confidence: info.confidence,
+      suspiciousFlags: info.suspiciousFlags?.length || 0,
+      identifier: method === 'ip' ? ip : fingerprint?.substring(0, 8),
+    }
 
-  console.info('Rate limit updated:', logDetails)
+    console.info('Rate limit updated:', logDetails)
+  } catch (error) {
+    console.warn('Failed to update rate limit info in cache:', error)
+    // Continue gracefully - the rate limit check will still work with fallback behavior
+  }
 
   // Log security alerts for highly suspicious activity
   if (
@@ -360,196 +315,470 @@ function getLimit(method: 'ip' | 'fingerprint' | 'combined' | 'user'): number {
 }
 
 /**
+ * Get bonus credits for rate limit calculation
+ */
+async function getBonusCreditsForRateLimit(
+  session: Session | null,
+  ip: string,
+): Promise<number> {
+  const userId = session?.user?.id
+  const key = cacheKeys.bonusCredits.getKey(userId, ip)
+
+  return (await cache.get<number>(key)) || 0
+}
+
+/**
+ * Consume bonus credits first, then regular credits
+ */
+async function consumeBonusCredits(
+  session: Session | null,
+  ip: string,
+): Promise<boolean> {
+  const userId = session?.user?.id
+  const key = cacheKeys.bonusCredits.getKey(userId, ip)
+
+  const current = (await cache.get<number>(key)) || 0
+  if (current > 0) {
+    const newTotal = current - 1
+    if (newTotal > 0) {
+      await cache.set(key, newTotal, 24 * 60 * 60)
+    } else {
+      await cache.delete(key)
+    }
+    return true // Successfully consumed bonus credit
+  }
+  return false // No bonus credits available
+}
+
+/**
  * Enhanced rate limit check with sophisticated unique user detection
  */
 export async function checkRateLimit(
   session: Session | null,
   fingerprintData?: string,
 ): Promise<RateLimitResult> {
-  const ip = await getClientIP()
-  const isLoggedIn = !!session?.user?.id
+  try {
+    const ip = await getIPForCacheKey()
+    const isLoggedIn = !!session?.user?.id
 
-  console.info(
-    `Rate limit check for IP: ${ip}, logged in: ${isLoggedIn}, has fingerprint: ${!!fingerprintData}`,
-  )
+    console.info(
+      `Rate limit check for IP: ${ip}, logged in: ${isLoggedIn}, has fingerprint: ${!!fingerprintData}`,
+    )
 
-  if (isLoggedIn && session?.user?.id) {
-    // Handle logged-in users with existing logic
-    const userId = session.user.id
-    const userKey = `rate_limit:user:${userId}`
-    const userInfo = await cache.get<RateLimitInfo>(userKey)
+    if (isLoggedIn && session?.user?.id) {
+      // Handle logged-in users with existing logic
+      const userId = session.user.id
+      const userKey = cacheKeys.rateLimit.user(userId)
 
-    const info =
-      userInfo && userInfo.resetTime > Date.now()
-        ? userInfo
-        : {
-            count: 0,
-            resetTime: Date.now() + RATE_LIMITS.RESET_TIME,
-            lastSeen: Date.now(),
+      try {
+        const userInfo = await cache.get<RateLimitInfo>(userKey)
+
+        const info =
+          userInfo && userInfo.resetTime > Date.now()
+            ? userInfo
+            : {
+                count: 0,
+                resetTime: Date.now() + RATE_LIMITS.RESET_TIME,
+                lastSeen: Date.now(),
+              }
+
+        const baseRemaining = Math.max(
+          0,
+          RATE_LIMITS.USER_DAILY_LIMIT - info.count,
+        )
+        const bonusCredits = await getBonusCreditsForRateLimit(session, ip)
+        const remaining = baseRemaining + bonusCredits
+        const allowed =
+          info.count < RATE_LIMITS.USER_DAILY_LIMIT || bonusCredits > 0
+
+        // Check burst rate limiting for logged-in users
+        let burstResult: BurstLimitResult | undefined
+        try {
+          burstResult = await checkBurstRateLimit(userId, 'user')
+
+          if (!burstResult.allowed) {
+            console.warn(`[BURST LIMIT] Request blocked for user ${userId}:`, {
+              burstLevel: burstResult.burstLevel,
+              windowsViolated: burstResult.windowsViolated,
+              nextAllowedTime: burstResult.nextAllowedTime,
+              requestsInWindows: burstResult.requestsInWindows,
+            })
+          } else if (burstResult.suspiciousActivity) {
+            console.warn(
+              `[BURST LIMIT] Suspicious activity detected for user ${userId}:`,
+              {
+                burstLevel: burstResult.burstLevel,
+                requestsInWindows: burstResult.requestsInWindows,
+              },
+            )
           }
+        } catch (burstError) {
+          console.warn('Error in burst rate limit check for user:', burstError)
+          burstResult = undefined
+        }
 
-    const remaining = Math.max(0, RATE_LIMITS.USER_DAILY_LIMIT - info.count)
-    const allowed = info.count < RATE_LIMITS.USER_DAILY_LIMIT
+        // Final decision: both regular and burst limits must allow the request
+        const finalAllowed = allowed && burstResult?.allowed !== false
+
+        return {
+          allowed: finalAllowed,
+          limit: RATE_LIMITS.USER_DAILY_LIMIT,
+          remaining,
+          resetTime: info.resetTime,
+          requiresAuth: false,
+          isLoggedIn: true,
+          method: 'user',
+          burstLimit: burstResult,
+        }
+      } catch (cacheError) {
+        console.warn('Cache error for user rate limit:', cacheError)
+        // Fallback to allowing the request for logged-in users on cache errors
+        return {
+          allowed: true,
+          limit: RATE_LIMITS.USER_DAILY_LIMIT,
+          remaining: RATE_LIMITS.USER_DAILY_LIMIT,
+          resetTime: Date.now() + RATE_LIMITS.RESET_TIME,
+          requiresAuth: false,
+          isLoggedIn: true,
+          method: 'user',
+          burstLimit: undefined, // No burst checking on cache error
+        }
+      }
+    }
+
+    // Enhanced fingerprint processing for anonymous users
+    const { fingerprint, confidence, fingerprintResult } =
+      processFingerprintData(fingerprintData)
+
+    console.info(
+      '🔍 [RATE LIMIT] Checking limits - fingerprint:',
+      fingerprint?.substring(0, 8),
+      'confidence:',
+      confidence,
+    )
+
+    const { info, method } = await getRateLimitInfo(
+      ip,
+      fingerprint,
+      confidence,
+      fingerprintResult,
+    )
+
+    console.info(
+      '🔍 [RATE LIMIT] Got info - method:',
+      method,
+      'count:',
+      info.count,
+      'resetTime:',
+      new Date(info.resetTime),
+    )
+
+    const limit = getLimit(method)
+    const baseRemaining = Math.max(0, limit - info.count)
+    const bonusCredits = await getBonusCreditsForRateLimit(session, ip)
+    const remaining = baseRemaining + bonusCredits
+    const allowed = info.count < limit || bonusCredits > 0
+    const requiresAuth = info.count >= limit && bonusCredits === 0
+
+    console.info(
+      `Anonymous user ${method} rate limit: ${info.count}/${limit}, remaining: ${remaining}, confidence: ${confidence || 'none'}, flags: ${info.suspiciousFlags?.length || 0}`,
+    )
+
+    // Check burst rate limiting
+    let burstResult: BurstLimitResult | undefined
+    try {
+      // Create identifier based on method for burst checking
+      let burstIdentifier: string
+
+      switch (method) {
+        case 'combined':
+          burstIdentifier = fingerprint ? `${ip}:${fingerprint}` : ip
+          break
+        case 'fingerprint':
+          burstIdentifier = fingerprint || ip
+          break
+        default:
+          burstIdentifier = ip
+      }
+
+      burstResult = await checkBurstRateLimit(burstIdentifier, method)
+
+      // Log burst detection
+      if (!burstResult.allowed) {
+        console.warn(
+          `[BURST LIMIT] Request blocked for ${burstIdentifier} (${method}):`,
+          {
+            burstLevel: burstResult.burstLevel,
+            windowsViolated: burstResult.windowsViolated,
+            nextAllowedTime: burstResult.nextAllowedTime,
+            requestsInWindows: burstResult.requestsInWindows,
+          },
+        )
+      } else if (burstResult.suspiciousActivity) {
+        console.warn(
+          `[BURST LIMIT] Suspicious activity detected for ${burstIdentifier} (${method}):`,
+          {
+            burstLevel: burstResult.burstLevel,
+            requestsInWindows: burstResult.requestsInWindows,
+          },
+        )
+      }
+    } catch (burstError) {
+      console.warn('Error in burst rate limit check:', burstError)
+      // Don't block request on burst check errors
+      burstResult = undefined
+    }
+
+    // Final decision: both regular and burst limits must allow the request
+    const finalAllowed = allowed && burstResult?.allowed !== false
 
     return {
-      allowed,
-      limit: RATE_LIMITS.USER_DAILY_LIMIT,
+      allowed: finalAllowed,
+      limit,
       remaining,
       resetTime: info.resetTime,
+      requiresAuth,
+      isLoggedIn: false,
+      method,
+      ...(info.confidence !== undefined && { confidence: info.confidence }),
+      fingerprint: fingerprint?.substring(0, 8), // Only return partial fingerprint for logging
+      suspiciousFlags: info.suspiciousFlags,
+      burstLimit: burstResult,
+    }
+  } catch (error) {
+    console.warn('Error in checkRateLimit:', error)
+    // Fallback to allowing the request on general errors
+    return {
+      allowed: true,
+      limit: RATE_LIMITS.IP_LIMIT,
+      remaining: RATE_LIMITS.IP_LIMIT,
+      resetTime: Date.now() + RATE_LIMITS.RESET_TIME,
       requiresAuth: false,
-      isLoggedIn: true,
-      method: 'user',
+      isLoggedIn: false,
+      method: 'ip',
+      burstLimit: undefined, // No burst checking on general error
     }
   }
+}
 
-  // Enhanced fingerprint processing for anonymous users
-  const { fingerprint, confidence, fingerprintResult } =
-    processFingerprintData(fingerprintData)
-  const { info, method } = await getRateLimitInfo(
-    ip,
-    fingerprint,
-    confidence,
-    fingerprintResult,
-  )
+// Simple mutex implementation for atomic operations
+const lockMap = new Map<string, Promise<void>>()
 
-  const limit = getLimit(method)
-  const remaining = Math.max(0, limit - info.count)
-  const allowed = info.count < limit
-  const requiresAuth = info.count >= limit
+async function withLock<T>(
+  key: string,
+  operation: () => Promise<T>,
+): Promise<T> {
+  // Wait for any existing lock on this key
+  while (lockMap.has(key)) {
+    await lockMap.get(key)
+  }
 
-  console.info(
-    `Anonymous user ${method} rate limit: ${info.count}/${limit}, remaining: ${remaining}, confidence: ${confidence || 'none'}, flags: ${info.suspiciousFlags?.length || 0}`,
-  )
+  // Create a new lock
+  let releaseLock: () => void
+  const lock = new Promise<void>((resolve) => {
+    releaseLock = resolve
+  })
 
-  return {
-    allowed,
-    limit,
-    remaining,
-    resetTime: info.resetTime,
-    requiresAuth,
-    isLoggedIn: false,
-    method,
-    confidence: info.confidence,
-    fingerprint: fingerprint?.substring(0, 8), // Only return partial fingerprint for logging
-    suspiciousFlags: info.suspiciousFlags,
+  lockMap.set(key, lock)
+
+  try {
+    const result = await operation()
+    return result
+  } finally {
+    // Release the lock
+    lockMap.delete(key)
+    releaseLock!()
   }
 }
 
 /**
- * Enhanced rate limit consumption with unique user tracking
+ * Enhanced rate limit consumption with unique user tracking and atomic operations
  */
 export async function consumeRateLimit(
   session: Session | null,
   fingerprintData?: string,
 ): Promise<RateLimitResult> {
-  const ip = await getClientIP()
+  const ip = await getIPForCacheKey()
   const isLoggedIn = !!session?.user?.id
 
   console.info(`Consuming rate limit for IP: ${ip}, logged in: ${isLoggedIn}`)
 
   if (isLoggedIn && session?.user?.id) {
-    // Handle logged-in users
+    // Handle logged-in users with atomic operations
     const userId = session.user.id
-    const userKey = `rate_limit:user:${userId}`
-    const userInfo = await cache.get<RateLimitInfo>(userKey)
+    const userKey = cacheKeys.rateLimit.user(userId)
 
-    const info =
-      userInfo && userInfo.resetTime > Date.now()
-        ? userInfo
-        : {
-            count: 0,
-            resetTime: Date.now() + RATE_LIMITS.RESET_TIME,
-            lastSeen: Date.now(),
-          }
+    return await withLock(userKey, async () => {
+      const userInfo = await cache.get<RateLimitInfo>(userKey)
 
-    if (info.count >= RATE_LIMITS.USER_DAILY_LIMIT) {
+      const info =
+        userInfo && userInfo.resetTime > Date.now()
+          ? userInfo
+          : {
+              count: 0,
+              resetTime: Date.now() + RATE_LIMITS.RESET_TIME,
+              lastSeen: Date.now(),
+            }
+
+      // Try to consume bonus credits first
+      const bonusCreditsUsed = await consumeBonusCredits(session, ip)
+      if (bonusCreditsUsed) {
+        // Successfully used bonus credit, don't increment regular count
+        const bonusCredits = await getBonusCreditsForRateLimit(session, ip)
+        const remaining =
+          Math.max(0, RATE_LIMITS.USER_DAILY_LIMIT - info.count) + bonusCredits
+
+        return {
+          allowed: true,
+          limit: RATE_LIMITS.USER_DAILY_LIMIT,
+          remaining,
+          resetTime: info.resetTime,
+          requiresAuth: false,
+          isLoggedIn: true,
+          method: 'user',
+        }
+      }
+
+      if (info.count >= RATE_LIMITS.USER_DAILY_LIMIT) {
+        return {
+          allowed: false,
+          limit: RATE_LIMITS.USER_DAILY_LIMIT,
+          remaining: 0,
+          resetTime: info.resetTime,
+          requiresAuth: false,
+          isLoggedIn: true,
+          method: 'user',
+        }
+      }
+
+      // Increment and save
+      const newInfo: RateLimitInfo = {
+        ...info,
+        count: info.count + 1,
+        lastSeen: Date.now(),
+      }
+
+      const ttl = newInfo.resetTime - Date.now()
+      if (ttl > 0) {
+        try {
+          await cache.set(userKey, newInfo, ttl)
+        } catch (error) {
+          console.warn('Failed to update user rate limit info in cache:', error)
+          // Continue gracefully - the rate limit check will still work
+        }
+      }
+
+      const remaining = Math.max(
+        0,
+        RATE_LIMITS.USER_DAILY_LIMIT - newInfo.count,
+      )
+
       return {
-        allowed: false,
+        allowed: true,
         limit: RATE_LIMITS.USER_DAILY_LIMIT,
-        remaining: 0,
-        resetTime: info.resetTime,
+        remaining,
+        resetTime: newInfo.resetTime,
         requiresAuth: false,
         isLoggedIn: true,
         method: 'user',
       }
+    })
+  }
+
+  // Enhanced handling of anonymous users with atomic operations
+  const { fingerprint, confidence, fingerprintResult } =
+    processFingerprintData(fingerprintData)
+
+  // Create a lock key based on the method that will be used
+  const tempMethod =
+    fingerprint &&
+    confidence &&
+    confidence > RATE_LIMITS.HIGH_CONFIDENCE_THRESHOLD
+      ? 'combined'
+      : fingerprint &&
+          confidence &&
+          confidence > RATE_LIMITS.MEDIUM_CONFIDENCE_THRESHOLD
+        ? 'fingerprint'
+        : 'ip'
+
+  const lockKey =
+    tempMethod === 'combined' && fingerprint
+      ? cacheKeys.rateLimit.combined(ip, fingerprint)
+      : tempMethod === 'fingerprint' && fingerprint
+        ? cacheKeys.rateLimit.fingerprint(fingerprint)
+        : cacheKeys.rateLimit.ip(ip)
+
+  return await withLock(lockKey, async () => {
+    const { info, method } = await getRateLimitInfo(
+      ip,
+      fingerprint,
+      confidence,
+      fingerprintResult,
+    )
+
+    const limit = getLimit(method)
+
+    // Try to consume bonus credits first for anonymous users
+    const bonusCreditsUsed = await consumeBonusCredits(session, ip)
+    if (bonusCreditsUsed) {
+      // Successfully used bonus credit, don't increment regular count
+      const bonusCredits = await getBonusCreditsForRateLimit(session, ip)
+      const remaining = Math.max(0, limit - info.count) + bonusCredits
+
+      return {
+        allowed: true,
+        limit,
+        remaining,
+        resetTime: info.resetTime,
+        requiresAuth: false,
+        isLoggedIn: false,
+        method,
+        confidence: info.confidence,
+        fingerprint: fingerprint?.substring(0, 8),
+        suspiciousFlags: info.suspiciousFlags,
+      }
     }
 
-    // Increment and save
+    if (info.count >= limit) {
+      return {
+        allowed: false,
+        limit,
+        remaining: 0,
+        resetTime: info.resetTime,
+        requiresAuth: true,
+        isLoggedIn: false,
+        method,
+        confidence: info.confidence,
+        fingerprint: fingerprint?.substring(0, 8),
+        suspiciousFlags: info.suspiciousFlags,
+      }
+    }
+
+    // Increment and save with enhanced tracking
     const newInfo: RateLimitInfo = {
       ...info,
       count: info.count + 1,
       lastSeen: Date.now(),
     }
 
-    const ttl = newInfo.resetTime - Date.now()
-    if (ttl > 0) {
-      await cache.set(userKey, newInfo, ttl)
-    }
+    await updateRateLimitInfo(ip, fingerprint, newInfo, method)
 
-    const remaining = Math.max(0, RATE_LIMITS.USER_DAILY_LIMIT - newInfo.count)
+    const remaining = Math.max(0, limit - newInfo.count)
+    const requiresAuth = newInfo.count >= limit
 
     return {
       allowed: true,
-      limit: RATE_LIMITS.USER_DAILY_LIMIT,
+      limit,
       remaining,
       resetTime: newInfo.resetTime,
-      requiresAuth: false,
-      isLoggedIn: true,
-      method: 'user',
-    }
-  }
-
-  // Enhanced handling of anonymous users with sophisticated fingerprinting
-  const { fingerprint, confidence, fingerprintResult } =
-    processFingerprintData(fingerprintData)
-  const { info, method } = await getRateLimitInfo(
-    ip,
-    fingerprint,
-    confidence,
-    fingerprintResult,
-  )
-
-  const limit = getLimit(method)
-
-  if (info.count >= limit) {
-    return {
-      allowed: false,
-      limit,
-      remaining: 0,
-      resetTime: info.resetTime,
-      requiresAuth: true,
+      requiresAuth,
       isLoggedIn: false,
       method,
-      confidence: info.confidence,
+      confidence: newInfo.confidence,
       fingerprint: fingerprint?.substring(0, 8),
-      suspiciousFlags: info.suspiciousFlags,
+      suspiciousFlags: newInfo.suspiciousFlags,
     }
-  }
-
-  // Increment and save with enhanced tracking
-  const newInfo: RateLimitInfo = {
-    ...info,
-    count: info.count + 1,
-    lastSeen: Date.now(),
-  }
-
-  await updateRateLimitInfo(ip, fingerprint, newInfo, method)
-
-  const remaining = Math.max(0, limit - newInfo.count)
-  const requiresAuth = newInfo.count >= limit
-
-  return {
-    allowed: true,
-    limit,
-    remaining,
-    resetTime: newInfo.resetTime,
-    requiresAuth,
-    isLoggedIn: false,
-    method,
-    confidence: newInfo.confidence,
-    fingerprint: fingerprint?.substring(0, 8),
-    suspiciousFlags: newInfo.suspiciousFlags,
-  }
+  })
 }
 
 /**
@@ -596,14 +825,14 @@ export async function resetRateLimit(
   switch (type) {
     case 'ip':
       {
-        const key = `rate_limit:ip:${target}`
+        const key = cacheKeys.rateLimit.ip(target)
         await cache.delete(key)
         console.info(`Reset IP rate limit for: ${target}`)
       }
       break
     case 'user':
       {
-        const key = `rate_limit:user:${target}`
+        const key = cacheKeys.rateLimit.user(target)
         await cache.delete(key)
         console.info(`Reset user rate limit for: ${target}`)
       }
@@ -611,7 +840,7 @@ export async function resetRateLimit(
     case 'fingerprint':
       {
         // Reset both fingerprint-only and combined keys for the fingerprint
-        const fpKey = `rate_limit:fingerprint:${target}`
+        const fpKey = cacheKeys.rateLimit.fingerprint(target)
         const combinedKeys = await cache.keys(`rate_limit:combined:*:${target}`)
 
         await cache.delete(fpKey)

@@ -39,6 +39,7 @@ export async function mergeMessages(locale: string) {
       Legal: legalMessages.default,
       About: aboutMessages.default,
       PageNavigation: commonMessages.default,
+      common: commonMessages.default,
     }
   } catch (error) {
     console.error(`Failed to load messages for locale ${locale}:`, error)
