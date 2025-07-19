@@ -18,7 +18,8 @@
     "API_PORT",
     "DEBUG_LOGS",
     "LOG_LEVEL",
-    "ENABLE_DEVTOOLS"
+    "ENABLE_DEVTOOLS",
+    "AD_TOKEN_SECRET"
   ],
   "tasks": {
     "clean": {
