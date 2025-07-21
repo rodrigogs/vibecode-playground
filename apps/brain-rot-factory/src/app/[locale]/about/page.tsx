@@ -96,6 +96,176 @@ export default function AboutPage() {
           </div>
         </section>
 
+        {/* AI Journey Section */}
+        <section className="mb-16">
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+              <div className="flex items-center mb-6">
+                <Sparkles className="w-8 h-8 text-indigo-400 mr-3" />
+                <h2 className="text-3xl font-bold text-white">
+                  {t('aiJourney.title')}
+                </h2>
+              </div>
+              <p className="text-white/90 text-lg leading-relaxed mb-8">
+                {t('aiJourney.description')}
+              </p>
+
+              <div className="grid lg:grid-cols-2 gap-8">
+                {/* Claude 3.5 Section */}
+                <div className="bg-white/5 rounded-xl p-6 border border-orange-400/30">
+                  <h3 className="text-xl font-bold text-orange-300 mb-3">
+                    {t('aiJourney.claude35.title')}
+                  </h3>
+                  <p className="text-white/80 mb-4 text-sm">
+                    {t('aiJourney.claude35.description')}
+                  </p>
+                  <div className="space-y-2">
+                    {Array.from({ length: 4 }, (_, i) => (
+                      <div key={i} className="flex items-start">
+                        <div className="w-2 h-2 bg-orange-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                        <p className="text-white/70 text-sm">
+                          {t(`aiJourney.claude35.challenges.${i}`)}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-4 p-3 bg-orange-400/10 rounded-lg border-l-2 border-orange-400">
+                    <p className="text-white/80 text-sm italic">
+                      {t('aiJourney.claude35.learnings')}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Claude 4 Section */}
+                <div className="bg-white/5 rounded-xl p-6 border border-green-400/30">
+                  <h3 className="text-xl font-bold text-green-300 mb-3">
+                    {t('aiJourney.claude4.title')}
+                  </h3>
+                  <p className="text-white/80 mb-4 text-sm">
+                    {t('aiJourney.claude4.description')}
+                  </p>
+                  <div className="space-y-2">
+                    {Array.from({ length: 4 }, (_, i) => (
+                      <div key={i} className="flex items-start">
+                        <div className="w-2 h-2 bg-green-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                        <p className="text-white/70 text-sm">
+                          {t(`aiJourney.claude4.achievements.${i}`)}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-4 p-3 bg-green-400/10 rounded-lg border-l-2 border-green-400">
+                    <p className="text-white/80 text-sm italic">
+                      {t('aiJourney.claude4.breakthrough')}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Creative Process Section */}
+        <section className="mb-16">
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+              <div className="flex items-center mb-6">
+                <Target className="w-8 h-8 text-cyan-400 mr-3" />
+                <h2 className="text-3xl font-bold text-white">
+                  {t('creativeProcess.title')}
+                </h2>
+              </div>
+              <p className="text-white/90 text-lg leading-relaxed mb-8">
+                {t('creativeProcess.description')}
+              </p>
+
+              <div className="grid lg:grid-cols-3 gap-6">
+                {/* Technical Discoveries */}
+                <div className="bg-white/5 rounded-xl p-6 border border-blue-400/30">
+                  <h3 className="text-lg font-bold text-blue-300 mb-3">
+                    {t('creativeProcess.technicalDiscoveries.title')}
+                  </h3>
+                  <div className="space-y-2">
+                    {Array.from({ length: 4 }, (_, i) => (
+                      <div key={i} className="flex items-start">
+                        <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                        <p className="text-white/70 text-sm">
+                          {t(
+                            `creativeProcess.technicalDiscoveries.examples.${i}`,
+                          )}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Design Journey */}
+                <div className="bg-white/5 rounded-xl p-6 border border-purple-400/30">
+                  <h3 className="text-lg font-bold text-purple-300 mb-3">
+                    {t('creativeProcess.designJourney.title')}
+                  </h3>
+                  <div className="space-y-3">
+                    <div>
+                      <p className="text-purple-200 text-xs font-medium">
+                        Visão:
+                      </p>
+                      <p className="text-white/70 text-sm">
+                        {t('creativeProcess.designJourney.vision')}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-purple-200 text-xs font-medium">
+                        Resultado:
+                      </p>
+                      <p className="text-white/70 text-sm">
+                        {t('creativeProcess.designJourney.result')}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-purple-200 text-xs font-medium">
+                        Ícone:
+                      </p>
+                      <p className="text-white/70 text-sm">
+                        {t('creativeProcess.designJourney.iconAnimation')}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Paradigm Shift */}
+                <div className="bg-white/5 rounded-xl p-6 border border-pink-400/30">
+                  <h3 className="text-lg font-bold text-pink-300 mb-3">
+                    {t('creativeProcess.paradigmShift.title')}
+                  </h3>
+                  <div className="space-y-3">
+                    <div>
+                      <p className="text-pink-200 text-xs font-medium">
+                        Antes:
+                      </p>
+                      <p className="text-white/70 text-sm">
+                        {t('creativeProcess.paradigmShift.before')}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-pink-200 text-xs font-medium">
+                        Depois:
+                      </p>
+                      <p className="text-white/70 text-sm">
+                        {t('creativeProcess.paradigmShift.after')}
+                      </p>
+                    </div>
+                    <div className="mt-3 p-3 bg-pink-400/10 rounded-lg">
+                      <p className="text-white/80 text-sm italic">
+                        {t('creativeProcess.paradigmShift.confidence')}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Development Section */}
         <section className="mb-16">
           <div className="max-w-4xl mx-auto">
@@ -198,12 +368,107 @@ export default function AboutPage() {
               </p>
 
               <div className="grid md:grid-cols-1 gap-4">
-                {Array.from({ length: 5 }, (_, i) => (
+                {Array.from({ length: 8 }, (_, i) => (
                   <div key={i} className="flex items-start">
                     <div className="w-2 h-2 bg-yellow-400 rounded-full mt-3 mr-3 flex-shrink-0"></div>
                     <p className="text-white/80">{t(`impact.lessons.${i}`)}</p>
                   </div>
                 ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Practical Advice Section */}
+        <section className="mb-16">
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-gradient-to-r from-amber-600/20 to-orange-600/20 backdrop-blur-sm rounded-2xl p-8 border border-amber-400/30">
+              <div className="flex items-center mb-6">
+                <Target className="w-8 h-8 text-amber-400 mr-3" />
+                <h2 className="text-3xl font-bold text-white">
+                  {t('practicalAdvice.title')}
+                </h2>
+              </div>
+              <p className="text-white/90 text-lg leading-relaxed mb-8">
+                {t('practicalAdvice.description')}
+              </p>
+
+              <div className="grid lg:grid-cols-2 gap-8 mb-8">
+                {/* Guidelines */}
+                <div className="bg-white/5 rounded-xl p-6 border border-red-400/30">
+                  <h3 className="text-lg font-bold text-red-300 mb-4">
+                    {t('practicalAdvice.guidelines.title')}
+                  </h3>
+                  <div className="space-y-3">
+                    {Array.from({ length: 5 }, (_, i) => (
+                      <div key={i} className="flex items-start">
+                        <div className="w-2 h-2 bg-red-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                        <p className="text-white/80 text-sm">
+                          {t(`practicalAdvice.guidelines.rules.${i}`)}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Red Flags */}
+                <div className="bg-white/5 rounded-xl p-6 border border-yellow-400/30">
+                  <h3 className="text-lg font-bold text-yellow-300 mb-3">
+                    {t('practicalAdvice.redFlags.title')}
+                  </h3>
+                  <p className="text-white/70 text-sm mb-4">
+                    {t('practicalAdvice.redFlags.description')}
+                  </p>
+                  <div className="space-y-2">
+                    {Array.from({ length: 5 }, (_, i) => (
+                      <div key={i} className="flex items-start">
+                        <div className="w-2 h-2 bg-yellow-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                        <p className="text-white/70 text-sm">
+                          {t(`practicalAdvice.redFlags.signs.${i}`)}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid lg:grid-cols-2 gap-8">
+                {/* Best Practices */}
+                <div className="bg-white/5 rounded-xl p-6 border border-green-400/30">
+                  <h3 className="text-lg font-bold text-green-300 mb-4">
+                    {t('practicalAdvice.bestPractices.title')}
+                  </h3>
+                  <div className="space-y-3">
+                    {Array.from({ length: 5 }, (_, i) => (
+                      <div key={i} className="flex items-start">
+                        <div className="w-2 h-2 bg-green-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                        <p className="text-white/80 text-sm">
+                          {t(`practicalAdvice.bestPractices.tips.${i}`)}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Breakthrough Moments */}
+                <div className="bg-white/5 rounded-xl p-6 border border-blue-400/30">
+                  <h3 className="text-lg font-bold text-blue-300 mb-3">
+                    {t('practicalAdvice.breakthrough.title')}
+                  </h3>
+                  <p className="text-white/70 text-sm mb-4">
+                    {t('practicalAdvice.breakthrough.description')}
+                  </p>
+                  <div className="space-y-2">
+                    {Array.from({ length: 4 }, (_, i) => (
+                      <div key={i} className="flex items-start">
+                        <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                        <p className="text-white/70 text-sm">
+                          {t(`practicalAdvice.breakthrough.examples.${i}`)}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </div>

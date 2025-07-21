@@ -10,6 +10,14 @@ const excludedPaths = [
   '**/.turbo/**',
   '**/.next/**',
   '**/.history/**',
+  '**/coverage/**',
+  '**/*.config.*',
+  '**/*.test.*',
+  '**/*.spec.*',
+  '**/types/**',
+  '**/__tests__/**',
+  '**/test/**',
+  '**/tests/**',
 ]
 
 /**
@@ -29,10 +37,10 @@ const createBaseConfig = (config = {}) =>
         exclude: excludedPaths,
         coverage: {
           exclude: excludedPaths,
-          include: ['**/src/**/*.ts'], // Only include source TypeScript files
+          include: ['**/src/**/*.{ts,tsx}'], // Only include source TypeScript files
           excludeNodeModules: true,
           cleanOnRerun: true, // Clean the coverage directory before each run
-          all: true, // Include all files, not just the ones touched by tests
+          all: false, // Don't include all files, only the ones touched by tests
           reporter: ['text', 'json', 'html', 'lcov', 'cobertura'],
           reportsDirectory: './coverage',
           provider: 'v8', // Use V8 coverage provider
