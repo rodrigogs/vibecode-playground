@@ -15,8 +15,9 @@
     "anonymousSignInPromptLast": "Sign in to get more generations per day.",
     "userRemaining": "{remaining} daily generations remaining.",
     "signInToGetMore": "Sign in",
-    "toGetMoreGenerations": "to get more generations per day.",
+    "toGetMoreGenerations": "to unlock more",
     "watchAdForCredit": "Watch an ad",
-    "watchAdToUnlock": "to unlock more"
+    "watchAdToUnlock": "to unlock more",
+    "signInOrWatchAd": "Sign in or Watch an ad to unlock more"
   }
 }

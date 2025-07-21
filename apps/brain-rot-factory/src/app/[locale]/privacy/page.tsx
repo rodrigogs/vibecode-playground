@@ -180,10 +180,28 @@ export default function PrivacyPolicy() {
                 </ul>
               </section>
 
-              {/* Section 7: Data Retention */}
+              {/* Section 7: Inactive Features */}
               <section className="mb-8">
                 <h2 className="text-2xl font-bold text-white mb-4">
-                  7. {t('dataRetention')}
+                  7. {t('inactiveFeatures')}
+                </h2>
+                <p className="text-white/80 leading-relaxed mb-4">
+                  {t('inactiveFeaturesText')}
+                </p>
+                <div className="bg-yellow-500/10 border border-yellow-400/30 rounded-lg p-4 mb-4">
+                  <h3 className="text-lg font-semibold text-yellow-300 mb-2">
+                    {t('inactiveFeaturesList')}
+                  </h3>
+                  <p className="text-yellow-100/80 text-sm leading-relaxed">
+                    {t('inactiveFeaturesDesc')}
+                  </p>
+                </div>
+              </section>
+
+              {/* Section 8: Data Retention */}
+              <section className="mb-8">
+                <h2 className="text-2xl font-bold text-white mb-4">
+                  8. {t('dataRetention')}
                 </h2>
                 <p className="text-white/80 leading-relaxed mb-4">
                   {t('dataRetentionText')}
@@ -208,10 +226,10 @@ export default function PrivacyPolicy() {
                 </ul>
               </section>
 
-              {/* Section 8: Your Rights (LGPD) */}
+              {/* Section 9: Your Rights (LGPD) */}
               <section className="mb-8">
                 <h2 className="text-2xl font-bold text-white mb-4">
-                  8. {t('yourRights')} ({t('lgpdRights')})
+                  9. {t('yourRights')} - {t('lgpdRights')}
                 </h2>
                 <p className="text-white/80 leading-relaxed mb-4">
                   {t('yourRightsIntro')}
@@ -254,9 +272,10 @@ export default function PrivacyPolicy() {
               </section>
 
               {/* Section 9: Cookies and Tracking */}
+              {/* Section 10: Cookies and Tracking */}
               <section className="mb-8">
                 <h2 className="text-2xl font-bold text-white mb-4">
-                  9. {t('cookiesTracking')}
+                  10. {t('cookiesTracking')}
                 </h2>
                 <p className="text-white/80 leading-relaxed mb-4">
                   {t('cookiesTrackingText')}
@@ -280,10 +299,10 @@ export default function PrivacyPolicy() {
                 </ul>
               </section>
 
-              {/* Section 10: International Transfers */}
+              {/* Section 11: International Transfers */}
               <section className="mb-8">
                 <h2 className="text-2xl font-bold text-white mb-4">
-                  10. {t('internationalTransfers')}
+                  11. {t('internationalTransfers')}
                 </h2>
                 <p className="text-white/80 leading-relaxed">
                   {t('internationalTransfersText')}
@@ -291,19 +310,20 @@ export default function PrivacyPolicy() {
               </section>
 
               {/* Section 11: Children's Privacy */}
+              {/* Section 12: Children's Privacy */}
               <section className="mb-8">
                 <h2 className="text-2xl font-bold text-white mb-4">
-                  11. {t('childrensPrivacy')}
+                  12. {t('childrensPrivacy')}
                 </h2>
                 <p className="text-white/80 leading-relaxed">
                   {t('childrensPrivacyText')}
                 </p>
               </section>
 
-              {/* Section 12: Changes to Privacy Policy */}
+              {/* Section 13: Changes to Privacy Policy */}
               <section className="mb-8">
                 <h2 className="text-2xl font-bold text-white mb-4">
-                  12. {t('changesPrivacy')}
+                  13. {t('changesPrivacy')}
                 </h2>
                 <p className="text-white/80 leading-relaxed">
                   {t('changesPrivacyText')}
@@ -311,9 +331,10 @@ export default function PrivacyPolicy() {
               </section>
 
               {/* Section 13: Contact Information */}
+              {/* Section 14: Contact Information */}
               <section className="mb-8">
                 <h2 className="text-2xl font-bold text-white mb-4">
-                  13. {t('contactInformation')}
+                  14. {t('contactInformation')}
                 </h2>
                 <p className="text-white/80 leading-relaxed mb-4">
                   {t('contactInformationPrivacyText')}

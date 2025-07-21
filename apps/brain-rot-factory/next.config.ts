@@ -14,6 +14,7 @@ const nextConfig: NextConfig = {
     DEFAULT_PROVIDER: process.env.DEFAULT_PROVIDER,
     DEEPSEEK_API_URL: process.env.DEEPSEEK_API_URL,
     DEFAULT_MODEL: process.env.DEFAULT_MODEL,
+    ENABLE_REWARDS: process.env.ENABLE_REWARDS,
   },
 }
 

@@ -9,12 +9,21 @@
 
 Modern TypeScript monorepo with Turbo for high-performance builds. Chat with AI-powered Italian brain-rot meme characters! 🧠💬
 
+**Features:**
+- 🤖 AI-powered chat with brain-rot characters
+- 🎵 Text-to-speech with audio distortion
+- 🎁 Rewarded ads system (prepared, currently inactive)
+- 🌍 Multi-language support (EN, IT, PT, ID, JA, ZH)
+- 🔐 GitHub OAuth authentication
+- 📊 Analytics and performance monitoring
+- ⚖️ LGPD compliant privacy policies
+
 ## Structure
 
-```
+```bash
 ├── apps/
-│   ├── brain-rot-factory/        # Next.js web app with AI chat interface
-│   └── example/                  # CLI app with AI capabilities
+│   ├── brain-rot-factory/        # Next.js web app with AI chat interface  
+│   └── brain-rot-crawler/        # Web scraper for content collection
 ├── packages/
 │   ├── ai/                       # AI agents with LangChain
 │   ├── cache/                    # Caching system (memory/filesystem)
@@ -55,10 +64,27 @@ npm run lint         # Lint code
 ## Environment
 
 ```bash
+# AI Functionality
 OPENAI_API_KEY=      # For AI functionality
 DEEPSEEK_API_URL=    # DeepSeek API
 DEEPSEEK_API_KEY=    # DeepSeek key
+
+# Authentication  
+AUTH_SECRET=         # NextAuth.js secret
+GITHUB_ID=          # GitHub OAuth client ID
+GITHUB_SECRET=      # GitHub OAuth secret
+
+# Features
+ENABLE_REWARDS=     # Enable rewarded ads (default: false, currently inactive)
 ```
+
+## Legal & Compliance
+
+This project includes comprehensive legal documentation and LGPD compliance:
+- [Legal Information](./LEGAL.md) - Complete legal overview
+- [Privacy Policies](./apps/brain-rot-factory/src/app/[locale]/privacy/) - Multi-language privacy policies
+- [Terms of Service](./apps/brain-rot-factory/src/app/[locale]/terms/) - Service terms and conditions
+- [MIT License](./LICENSE) - Open source license
 
 ## Packages
 

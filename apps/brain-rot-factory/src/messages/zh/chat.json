@@ -15,8 +15,9 @@
     "anonymousSignInPromptLast": "登录以获得每天更多次生成。",
     "userRemaining": "每日剩余{remaining}次生成。",
     "signInToGetMore": "登录",
-    "toGetMoreGenerations": "以获得每天更多生成。",
+    "toGetMoreGenerations": "以解锁更多。",
     "watchAdForCredit": "观看广告",
-    "watchAdToUnlock": "以解锁更多"
+    "watchAdToUnlock": "以解锁更多",
+    "signInOrWatchAd": "登录或观看广告以解锁更多"
   }
 }

@@ -13,7 +13,8 @@ A Next.js web application that serves as your AI-powered companion for generatin
 - 🌍 **Internationalization**: Multi-language support (EN, IT, PT, ID)
 - 🎵 **Audio Features**: Text-to-speech with bizarre audio distortion effects
 - 🎠 **Character Carousel**: Interactive character selection with Swiper
-- 📊 **Ready for Analytics**: Vercel Analytics dependency installed (integration pending)
+- 🎁 **Rewarded Ads**: AdMob integration prepared (currently inactive)
+- 📊 **Analytics**: Vercel Analytics integration for usage insights
 
 ## Tech Stack
 
@@ -45,6 +46,8 @@ The app will be available at `http://localhost:3000` (default Next.js port).
 - `POST /api/tts` - Text-to-speech generation with audio distortion
 - `GET /api/rate-limit` - Check current rate limiting status
 - `POST /api/rate-limit` - Update rate limiting
+- `GET /api/rewarded-ad/generate-token` - Generate token for rewarded ads (inactive)
+- `POST /api/rewarded-ad/grant-credit` - Grant credits after watching ads (inactive)
 - `GET /api/auth/[...nextauth]` - NextAuth.js authentication  
 - `GET /api/admin/rate-limit` - Admin rate limit management
 
@@ -70,6 +73,12 @@ DEEPSEEK_API_KEY=     # Optional - DeepSeek alternative AI
 AUTH_SECRET=          # NextAuth.js secret key
 GITHUB_ID=           # GitHub OAuth app client ID
 GITHUB_SECRET=       # GitHub OAuth app client secret
+
+# Features
+ENABLE_REWARDS=       # Enable/disable reward system (default: false, currently inactive)
+
+# Analytics  
+VERCEL_ANALYTICS=     # Vercel Analytics integration (automatically enabled on Vercel)
 
 # Optional
 DATA_DIR=            # Custom data directory (defaults to ~/.brain-rot-factory)

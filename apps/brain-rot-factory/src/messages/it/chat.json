@@ -15,8 +15,9 @@
     "anonymousSignInPromptLast": "Accedi per ottenere più generazioni al giorno.",
     "userRemaining": "{remaining} generazioni giornaliere rimanenti.",
     "signInToGetMore": "Accedi",
-    "toGetMoreGenerations": "per ottenere più generazioni al giorno.",
+    "toGetMoreGenerations": "per sbloccare di più.",
     "watchAdForCredit": "Guarda un annuncio",
-    "watchAdToUnlock": "per sbloccare di più"
+    "watchAdToUnlock": "per sbloccare di più",
+    "signInOrWatchAd": "Accedi o Guarda un annuncio per sbloccare di più"
   }
 }

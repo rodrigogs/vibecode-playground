@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 
 import { useFingerprint } from '@/hooks/useFingerprint'
 import { getRateLimitMessage, useRateLimit } from '@/hooks/useRateLimit'
+import { isRewardsEnabled } from '@/lib/features'
 
 interface ChatInputProps {
   prompt: string
@@ -27,6 +28,7 @@ export default function ChatInput({
   const tCommon = useTranslations('common')
   const { rateLimitInfo, checkRateLimit } = useRateLimit()
   const { fingerprint } = useFingerprint()
+  const rewardsEnabled = isRewardsEnabled()
 
   // Update rate limit only when refreshKey changes (not on every checkRateLimit change)
   useEffect(() => {
@@ -142,32 +144,31 @@ export default function ChatInput({
                     <div className="flex items-center justify-center gap-2 text-xs text-white/40">
                       <div className="w-1 h-1 rounded-full bg-orange-300/60 animate-pulse"></div>
                       <div className="flex items-center gap-2">
-                        {rateLimitInfo.requiresAuth && (
+                        {rewardsEnabled ? (
+                          // When ENABLE_REWARDS is true, show "Sign in or Watch an ad to unlock more"
+                          <span className="text-white/40">
+                            {t('rateLimit.signInOrWatchAd')}
+                          </span>
+                        ) : (
+                          // When ENABLE_REWARDS is false, show "X generations remaining - [sign in] to unlock more"
                           <>
+                            <span className="text-white/40">
+                              {t('rateLimit.anonymousRemaining', {
+                                remaining: rateLimitInfo?.remaining || 0,
+                              })}{' '}
+                            </span>
                             <Link
                               href="/auth/signin"
                               className="text-purple-300 hover:text-purple-200 underline transition-colors duration-200"
                             >
-                              {t('rateLimit.signInToGetMore')}{' '}
-                              {t('rateLimit.toGetMoreGenerations')}
+                              {t('rateLimit.signInToGetMore')}
                             </Link>
                             <span className="text-white/40">
                               {' '}
-                              {tCommon('or')}{' '}
+                              {t('rateLimit.toGetMoreGenerations')}
                             </span>
                           </>
                         )}
-                        <Link
-                          href="#"
-                          onClick={handleWatchAd}
-                          className="text-purple-300 hover:text-purple-200 underline transition-colors duration-200"
-                        >
-                          {t('rateLimit.watchAdForCredit')}
-                        </Link>
-                        <span className="text-white/40">
-                          {' '}
-                          {t('rateLimit.watchAdToUnlock')}
-                        </span>
                       </div>
                     </div>
                   </div>
@@ -190,38 +191,51 @@ export default function ChatInput({
                               >
                                 {t('rateLimit.signInToGetMore')}
                               </Link>
-                              <span className="text-white/40">
-                                {' '}
-                                {tCommon('or')}{' '}
-                              </span>
-                              <Link
-                                href="#"
-                                onClick={handleWatchAd}
-                                className="text-purple-300 hover:text-purple-200 underline transition-colors duration-200"
-                              >
-                                {t('rateLimit.watchAdForCredit')}
-                              </Link>
-                              <span className="text-white/40">
-                                {' '}
-                                {t('rateLimit.watchAdToUnlock')}
-                              </span>
+                              {rewardsEnabled ? (
+                                <>
+                                  <span className="text-white/40">
+                                    {' '}
+                                    {tCommon('or')}{' '}
+                                  </span>
+                                  <Link
+                                    href="#"
+                                    onClick={handleWatchAd}
+                                    className="text-purple-300 hover:text-purple-200 underline transition-colors duration-200"
+                                  >
+                                    {t('rateLimit.watchAdForCredit')}
+                                  </Link>
+                                  <span className="text-white/40">
+                                    {' '}
+                                    {t('rateLimit.watchAdToUnlock')}
+                                  </span>
+                                </>
+                              ) : (
+                                <span className="text-white/40">
+                                  {' '}
+                                  {t('rateLimit.toGetMoreGenerations')}
+                                </span>
+                              )}
                             </>
                           ) : rateLimitInfo.isLoggedIn ? (
                             <>
                               {t('rateLimit.userRemaining', {
                                 remaining: rateLimitInfo.remaining,
                               })}{' '}
-                              <Link
-                                href="#"
-                                onClick={handleWatchAd}
-                                className="text-purple-300 hover:text-purple-200 underline transition-colors duration-200"
-                              >
-                                {t('rateLimit.watchAdForCredit')}
-                              </Link>
-                              <span className="text-white/40">
-                                {' '}
-                                {t('rateLimit.watchAdToUnlock')}
-                              </span>
+                              {rewardsEnabled && (
+                                <>
+                                  <Link
+                                    href="#"
+                                    onClick={handleWatchAd}
+                                    className="text-purple-300 hover:text-purple-200 underline transition-colors duration-200"
+                                  >
+                                    {t('rateLimit.watchAdForCredit')}
+                                  </Link>
+                                  <span className="text-white/40">
+                                    {' '}
+                                    {t('rateLimit.watchAdToUnlock')}
+                                  </span>
+                                </>
+                              )}
                             </>
                           ) : (
                             getRateLimitMessage(rateLimitInfo, (key, params) =>

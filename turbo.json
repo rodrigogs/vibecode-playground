@@ -19,7 +19,8 @@
     "DEBUG_LOGS",
     "LOG_LEVEL",
     "ENABLE_DEVTOOLS",
-    "AD_TOKEN_SECRET"
+    "AD_TOKEN_SECRET",
+    "ENABLE_REWARDS"
   ],
   "tasks": {
     "clean": {

@@ -15,8 +15,9 @@
     "anonymousSignInPromptLast": "サインインして1日により多くの世代を取得してください。",
     "userRemaining": "1日{remaining}世代が残っています。",
     "signInToGetMore": "サインイン",
-    "toGetMoreGenerations": "して1日により多くの世代を取得してください。",
+    "toGetMoreGenerations": "してより多くのロックを解除してください。",
     "watchAdForCredit": "広告を見る",
-    "watchAdToUnlock": "でより多くのロックを解除"
+    "watchAdToUnlock": "でより多くのロックを解除",
+    "signInOrWatchAd": "サインインするか広告を見てより多くのロックを解除"
   }
 }

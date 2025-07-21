@@ -122,10 +122,28 @@ export default function TermsOfService() {
                 </p>
               </section>
 
-              {/* Section 6: Limitations of Liability */}
+              {/* Section 6: Inactive Features */}
               <section className="mb-8">
                 <h2 className="text-2xl font-bold text-white mb-4">
-                  6. {t('limitationsLiability')}
+                  6. {t('inactiveFeatures')}
+                </h2>
+                <p className="text-white/80 leading-relaxed mb-4">
+                  {t('inactiveFeaturesText')}
+                </p>
+                <div className="bg-yellow-500/10 border border-yellow-400/30 rounded-lg p-4 mb-4">
+                  <h3 className="text-lg font-semibold text-yellow-300 mb-2">
+                    {t('inactiveFeaturesList')}
+                  </h3>
+                  <p className="text-yellow-100/80 text-sm leading-relaxed">
+                    {t('inactiveFeaturesDesc')}
+                  </p>
+                </div>
+              </section>
+
+              {/* Section 7: Limitations of Liability */}
+              <section className="mb-8">
+                <h2 className="text-2xl font-bold text-white mb-4">
+                  7. {t('limitationsLiability')}
                 </h2>
                 <p className="text-white/80 leading-relaxed mb-4">
                   {t('limitationsLiabilityText')}
@@ -135,40 +153,40 @@ export default function TermsOfService() {
                 </p>
               </section>
 
-              {/* Section 7: Termination */}
+              {/* Section 8: Termination */}
               <section className="mb-8">
                 <h2 className="text-2xl font-bold text-white mb-4">
-                  7. {t('termination')}
+                  8. {t('termination')}
                 </h2>
                 <p className="text-white/80 leading-relaxed">
                   {t('terminationText')}
                 </p>
               </section>
 
-              {/* Section 8: Governing Law */}
+              {/* Section 9: Governing Law */}
               <section className="mb-8">
                 <h2 className="text-2xl font-bold text-white mb-4">
-                  8. {t('governingLaw')}
+                  9. {t('governingLaw')}
                 </h2>
                 <p className="text-white/80 leading-relaxed">
                   {t('governingLawText')}
                 </p>
               </section>
 
-              {/* Section 9: Changes to Terms */}
+              {/* Section 10: Changes to Terms */}
               <section className="mb-8">
                 <h2 className="text-2xl font-bold text-white mb-4">
-                  9. {t('changesTerms')}
+                  10. {t('changesTerms')}
                 </h2>
                 <p className="text-white/80 leading-relaxed">
                   {t('changesTermsText')}
                 </p>
               </section>
 
-              {/* Section 10: Contact Information */}
+              {/* Section 11: Contact Information */}
               <section className="mb-8">
                 <h2 className="text-2xl font-bold text-white mb-4">
-                  10. {t('contactInformation')}
+                  11. {t('contactInformation')}
                 </h2>
                 <p className="text-white/80 leading-relaxed mb-4">
                   {t('contactInformationText')}

@@ -15,8 +15,9 @@
     "anonymousSignInPromptLast": "Masuk untuk mendapatkan lebih banyak generasi per hari.",
     "userRemaining": "{remaining} generasi harian tersisa.",
     "signInToGetMore": "Masuk",
-    "toGetMoreGenerations": "untuk mendapatkan lebih banyak generasi per hari.",
+    "toGetMoreGenerations": "untuk membuka lebih banyak.",
     "watchAdForCredit": "Tonton iklan",
-    "watchAdToUnlock": "untuk membuka lebih banyak"
+    "watchAdToUnlock": "untuk membuka lebih banyak",
+    "signInOrWatchAd": "Masuk atau Tonton iklan untuk membuka lebih banyak"
   }
 }
