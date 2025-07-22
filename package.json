@@ -24,7 +24,7 @@
     "test:watch": "vitest --watch"
   },
   "devDependencies": {
-    "turbo": "^2.5.4"
+    "turbo": "^2.5.5"
   },
   "engines": {
     "node": ">=22",

@@ -24,16 +24,16 @@
     "test:integration": "npm run test -- --project integration"
   },
   "dependencies": {
-    "@langchain/community": "^0.3.46",
-    "@langchain/core": "^0.3.59",
-    "@langchain/langgraph": "^0.3.4",
+    "@langchain/community": "^0.3.49",
+    "@langchain/core": "^0.3.66",
+    "@langchain/langgraph": "^0.3.11",
     "@langchain/langgraph-checkpoint": "^0.0.18",
-    "@langchain/openai": "^0.5.13",
+    "@langchain/openai": "^0.6.2",
     "@repo/cache": "*",
     "@repo/utils": "*",
-    "langchain": "^0.3.28",
+    "langchain": "^0.3.30",
     "openai": "^4.62.1",
-    "zod": "^3.25.67"
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",
@@ -41,6 +41,6 @@
     "@repo/typescript-config": "*"
   },
   "overrides": {
-    "@langchain/core": "^0.3.59"
+    "@langchain/core": "^0.3.66"
   }
 }

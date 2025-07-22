@@ -55,7 +55,7 @@ describe('AI module v2 integration tests', () => {
       expect(model).toBeInstanceOf(ChatOpenAI)
       // We need to check the ChatOpenAI instance directly
       const chatModel = model as ChatOpenAI
-      expect(chatModel.modelName).toBe('deepseek-chat')
+      expect(chatModel.model).toBe('deepseek-chat')
 
       // Restore environment
       process.env = originalEnv
