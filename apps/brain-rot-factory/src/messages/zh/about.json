@@ -1,6 +1,6 @@
 {
   "title": "关于脑残工厂",
-  "subtitle": "一次充满活力的编程冒险",
+  "subtitle": "一次vibe coding冒险",
   "introduction": "欢迎了解脑残工厂背后的故事 - 一个诞生于人类创造力与人工智能密切合作的项目，产生了没人预料到的结果：一个'无用但完全有vibe的编程项目'。",
   "journey": {
     "title": "我们的旅程",
@@ -43,7 +43,7 @@
   "aiJourney": {
     "title": "与不同AI模型的旅程",
     "description": "开发过程涉及与不同AI模型的对比体验，每个模型都带来了自己的挑战和成就。",
-    "claude35": {
+    "claude37": {
       "title": "Claude 3.7 Sonnet - 包架构时代",
       "description": "开发了所有monorepo包基础设施，但有一种奇特的倾向去'幻想'神奇的实现",
       "challenges": [
@@ -80,10 +80,8 @@
     "technicalDiscoveries": {
       "title": "技术发现",
       "examples": [
-        "通过tsc高效编译TypeScript以获得优化的构建",
-        "对熟悉工具的新方法使其更加实用",
-        "GitHub和Google认证之间的完美集成",
-        "在AI协助下简化Vercel部署"
+        "发现：Claude 4 让我知道可以直接用 Node 24 运行 TypeScript 文件，无需转译。这是模型帮我发现的新知识。",
+        "对熟悉工具的新方法使其更加实用"
       ]
     },
     "designJourney": {

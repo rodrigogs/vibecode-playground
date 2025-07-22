@@ -43,7 +43,7 @@
   "aiJourney": {
     "title": "異なるAIモデルとの旅",
     "description": "開発は異なるAIモデルとの対照的な体験を含み、それぞれが独自の課題と成果をもたらしました。",
-    "claude35": {
+    "claude37": {
       "title": "Claude 3.7 Sonnet - パッケージ時代",
       "description": "すべてのmonorepoパッケージインフラストラクチャを開発しましたが、幻想的な実装を「幻覚」する奇妙な傾向がありました",
       "challenges": [
@@ -80,10 +80,8 @@
     "technicalDiscoveries": {
       "title": "技術的発見",
       "examples": [
-        "最適化されたビルドのためのtscを通じた効率的なTypeScriptコンパイル",
-        "馴染みのあるツールへの新しいアプローチでより実用的にする",
-        "GitHubとGoogle認証間の完璧な統合",
-        "AI支援によるVercelでの簡素化されたデプロイ"
+        "発見: Node 24でTypeScriptファイルを直接実行できることをClaude 4のおかげで知りました。トランスパイルは不要です",
+        "慣れ親しんだツールへの新しいアプローチでより実用的にする"
       ]
     },
     "designJourney": {

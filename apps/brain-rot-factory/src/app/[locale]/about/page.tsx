@@ -83,12 +83,13 @@ export default function AboutPage() {
               </p>
 
               <div className="grid md:grid-cols-2 gap-4">
-                {Array.from({ length: 4 }, (_, i) => (
+                {(Array.isArray(t.raw('collaboration.highlights'))
+                  ? t.raw('collaboration.highlights')
+                  : []
+                ).map((highlight: string, i: number) => (
                   <div key={i} className="flex items-start">
                     <div className="w-2 h-2 bg-purple-400 rounded-full mt-3 mr-3 flex-shrink-0"></div>
-                    <p className="text-white/80">
-                      {t(`collaboration.highlights.${i}`)}
-                    </p>
+                    <p className="text-white/80">{highlight}</p>
                   </div>
                 ))}
               </div>
@@ -111,27 +112,27 @@ export default function AboutPage() {
               </p>
 
               <div className="grid lg:grid-cols-2 gap-8">
-                {/* Claude 3.5 Section */}
+                {/* Claude 3.7 Section */}
                 <div className="bg-white/5 rounded-xl p-6 border border-orange-400/30">
                   <h3 className="text-xl font-bold text-orange-300 mb-3">
-                    {t('aiJourney.claude35.title')}
+                    {t('aiJourney.claude37.title')}
                   </h3>
                   <p className="text-white/80 mb-4 text-sm">
-                    {t('aiJourney.claude35.description')}
+                    {t('aiJourney.claude37.description')}
                   </p>
                   <div className="space-y-2">
-                    {Array.from({ length: 4 }, (_, i) => (
-                      <div key={i} className="flex items-start">
-                        <div className="w-2 h-2 bg-orange-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                        <p className="text-white/70 text-sm">
-                          {t(`aiJourney.claude35.challenges.${i}`)}
-                        </p>
-                      </div>
-                    ))}
+                    {t
+                      .raw('aiJourney.claude37.challenges')
+                      ?.map((challenge: string, i: number) => (
+                        <div key={i} className="flex items-start">
+                          <div className="w-2 h-2 bg-orange-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                          <p className="text-white/70 text-sm">{challenge}</p>
+                        </div>
+                      ))}
                   </div>
                   <div className="mt-4 p-3 bg-orange-400/10 rounded-lg border-l-2 border-orange-400">
                     <p className="text-white/80 text-sm italic">
-                      {t('aiJourney.claude35.learnings')}
+                      {t('aiJourney.claude37.learnings')}
                     </p>
                   </div>
                 </div>
@@ -145,14 +146,14 @@ export default function AboutPage() {
                     {t('aiJourney.claude4.description')}
                   </p>
                   <div className="space-y-2">
-                    {Array.from({ length: 4 }, (_, i) => (
-                      <div key={i} className="flex items-start">
-                        <div className="w-2 h-2 bg-green-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                        <p className="text-white/70 text-sm">
-                          {t(`aiJourney.claude4.achievements.${i}`)}
-                        </p>
-                      </div>
-                    ))}
+                    {t
+                      .raw('aiJourney.claude4.achievements')
+                      .map((achievement: string, i: number) => (
+                        <div key={i} className="flex items-start">
+                          <div className="w-2 h-2 bg-green-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                          <p className="text-white/70 text-sm">{achievement}</p>
+                        </div>
+                      ))}
                   </div>
                   <div className="mt-4 p-3 bg-green-400/10 rounded-lg border-l-2 border-green-400">
                     <p className="text-white/80 text-sm italic">
@@ -186,16 +187,14 @@ export default function AboutPage() {
                     {t('creativeProcess.technicalDiscoveries.title')}
                   </h3>
                   <div className="space-y-2">
-                    {Array.from({ length: 4 }, (_, i) => (
-                      <div key={i} className="flex items-start">
-                        <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                        <p className="text-white/70 text-sm">
-                          {t(
-                            `creativeProcess.technicalDiscoveries.examples.${i}`,
-                          )}
-                        </p>
-                      </div>
-                    ))}
+                    {t
+                      .raw('creativeProcess.technicalDiscoveries.examples')
+                      .map((example: string, i: number) => (
+                        <div key={i} className="flex items-start">
+                          <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                          <p className="text-white/70 text-sm">{example}</p>
+                        </div>
+                      ))}
                   </div>
                 </div>
 
@@ -281,14 +280,14 @@ export default function AboutPage() {
               </p>
 
               <div className="grid md:grid-cols-2 gap-4">
-                {Array.from({ length: 8 }, (_, i) => (
-                  <div key={i} className="flex items-start">
-                    <div className="w-2 h-2 bg-green-400 rounded-full mt-3 mr-3 flex-shrink-0"></div>
-                    <p className="text-white/80">
-                      {t(`development.features.${i}`)}
-                    </p>
-                  </div>
-                ))}
+                {t
+                  .raw('development.features')
+                  .map((feature: string, i: number) => (
+                    <div key={i} className="flex items-start">
+                      <div className="w-2 h-2 bg-green-400 rounded-full mt-3 mr-3 flex-shrink-0"></div>
+                      <p className="text-white/80">{feature}</p>
+                    </div>
+                  ))}
               </div>
             </div>
           </div>
@@ -309,14 +308,14 @@ export default function AboutPage() {
               </p>
 
               <div className="grid md:grid-cols-2 gap-4">
-                {Array.from({ length: 5 }, (_, i) => (
-                  <div key={i} className="flex items-start">
-                    <div className="w-2 h-2 bg-purple-400 rounded-full mt-3 mr-3 flex-shrink-0"></div>
-                    <p className="text-white/80">
-                      {t(`philosophy.principles.${i}`)}
-                    </p>
-                  </div>
-                ))}
+                {t
+                  .raw('philosophy.principles')
+                  .map((principle: string, i: number) => (
+                    <div key={i} className="flex items-start">
+                      <div className="w-2 h-2 bg-purple-400 rounded-full mt-3 mr-3 flex-shrink-0"></div>
+                      <p className="text-white/80">{principle}</p>
+                    </div>
+                  ))}
               </div>
             </div>
           </div>
@@ -368,10 +367,10 @@ export default function AboutPage() {
               </p>
 
               <div className="grid md:grid-cols-1 gap-4">
-                {Array.from({ length: 8 }, (_, i) => (
+                {t.raw('impact.lessons').map((lesson: string, i: number) => (
                   <div key={i} className="flex items-start">
                     <div className="w-2 h-2 bg-yellow-400 rounded-full mt-3 mr-3 flex-shrink-0"></div>
-                    <p className="text-white/80">{t(`impact.lessons.${i}`)}</p>
+                    <p className="text-white/80">{lesson}</p>
                   </div>
                 ))}
               </div>
@@ -400,14 +399,14 @@ export default function AboutPage() {
                     {t('practicalAdvice.guidelines.title')}
                   </h3>
                   <div className="space-y-3">
-                    {Array.from({ length: 5 }, (_, i) => (
-                      <div key={i} className="flex items-start">
-                        <div className="w-2 h-2 bg-red-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                        <p className="text-white/80 text-sm">
-                          {t(`practicalAdvice.guidelines.rules.${i}`)}
-                        </p>
-                      </div>
-                    ))}
+                    {t
+                      .raw('practicalAdvice.guidelines.rules')
+                      .map((rule: string, i: number) => (
+                        <div key={i} className="flex items-start">
+                          <div className="w-2 h-2 bg-red-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                          <p className="text-white/80 text-sm">{rule}</p>
+                        </div>
+                      ))}
                   </div>
                 </div>
 
@@ -420,14 +419,14 @@ export default function AboutPage() {
                     {t('practicalAdvice.redFlags.description')}
                   </p>
                   <div className="space-y-2">
-                    {Array.from({ length: 5 }, (_, i) => (
-                      <div key={i} className="flex items-start">
-                        <div className="w-2 h-2 bg-yellow-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                        <p className="text-white/70 text-sm">
-                          {t(`practicalAdvice.redFlags.signs.${i}`)}
-                        </p>
-                      </div>
-                    ))}
+                    {t
+                      .raw('practicalAdvice.redFlags.signs')
+                      .map((sign: string, i: number) => (
+                        <div key={i} className="flex items-start">
+                          <div className="w-2 h-2 bg-yellow-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                          <p className="text-white/70 text-sm">{sign}</p>
+                        </div>
+                      ))}
                   </div>
                 </div>
               </div>
@@ -439,14 +438,14 @@ export default function AboutPage() {
                     {t('practicalAdvice.bestPractices.title')}
                   </h3>
                   <div className="space-y-3">
-                    {Array.from({ length: 5 }, (_, i) => (
-                      <div key={i} className="flex items-start">
-                        <div className="w-2 h-2 bg-green-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                        <p className="text-white/80 text-sm">
-                          {t(`practicalAdvice.bestPractices.tips.${i}`)}
-                        </p>
-                      </div>
-                    ))}
+                    {t
+                      .raw('practicalAdvice.bestPractices.tips')
+                      .map((tip: string, i: number) => (
+                        <div key={i} className="flex items-start">
+                          <div className="w-2 h-2 bg-green-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                          <p className="text-white/80 text-sm">{tip}</p>
+                        </div>
+                      ))}
                   </div>
                 </div>
 
@@ -459,14 +458,14 @@ export default function AboutPage() {
                     {t('practicalAdvice.breakthrough.description')}
                   </p>
                   <div className="space-y-2">
-                    {Array.from({ length: 4 }, (_, i) => (
-                      <div key={i} className="flex items-start">
-                        <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                        <p className="text-white/70 text-sm">
-                          {t(`practicalAdvice.breakthrough.examples.${i}`)}
-                        </p>
-                      </div>
-                    ))}
+                    {t
+                      .raw('practicalAdvice.breakthrough.examples')
+                      .map((example: string, i: number) => (
+                        <div key={i} className="flex items-start">
+                          <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                          <p className="text-white/70 text-sm">{example}</p>
+                        </div>
+                      ))}
                   </div>
                 </div>
               </div>
@@ -498,6 +497,259 @@ export default function AboutPage() {
               <p className="text-white/90 text-lg leading-relaxed">
                 {t('acknowledgments.description')}
               </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Development Setbacks Section */}
+        <section className="mb-16">
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-gradient-to-r from-red-600/20 to-orange-600/20 backdrop-blur-sm rounded-2xl p-8 border border-red-400/30">
+              <div className="flex items-center mb-6">
+                <Target className="w-8 h-8 text-red-400 mr-3" />
+                <h2 className="text-3xl font-bold text-white">
+                  {t('practicalAdvice.developmentSetbacks.title')}
+                </h2>
+              </div>
+              <p className="text-white/90 text-lg leading-relaxed mb-8">
+                {t('practicalAdvice.developmentSetbacks.description')}
+              </p>
+
+              <div className="space-y-8">
+                {/* Contract Breach */}
+                <div className="bg-white/5 rounded-xl p-6 border border-red-400/30">
+                  <h3 className="text-xl font-bold text-red-300 mb-4">
+                    {t(
+                      'practicalAdvice.developmentSetbacks.contractBreach.title',
+                    )}
+                  </h3>
+                  <p className="text-white/80 mb-4 text-sm leading-relaxed">
+                    {t(
+                      'practicalAdvice.developmentSetbacks.contractBreach.description',
+                    )}
+                  </p>
+                  <div className="space-y-2 mb-4">
+                    {Array.from({ length: 5 }, (_, i) => (
+                      <div key={i} className="flex items-start">
+                        <div className="w-2 h-2 bg-red-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                        <p className="text-white/70 text-sm">
+                          {t(
+                            `practicalAdvice.developmentSetbacks.contractBreach.timeline.${i}`,
+                          )}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="bg-red-500/10 border border-red-400/30 rounded-lg p-4">
+                    <p className="text-red-100 text-sm italic">
+                      {t(
+                        'practicalAdvice.developmentSetbacks.contractBreach.legalIssues',
+                      )}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Rate Limiting Problem */}
+                <div className="bg-white/5 rounded-xl p-6 border border-orange-400/30">
+                  <h3 className="text-xl font-bold text-orange-300 mb-4">
+                    {t(
+                      'practicalAdvice.developmentSetbacks.rateLimitingProblem.title',
+                    )}
+                  </h3>
+                  <p className="text-white/80 mb-4 text-sm leading-relaxed">
+                    {t(
+                      'practicalAdvice.developmentSetbacks.rateLimitingProblem.description',
+                    )}
+                  </p>
+                  <div className="mb-4">
+                    <a
+                      href="https://github.com/microsoft/vscode/issues/253124"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-400 hover:text-blue-300 underline text-sm"
+                    >
+                      {t(
+                        'practicalAdvice.developmentSetbacks.rateLimitingProblem.issueLink',
+                      )}
+                    </a>
+                  </div>
+                  <div className="space-y-2">
+                    {Array.from({ length: 7 }, (_, i) => (
+                      <div key={i} className="flex items-start">
+                        <div className="w-2 h-2 bg-orange-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                        <p className="text-white/70 text-sm">
+                          {t(
+                            `practicalAdvice.developmentSetbacks.rateLimitingProblem.impact.${i}`,
+                          )}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Financial Impact */}
+                <div className="bg-white/5 rounded-xl p-6 border border-yellow-400/30">
+                  <h3 className="text-xl font-bold text-yellow-300 mb-4">
+                    {t(
+                      'practicalAdvice.developmentSetbacks.financialImpact.title',
+                    )}
+                  </h3>
+                  <p className="text-white/80 mb-4 text-sm leading-relaxed">
+                    {t(
+                      'practicalAdvice.developmentSetbacks.financialImpact.description',
+                    )}
+                  </p>
+                  <div className="space-y-2 mb-4">
+                    {Array.from({ length: 5 }, (_, i) => (
+                      <div key={i} className="flex items-start">
+                        <div className="w-2 h-2 bg-yellow-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                        <p className="text-white/70 text-sm">
+                          {t(
+                            `practicalAdvice.developmentSetbacks.financialImpact.costs.${i}`,
+                          )}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="bg-yellow-500/10 border border-yellow-400/30 rounded-lg p-4">
+                    <p className="text-yellow-100 text-sm italic">
+                      {t(
+                        'practicalAdvice.developmentSetbacks.financialImpact.businessImpact',
+                      )}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Why It's Absurd */}
+                <div className="bg-white/5 rounded-xl p-6 border border-purple-400/30">
+                  <h3 className="text-xl font-bold text-purple-300 mb-4">
+                    {t(
+                      'practicalAdvice.developmentSetbacks.whyItsAbsurd.title',
+                    )}
+                  </h3>
+                  <p className="text-white/80 mb-4 text-sm leading-relaxed">
+                    {t(
+                      'practicalAdvice.developmentSetbacks.whyItsAbsurd.description',
+                    )}
+                  </p>
+                  <div className="space-y-2">
+                    {Array.from({ length: 7 }, (_, i) => (
+                      <div key={i} className="flex items-start">
+                        <div className="w-2 h-2 bg-purple-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                        <p className="text-white/70 text-sm">
+                          {t(
+                            `practicalAdvice.developmentSetbacks.whyItsAbsurd.problems.${i}`,
+                          )}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Microsoft Gaslighting */}
+                <div className="bg-white/5 rounded-xl p-6 border border-pink-400/30">
+                  <h3 className="text-xl font-bold text-pink-300 mb-4">
+                    {t(
+                      'practicalAdvice.developmentSetbacks.microsoftGaslighting.title',
+                    )}
+                  </h3>
+                  <p className="text-white/80 mb-4 text-sm leading-relaxed">
+                    {t(
+                      'practicalAdvice.developmentSetbacks.microsoftGaslighting.description',
+                    )}
+                  </p>
+                  <div className="space-y-2">
+                    {Array.from({ length: 5 }, (_, i) => (
+                      <div key={i} className="flex items-start">
+                        <div className="w-2 h-2 bg-pink-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                        <p className="text-white/70 text-sm">
+                          {t(
+                            `practicalAdvice.developmentSetbacks.microsoftGaslighting.tactics.${i}`,
+                          )}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Real World Impact */}
+                <div className="bg-white/5 rounded-xl p-6 border border-blue-400/30">
+                  <h3 className="text-xl font-bold text-blue-300 mb-4">
+                    {t(
+                      'practicalAdvice.developmentSetbacks.realWorldImpact.title',
+                    )}
+                  </h3>
+                  <p className="text-white/80 mb-4 text-sm leading-relaxed">
+                    {t(
+                      'practicalAdvice.developmentSetbacks.realWorldImpact.description',
+                    )}
+                  </p>
+                  <div className="space-y-2">
+                    {Array.from({ length: 6 }, (_, i) => (
+                      <div key={i} className="flex items-start">
+                        <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                        <p className="text-white/70 text-sm">
+                          {t(
+                            `practicalAdvice.developmentSetbacks.realWorldImpact.consequences.${i}`,
+                          )}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Microsoft Fail */}
+                <div className="bg-white/5 rounded-xl p-6 border border-indigo-400/30">
+                  <h3 className="text-xl font-bold text-indigo-300 mb-4">
+                    {t(
+                      'practicalAdvice.developmentSetbacks.microsoftFail.title',
+                    )}
+                  </h3>
+                  <p className="text-white/80 mb-4 text-sm leading-relaxed">
+                    {t(
+                      'practicalAdvice.developmentSetbacks.microsoftFail.description',
+                    )}
+                  </p>
+                  <div className="space-y-2">
+                    {Array.from({ length: 6 }, (_, i) => (
+                      <div key={i} className="flex items-start">
+                        <div className="w-2 h-2 bg-indigo-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                        <p className="text-white/70 text-sm">
+                          {t(
+                            `practicalAdvice.developmentSetbacks.microsoftFail.failurePoints.${i}`,
+                          )}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Platform Risk */}
+                <div className="bg-white/5 rounded-xl p-6 border border-cyan-400/30">
+                  <h3 className="text-xl font-bold text-cyan-300 mb-4">
+                    {t(
+                      'practicalAdvice.developmentSetbacks.platformRisk.title',
+                    )}
+                  </h3>
+                  <p className="text-white/80 mb-4 text-sm leading-relaxed">
+                    {t(
+                      'practicalAdvice.developmentSetbacks.platformRisk.description',
+                    )}
+                  </p>
+                  <div className="space-y-2">
+                    {Array.from({ length: 4 }, (_, i) => (
+                      <div key={i} className="flex items-start">
+                        <div className="w-2 h-2 bg-cyan-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                        <p className="text-white/70 text-sm">
+                          {t(
+                            `practicalAdvice.developmentSetbacks.platformRisk.lessons.${i}`,
+                          )}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>

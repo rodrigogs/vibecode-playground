@@ -43,7 +43,7 @@
   "aiJourney": {
     "title": "The Journey with Different AI Models",
     "description": "Development involved contrasting experiences with different AI models, each bringing their own challenges and achievements.",
-    "claude35": {
+    "claude37": {
       "title": "Claude 3.7 Sonnet - The Package Era",
       "description": "Developed all the monorepo package infrastructure, but with a peculiar tendency to 'hallucinate' fantastical implementations",
       "challenges": [
@@ -80,10 +80,8 @@
     "technicalDiscoveries": {
       "title": "Technical Discoveries",
       "examples": [
-        "TypeScript efficiently compiled via tsc for optimized builds",
-        "New approaches to familiar tools making them more practical",
-        "Perfect integration between GitHub and Google authentication",
-        "Simplified deploy on Vercel with AI assistance"
+        "Discovery: You can run TypeScript files directly with Node 24, no transpilation needed — something I learned thanks to Claude 4",
+        "New approaches to familiar tools making them more practical"
       ]
     },
     "designJourney": {

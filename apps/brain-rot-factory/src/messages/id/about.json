@@ -1,6 +1,6 @@
 {
   "title": "Tentang Brain-rot Factory",
-  "subtitle": "Petualangan coding penuh vibe",
+  "subtitle": "Petualangan vibe coding",
   "introduction": "Selamat datang di cerita di balik Brain-rot Factory - sebuah proyek yang lahir dari kolaborasi intens antara kreativitas manusia dan kecerdasan buatan, menghasilkan sesuatu yang tidak ada yang duga: sebuah 'proyek gak berguna tapi totally vibe coded'.",
   "journey": {
     "title": "Perjalanan Kami",
@@ -43,7 +43,7 @@
   "aiJourney": {
     "title": "Perjalanan dengan Model AI yang Berbeda",
     "description": "Pengembangan melibatkan pengalaman kontras dengan model AI yang berbeda, masing-masing membawa tantangan dan pencapaian tersendiri.",
-    "claude35": {
+    "claude37": {
       "title": "Claude 3.7 Sonnet - Era Package",
       "description": "Mengembangkan semua infrastruktur package monorepo, tetapi dengan kecenderungan aneh untuk 'berhalusinasi' implementasi fantastis",
       "challenges": [
@@ -80,10 +80,8 @@
     "technicalDiscoveries": {
       "title": "Penemuan Teknis",
       "examples": [
-        "TypeScript dikompilasi secara efisien melalui tsc untuk build yang dioptimalkan",
-        "Pendekatan baru terhadap alat-alat familiar yang membuatnya lebih praktis",
-        "Integrasi sempurna antara autentikasi GitHub dan Google",
-        "Deploy yang disederhanakan di Vercel dengan bantuan AI"
+        "Penemuan: Anda dapat menjalankan file TypeScript langsung dengan Node 24 tanpa perlu transpile — ini saya pelajari berkat Claude 4",
+        "Pendekatan baru terhadap alat-alat familiar yang membuatnya lebih praktis"
       ]
     },
     "designJourney": {

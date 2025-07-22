@@ -1,6 +1,6 @@
 {
   "title": "Riguardo Brain-rot Factory",
-  "subtitle": "Un'avventura di coding con vibe",
+  "subtitle": "Un'avventura con vibe coding",
   "introduction": "Benvenuti nella storia dietro Brain-rot Factory - un progetto nato dalla collaborazione intensa tra creatività umana e intelligenza artificiale, risultando in qualcosa che nessuno si aspettava: un 'progetto inutile ma totalmente codato con vibe'.",
   "journey": {
     "title": "Il Nostro Viaggio",
@@ -90,7 +90,7 @@
   "aiJourney": {
     "title": "Il Viaggio con Diversi Modelli di AI",
     "description": "Lo sviluppo ha coinvolto esperienze contrastanti con diversi modelli di AI, ognuno portando le proprie sfide e conquiste.",
-    "claude35": {
+    "claude37": {
       "title": "Claude 3.7 Sonnet - L'Era dei Package",
       "description": "Ha sviluppato tutta l'infrastruttura dei package del monorepo, ma con una tendenza peculiare ad 'allucinare' implementazioni fantasiose",
       "challenges": [
@@ -127,10 +127,8 @@
     "technicalDiscoveries": {
       "title": "Scoperte Tecniche",
       "examples": [
-        "TypeScript compilato efficientemente via tsc per build ottimizzati",
-        "Nuovi approcci a strumenti familiari rendendoli più pratici",
-        "Integrazione perfetta tra autenticazione GitHub e Google",
-        "Deploy semplificato su Vercel con assistenza AI"
+        "Scoperta: È possibile eseguire file TypeScript direttamente con Node 24, senza bisogno di transpilarli — l'ho scoperto grazie a Claude 4",
+        "Nuovi approcci a strumenti familiari rendendoli più pratici"
       ]
     },
     "designJourney": {
