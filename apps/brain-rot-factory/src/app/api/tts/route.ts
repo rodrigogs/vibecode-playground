@@ -88,6 +88,16 @@ export async function POST(request: NextRequest) {
       requestedVoice || getCharacterVoice(character as BrainRotCharacter)
     const format = requestedFormat || 'mp3'
 
+    console.info(
+      `🎤 TTS voice selection for character "${character?.name || 'unknown'}":`,
+      {
+        requestedVoice,
+        characterVoice: (character as BrainRotCharacter)?.voice,
+        characterGender: (character as BrainRotCharacter)?.gender,
+        selectedVoice: voice,
+      },
+    )
+
     // Prepare TTS options
     const ttsOptions: TTSOptions = {
       voice,

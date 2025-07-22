@@ -485,6 +485,10 @@ export const ZodSchemas = {
       .object({
         id: z.string().min(1).max(50),
         name: z.string().min(1).max(100),
+        voice: z.string().optional(),
+        gender: z.enum(['male', 'female']).optional(),
+        language: z.string().optional(),
+        country: z.string().optional(),
       })
       .optional(),
     voice: z.string().optional(),

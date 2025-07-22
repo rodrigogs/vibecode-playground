@@ -255,7 +255,6 @@ export function useAudioManager(): UseAudioManagerReturn {
           body: JSON.stringify({
             ttsToken, // Send the TTS token instead of the text content
             character: character,
-            voice: 'ash',
             instructions: `Speak as ${character.name} with their personality: ${character.description}. Use an engaging, energetic tone that matches their character.`,
             format: 'mp3',
           }),
