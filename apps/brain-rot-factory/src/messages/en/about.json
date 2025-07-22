@@ -4,7 +4,7 @@
   "introduction": "Welcome to the story behind Brain-rot Factory - a project born from intense collaboration between human creativity and artificial intelligence, resulting in something no one expected: a 'useless but totally vibe-coded project'.",
   "journey": {
     "title": "Our Coding Adventure",
-    "description": "This project represents a unique adventure where developer Rodrigo Gomes and different AI models (Claude 3.7 and Claude 4) worked together to create something truly special - a brain-rot character platform that is simultaneously absurd and technically sophisticated."
+    "description": "This project represents a unique adventure where developer Rodrigo Gomes da Silva and different AI models (Claude 3.7 and Claude 4) worked together to create something truly special - a brain-rot character platform that is simultaneously absurd and technically sophisticated."
   },
   "aiOnly": {
     "title": "100% AI-Created - Zero Manual Code",
@@ -51,6 +51,11 @@
         "Technical hallucinations: invented APIs and libraries that didn't exist",
         "Need for constant supervision to maintain focus on the actual task",
         "Intensive 'AI whisperer' work - stop, review, reorient, repeat"
+      ],
+      "learnings": [
+        "Importance of continuous validation of AI output",
+        "Need to break complex tasks into manageable chunks",
+        "Value of clear and specific prompts"
       ]
     },
     "claude4": {
@@ -61,15 +66,49 @@
         "Complete visual design that exceeded all aesthetic expectations",
         "Autonomous creation of functional authentication system",
         "Establishment of a new paradigm of trust in AI collaboration"
+      ],
+      "breakthrough": [
+        "Perfect balance of human guidance and AI execution",
+        "Intuitive understanding of complex requirements",
+        "Consistent quality in technical implementation"
       ]
+    }
+  },
+  "creativeProcess": {
+    "title": "Creative Process & Discoveries",
+    "description": "Development revealed unexpected technical discoveries and unique creative moments.",
+    "technicalDiscoveries": {
+      "title": "Technical Discoveries",
+      "examples": [
+        "TypeScript efficiently compiled via tsc for optimized builds",
+        "New approaches to familiar tools making them more practical",
+        "Perfect integration between GitHub and Google authentication",
+        "Simplified deploy on Vercel with AI assistance"
+      ]
+    },
+    "designJourney": {
+      "title": "Design Journey",
+      "vision": "Simple prompt: 'something futuristic with traits reminiscent of water and glass'",
+      "result": "Complete design with gradients, glass morphism and impressive visual effects",
+      "iconAnimation": "Icon generated in ChatGPT + colorful effects and pulsation created by Claude 4"
+    },
+    "paradigmShift": {
+      "title": "Paradigm Shift",
+      "before": "AI as a tool that needs constant supervision (babysitter mode)",
+      "after": "AI as a reliable partner that enables fluid collaborative work",
+      "confidence": "Claude 4 brought confidence to work with AI models productively"
     }
   },
   "development": {
     "title": "Tech Stack",
     "description": "Every line of code, every architectural decision, and every feature was created through collaborative discussion, iterative refinement, and lots of shared debugging between human and AI.",
+    "dualBuild": {
+      "title": "Hybrid Build System",
+      "description": "One of our proudest achievements: dual compilation for ECMAScript Modules (ESM) and CommonJS (CJS), allowing packages to work in both modern and legacy projects."
+    },
     "features": [
       "Next.js 15 with App Router - latest version for modern web development",
-      "TypeScript running natively on Node 24 - no transpilation needed",
+      "TypeScript compiled via tsc for optimized production builds",
       "Tailwind CSS for responsive UI with glass morphism and gradients",
       "NextAuth.js for secure authentication with GitHub and Google OAuth",
       "Complete internationalization system (6 languages: EN, PT, IT, ID, JA, ZH)",
@@ -102,9 +141,74 @@
         "@repo/template - Code generation templates (6 tests)"
       ]
     },
+    "aiPackageSpotlight": {
+      "title": "@repo/ai Package: Enterprise-Grade AI Abstraction",
+      "description": "One of the true technical achievements of this project is the @repo/ai package, a comprehensive TypeScript abstraction over LangChain. Despite being 100% AI-created, it demonstrates enterprise-level software architecture.",
+      "features": {
+        "title": "Advanced Features",
+        "items": [
+          "🤖 Multi-provider support: Complete OpenAI and DeepSeek integration",
+          "🔧 Type-safe factory pattern: Perfect IntelliSense with automatic type inference",
+          "💾 Persistent checkpoint system: Conversation memory with @repo/cache integration",
+          "🎤 Advanced TTS system: Latest voice models including gpt-4o-mini-tts",
+          "🛠️ React Agents: Pre-configured LangGraph integration",
+          "📦 Dual build: Automatic ESM and CJS output"
+        ]
+      },
+      "technicalExcellence": {
+        "title": "Technical Excellence",
+        "highlights": [
+          "Complete TypeScript type safety with provider-specific model types",
+          "Extensible architecture with registry pattern",
+          "Custom serialization implementation with JsonSerializer",
+          "Comprehensive error handling and environment configuration management",
+          "Full code coverage with 107 tests",
+          "Complete compliance with LangGraph's BaseCheckpointSaver interface"
+        ]
+      },
+      "codeExample": {
+        "title": "API Design Elegance",
+        "description": "Simple factory pattern with complete type safety:",
+        "example": "// TypeScript automatically infers correct types\nconst agent = createAgent({\n  provider: 'openai',\n  model: 'gpt-4o', // ✅ Only OpenAI models\n  tools: [new TavilySearchResults()],\n  checkpointSaver: new PersistentCheckpointSaver()\n})"
+      },
+      "innovation": {
+        "title": "Innovation Points",
+        "points": [
+          "Hides LangChain complexity while maintaining full flexibility",
+          "Seamless provider switching without code changes",
+          "Enterprise memory management with cache integration",
+          "Immediate response to latest AI features (voice, reasoning models)"
+        ]
+      }
+    },
     "testing": {
-      "title": "Comprehensive Testing Infrastructure",
-      "description": "Despite being created entirely by AI, the project demonstrates testing practices aligned with modern industry standards (Stack Overflow Developer Survey 2024, Google Testing practices):",
+      "title": "100% AI-Created Tests - Solid Metrics",
+      "description": "The tests in this project were entirely created by AI models, without a single line written manually. The resulting metrics demonstrate good quality according to industry standards.",
+      "aiTestingStats": {
+        "title": "Testing Statistics",
+        "results": [
+          "182/182 tests passing in packages (100% success)",
+          "74.61% overall coverage with some modules at 100%",
+          "Comprehensive unit and integration tests",
+          "Sophisticated mock implementations for external dependencies",
+          "Test cases for extreme scenarios and edge cases",
+          "Complete error handling validation"
+        ]
+      },
+      "professionalComparison": {
+        "title": "Industry Benchmark Comparison",
+        "description": "This 100% AI-created project presents solid metrics compared to current industry standards (based on Stack Overflow Developer Survey 2024 data and modern practices):",
+        "advantages": [
+          "✅ 74.61% test coverage - aligned with modern enterprise practices",
+          "✅ 182/182 tests passing - total reliability in test suite",
+          "✅ Lint configured and running without errors",
+          "✅ Consistent code standards throughout the codebase",
+          "✅ Robust build system with dual output (ESM + CJS)",
+          "✅ Modular architecture following enterprise patterns",
+          "✅ Complete and structured technical documentation"
+        ],
+        "sources": "References: Stack Overflow Developer Survey 2024 (65,000+ respondents), SonarQube Industry Standards, Google Testing Blog (2024)"
+      },
       "features": [
         "Unit tests with Vitest for all critical functionality",
         "Integration tests for AI providers and caching systems",
@@ -141,7 +245,7 @@
   "team": {
     "title": "The Team",
     "human": {
-      "name": "Rodrigo Gomes",
+      "name": "Rodrigo Gomes da Silva",
       "role": "Developer & Vision Architect",
       "description": "Brazilian developer passionate about creating meaningful digital experiences. Brings years of expertise in full-stack development and a vision for innovative user interactions."
     },
@@ -239,6 +343,108 @@
         "Seamless integration between GitHub and Google OAuth",
         "Automated Vercel deployment with all configurations"
       ]
+    },
+    "developmentSetbacks": {
+      "title": "Development Setbacks: Microsoft's Contract-Breaking Rate Limiting Disaster",
+      "description": "A critical documentation of how Microsoft/GitHub unilaterally broke paid contracts and implemented aggressive rate limiting policies that created significant obstacles during this project's development - a cautionary tale about corporate fraud disguised as 'policy updates'.",
+      "contractBreach": {
+        "title": "The Bait-and-Switch: Microsoft Rewrites Paid Contracts",
+        "description": "Microsoft sold 'unlimited agent usage' plans, collected full-year payments, then quietly removed the unlimited promise and implemented harsh rate limits - classic corporate fraud.",
+        "timeline": [
+          "📅 Initial purchase: 'Unlimited agent usage' advertised and paid for",
+          "💰 Full-year payment collected by Microsoft based on unlimited promise",
+          "🤐 Microsoft quietly removes 'unlimited agent usage' from plans page",
+          "📧 Surprise email announcing 'new usage tracker' and quotas",
+          "💥 20% of monthly quota consumed by 'a single light session' refactoring a tiny logger module"
+        ],
+        "legalIssues": "Contracts should bind both sides. If you can change them whenever the wind shifts, what's the point? This is textbook bait-and-switch fraud."
+      },
+      "rateLimitingProblem": {
+        "title": "The Rate Limiting Nightmare",
+        "description": "During active development, we faced severe interruptions due to GitHub Copilot's aggressive rate limiting policies, which fundamentally broke productive AI-assisted development workflows.",
+        "issueLink": "Documented in: https://github.com/microsoft/vscode/issues/253124",
+        "impact": [
+          "💔 Constant workflow interruptions during critical development phases",
+          "⏰ Forced waits of 3-15 minutes between requests, killing development momentum",
+          "🔄 Random and unpredictable rate limiting that made planning impossible",
+          "🚫 Complete blocking of legitimate development use cases",
+          "😤 Extremely frustrating user experience that damages trust in AI tools",
+          "💸 Financial impact: forced to purchase additional services (Cursor) to complete work",
+          "🔥 Rate limits hit even basic models (GPT-4o), proving Microsoft simply lies about 'unlimited' base model access"
+        ]
+      },
+      "financialImpact": {
+        "title": "Real Financial Damage to Developers",
+        "description": "Microsoft's bait-and-switch didn't just break workflows - it forced additional costs:",
+        "costs": [
+          "💰 Full-year Copilot subscription paid based on false 'unlimited' promise",
+          "💳 Forced purchase of Cursor subscription as backup service",
+          "⏱️ Extended development timeline = increased project costs",
+          "🔄 Multiple service rate limits hit during single project completion",
+          "🎯 Quote: 'I ended up hitting Copilot limits 2x and Cursor limits 2x to finish this project using Claude 4'"
+        ],
+        "businessImpact": "When you're paying for 'unlimited' service and get artificially constrained, you're forced to buy multiple subscriptions just to complete normal development work."
+      },
+      "whyItsAbsurd": {
+        "title": "Why Microsoft's Approach is Completely Absurd and Potentially Illegal",
+        "description": "Microsoft's rate limiting implementation represents not just poor service, but potential contract fraud:",
+        "problems": [
+          "🎯 **Contract Fraud**: Selling 'unlimited' service, collecting payment, then imposing harsh limits",
+          "💰 **Bait-and-Switch**: Classic fraud technique - advertise X, deliver Y after payment",
+          "🔧 **Breaks Development Flow**: AI development requires iterative conversation - rate limiting destroys this natural workflow",
+          "📊 **No Transparency**: Arbitrary limits with no clear explanation, calling legitimate use 'illegitimate'",
+          "🏢 **Corporate Gaslighting**: Blaming customers for using the service they paid for 'too much'",
+          "🤖 **False Advertising**: Even 'base models' hit rate limits despite being advertised as unlimited",
+          "⚖️ **Zero Accountability**: Giant corporation changes contracts at will with zero consequences"
+        ]
+      },
+      "microsoftGaslighting": {
+        "title": "Microsoft's Gaslighting Campaign",
+        "description": "Microsoft doesn't just break contracts - they gaslight customers who complain:",
+        "tactics": [
+          "🗣️ Talking about 'legitimate use cases' as if customers should police their own usage of an 'unlimited' service",
+          "🤡 Suggesting customers downgrade to inferior 'Ask' mode when 'Agent' was advertised as unlimited",
+          "📝 Recommending garbage models (GPT-4.1) that 'drop context every other prompt, integrate like trash with tools, throw errors for fun'",
+          "🎭 Acting like changing paid contracts is normal business practice",
+          "👢 Having bootlickers defend billion-dollar corporation against paying customers"
+        ]
+      },
+      "realWorldImpact": {
+        "title": "Real Impact on This Project",
+        "description": "These rate limiting issues and contract breaches directly affected our development process:",
+        "consequences": [
+          "Forced to purchase multiple AI services to complete a single project",
+          "Lost development context due to forced interruptions and service switching",
+          "Extended development timeline due to artificial constraints",
+          "Increased frustration and complete loss of trust in Microsoft's ecosystem",
+          "Had to develop complex workarounds involving multiple paid services",
+          "Quote: 'Models that work as well as my deaf dog's hearing' - forced degradation of development tools"
+        ]
+      },
+      "microsoftFail": {
+        "title": "Microsoft's Fundamental Failure and Corporate Fraud",
+        "description": "This situation exemplifies Microsoft's pattern of corporate malfeasance:",
+        "failurePoints": [
+          "💰 **Contract Fraud**: Changing paid contract terms unilaterally after collecting payment",
+          "🏢 **Corporate Bullying**: Using market dominance to screw over individual developers",
+          "📉 **Prioritizing Profits Over Honor**: Breaking promises to boost quarterly numbers",
+          "🔒 **Implementing Fraud**: Advertising unlimited service while planning artificial limits",
+          "🗣️ **Gaslighting Customers**: Blaming users for using the service they paid for",
+          "💸 **Theft**: Keeping full payments while delivering fraction of promised service"
+        ]
+      },
+      "platformRisk": {
+        "title": "Platform Dependency Risk and Corporate Tyranny",
+        "description": "This experience highlighted the dangers of depending on dishonest corporate giants:",
+        "lessons": [
+          "Never trust Microsoft with mission-critical workflows - they will screw you",
+          "Always maintain multiple AI providers because corporations lie about their service terms",
+          "Corporate AI providers will prioritize profits over contracts and customer relationships",
+          "Document everything - corporations will gaslight you and pretend contracts never existed",
+          "Giant corporations operate with impunity - they can break contracts with zero legal consequences",
+          "Platform risk includes not just technical failure, but corporate fraud and contract breach"
+        ]
+      }
     }
   },
   "future": {
@@ -254,6 +460,67 @@
     "description": "This project is open source and available on GitHub. We encourage contributions, feedback, and forks. Let's build the future together!",
     "githubLink": "View on GitHub",
     "licenseText": "Released under the MIT License"
+  },
+  "toolingSupport": {
+    "title": "Development Tools: i18n Verification Script",
+    "description": "During development, we created our own tools to ensure quality and completeness of internationalization files - a practical example of how AI can create sophisticated auxiliary solutions.",
+    "scriptPurpose": {
+      "title": "Purpose of check-i18n-completeness.js Script",
+      "description": "Tool created 100% by AI to verify the completeness of translation files, comparing all languages with the Portuguese reference file.",
+      "capabilities": [
+        "🔍 Recursive analysis of complex JSON objects with deep nesting",
+        "📊 Automatic calculation of completeness percentage per language",
+        "📁 Intelligent grouping of missing keys by section",
+        "🎨 Colorized output for easy visual identification of issues",
+        "📈 Detailed report and executive summary in terminal format",
+        "⚡ Automatic detection of structural differences between files"
+      ]
+    },
+    "technicalImplementation": {
+      "title": "Technical Implementation",
+      "description": "The script demonstrates sophisticated engineering patterns created entirely by AI:",
+      "features": [
+        "Functional recursion for navigating arbitrarily deep JSON objects",
+        "Efficient comparison algorithms for large data structures",
+        "ANSI color system for professional terminal output",
+        "Robust error handling with appropriate fallbacks",
+        "ES Modules with modern Node.js compatibility",
+        "Modular architecture with pure and reusable functions"
+      ]
+    },
+    "developmentImpact": {
+      "title": "Development Impact",
+      "description": "This tool enabled maintaining perfect synchronization between 6 different languages:",
+      "achievements": [
+        "🎯 Precise identification of 74+ missing keys distributed across 5 languages",
+        "⚡ Synchronization process that brought all files from ~60-97% to 100%",
+        "🚀 Complete automation of translation quality verification",
+        "📊 Real-time metrics of internationalization progress",
+        "🔧 Reusable tool for continuous translation maintenance"
+      ]
+    },
+    "metaDevelopment": {
+      "title": "Meta-Development: AI Creating Tools for AI",
+      "description": "This script represents an interesting example of AI creating tools to improve AI's own work:",
+      "insights": [
+        "AI can identify its own needs for supporting tools",
+        "Automatic creation of solutions for scale and maintenance problems",
+        "Ability to generate auxiliary code as sophisticated as main code",
+        "Demonstration of systemic thinking: not just solving the problem, but creating tools to prevent the problem",
+        "Proof that AI can contribute to the entire development lifecycle, not just coding"
+      ]
+    },
+    "practicalValue": {
+      "title": "Proven Practical Value",
+      "description": "The script proved its value by detecting and helping correct:",
+      "detectedIssues": [
+        "Complete missing sections in multiple languages (aiJourney, creativeProcess, practicalAdvice)",
+        "Non-existent specific subsections (learnings, breakthrough, dualBuild)",
+        "Structural inconsistencies between translation files",
+        "Subtle differences in JSON object hierarchies",
+        "Validation that all 188 keys exist in all languages"
+      ]
+    }
   },
   "aboutCreation": {
     "title": "Meta: How This About Page Was Created",

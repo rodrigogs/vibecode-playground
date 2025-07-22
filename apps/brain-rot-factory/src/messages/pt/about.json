@@ -4,7 +4,7 @@
   "introduction": "Bem-vindo à história por trás da Brain-rot Factory - um projeto que nasceu da colaboração intensa entre criatividade humana e inteligência artificial, resultando em algo que ninguém esperava: um 'projeto inútil mas totalmente vibe codado'.",
   "journey": {
     "title": "Nossa Jornada",
-    "description": "Este projeto representa uma aventura única onde o desenvolvedor Rodrigo Gomes e diferentes modelos de IA (Claude 3.7 e Claude 4) trabalharam juntos para criar algo verdadeiramente especial - uma plataforma de personagens brain-rot que é simultaneamente absurda e tecnicamente sofisticada."
+    "description": "Este projeto representa uma aventura única onde o desenvolvedor Rodrigo Gomes da Silva e diferentes modelos de IA (Claude 3.7 e Claude 4) trabalharam juntos para criar algo verdadeiramente especial - uma plataforma de personagens brain-rot que é simultaneamente absurda e tecnicamente sofisticada."
   },
   "aiOnly": {
     "title": "100% Criado por IA - Zero Código Manual",
@@ -72,7 +72,7 @@
     "technicalDiscoveries": {
       "title": "Descobertas Técnicas",
       "examples": [
-        "TypeScript pode rodar diretamente no Node 24 sem transpilação",
+        "TypeScript compilado eficientemente via tsc para builds otimizados",
         "Novas abordagens para ferramentas familiares tornando-as mais práticas",
         "Integração perfeita entre autenticação GitHub e Google",
         "Deploy simplificado na Vercel com assistência de IA"
@@ -101,7 +101,7 @@
     "features": [
       "Next.js 15 com App Router - a última versão para desenvolvimento web moderno",
       "TypeScript com build dual (ESM + CJS) - máxima compatibilidade de projetos",
-      "Compilação nativa no Node 24 - sem transpilação necessária para desenvolvimento",
+      "TypeScript compilado via tsc para builds otimizados de produção",
       "Tailwind CSS para UI responsiva com glass morphism e gradientes",
       "NextAuth.js para autenticação segura com GitHub e Google OAuth",
       "Sistema de internacionalização completo (6 idiomas: EN, PT, IT, ID, JA, ZH)",
@@ -133,6 +133,46 @@
         "@repo/utils - Funções utilitárias e helpers (17 testes)",
         "@repo/template - Templates de geração de código (6 testes)"
       ]
+    },
+    "aiPackageSpotlight": {
+      "title": "Package @repo/ai: Abstração de IA de Nível Enterprise",
+      "description": "Uma das verdadeiras conquistas técnicas deste projeto é o package @repo/ai, uma abstração TypeScript abrangente do LangChain. Apesar de ser 100% criado por IA, demonstra arquitetura de software de nível empresarial.",
+      "features": {
+        "title": "Funcionalidades Avançadas",
+        "items": [
+          "🤖 Suporte multi-provider: Integração completa OpenAI e DeepSeek",
+          "🔧 Factory pattern type-safe: IntelliSense perfeito com inferência automática de tipos",
+          "💾 Sistema de checkpoint persistente: Memória de conversas com integração @repo/cache",
+          "🎤 Sistema TTS avançado: Modelos de voz mais recentes incluindo gpt-4o-mini-tts",
+          "🛠️ React Agents: Integração pré-configurada com LangGraph",
+          "📦 Dual build: Saída automática ESM e CJS"
+        ]
+      },
+      "technicalExcellence": {
+        "title": "Excelência Técnica",
+        "highlights": [
+          "Type safety completa do TypeScript com tipos específicos por provider",
+          "Arquitetura extensível com padrão de registry",
+          "Implementação customizada de serialização com JsonSerializer",
+          "Tratamento abrangente de erros e gestão de configuração de ambiente",
+          "Cobertura completa de código com 107 testes",
+          "Conformidade total com interface BaseCheckpointSaver do LangGraph"
+        ]
+      },
+      "codeExample": {
+        "title": "Elegância do Design da API",
+        "description": "Factory pattern simples mas com type safety completa:",
+        "example": "// TypeScript infere automaticamente os tipos corretos\nconst agent = createAgent({\n  provider: 'openai',\n  model: 'gpt-4o', // ✅ Apenas modelos OpenAI\n  tools: [new TavilySearchResults()],\n  checkpointSaver: new PersistentCheckpointSaver()\n})"
+      },
+      "innovation": {
+        "title": "Pontos de Inovação",
+        "points": [
+          "Esconde complexidade do LangChain mantendo flexibilidade total",
+          "Alternância perfeita entre providers sem mudança de código",
+          "Gestão de memória empresarial com integração de cache",
+          "Resposta imediata aos recursos mais recentes de IA (voz, modelos de reasoning)"
+        ]
+      }
     },
     "testing": {
       "title": "Testes 100% Criados por IA - Métricas Sólidas",
@@ -198,7 +238,7 @@
   "team": {
     "title": "A Equipe",
     "human": {
-      "name": "Rodrigo Gomes",
+      "name": "Rodrigo Gomes da Silva",
       "role": "Desenvolvedor & Arquiteto de Visão",
       "description": "Desenvolvedor brasileiro apaixonado por criar experiências digitais significativas. Traz anos de expertise em desenvolvimento full-stack e uma visão para interações inovadoras do usuário."
     },
@@ -296,6 +336,108 @@
         "Integração perfeita entre GitHub e Google OAuth",
         "Deploy automatizado na Vercel com todas as configurações"
       ]
+    },
+    "developmentSetbacks": {
+      "title": "Contratempos de Desenvolvimento: O Desastre da Quebra de Contrato e Rate Limiting da Microsoft",
+      "description": "Uma documentação crítica de como a Microsoft/GitHub quebrou unilateralmente contratos pagos e implementou políticas agressivas de rate limiting que criaram obstáculos significativos durante o desenvolvimento deste projeto - um alerta sobre fraude corporativa disfarçada de 'atualizações de política'.",
+      "contractBreach": {
+        "title": "O Bait-and-Switch: Microsoft Reescreve Contratos Pagos",
+        "description": "A Microsoft vendeu planos de 'uso ilimitado do agente', coletou pagamentos anuais integrais, depois silenciosamente removeu a promessa ilimitada e implementou rate limits severos - fraude corporativa clássica.",
+        "timeline": [
+          "📅 Compra inicial: 'Uso ilimitado do agente' anunciado e pago",
+          "💰 Pagamento anual integral coletado pela Microsoft baseado na promessa ilimitada",
+          "🤐 Microsoft silenciosamente remove 'uso ilimitado do agente' da página de planos",
+          "📧 Email surpresa anunciando 'novo rastreador de uso' e cotas",
+          "💥 20% da cota mensal consumida por 'uma única sessão leve' refatorando um pequeno módulo de logger"
+        ],
+        "legalIssues": "Contratos deveriam vincular ambas as partes. Se você pode mudá-los quando o vento muda, qual é o sentido? Isso é bait-and-switch clássico."
+      },
+      "rateLimitingProblem": {
+        "title": "O Pesadelo do Rate Limiting",
+        "description": "Durante o desenvolvimento ativo, enfrentamos interrupções severas devido às políticas agressivas de rate limiting do GitHub Copilot, que fundamentalmente quebraram workflows produtivos de desenvolvimento assistido por IA.",
+        "issueLink": "Documentado em: https://github.com/microsoft/vscode/issues/253124",
+        "impact": [
+          "💔 Interrupções constantes do workflow durante fases críticas de desenvolvimento",
+          "⏰ Esperas forçadas de 3-15 minutos entre requests, matando o momentum de desenvolvimento",
+          "🔄 Rate limiting aleatório e imprevisível que tornava impossível fazer planejamento",
+          "🚫 Bloqueio completo de casos de uso legítimos de desenvolvimento",
+          "😤 Experiência de usuário extremamente frustrante que prejudica a confiança em ferramentas IA",
+          "💸 Impacto financeiro: forçado a comprar serviços adicionais (Cursor) para completar o trabalho",
+          "🔥 Rate limits atingem até modelos básicos (GPT-4o), provando que a Microsoft simplesmente mente sobre acesso 'ilimitado' a modelos base"
+        ]
+      },
+      "financialImpact": {
+        "title": "Dano Financeiro Real para Desenvolvedores",
+        "description": "O bait-and-switch da Microsoft não apenas quebrou workflows - forçou custos adicionais:",
+        "costs": [
+          "💰 Assinatura anual completa do Copilot paga baseada na falsa promessa 'ilimitada'",
+          "💳 Compra forçada de assinatura do Cursor como serviço de backup",
+          "⏱️ Timeline de desenvolvimento estendido = custos de projeto aumentados",
+          "🔄 Múltiplos rate limits de serviços atingidos durante completion de projeto único",
+          "🎯 Citação: 'Acabei estourando o limite do Copilot 2x e o Cursor 2x para conseguir terminar esse projeto usando Claude 4'"
+        ],
+        "businessImpact": "Quando você está pagando por serviço 'ilimitado' e fica artificialmente limitado, é forçado a comprar múltiplas assinaturas só para completar trabalho normal de desenvolvimento."
+      },
+      "whyItsAbsurd": {
+        "title": "Por Que a Abordagem da Microsoft é Completamente Absurda e Potencialmente Ilegal",
+        "description": "A implementação de rate limiting da Microsoft representa não apenas serviço ruim, mas potencial fraude de contrato:",
+        "problems": [
+          "🎯 **Fraude de Contrato**: Vendendo serviço 'ilimitado', coletando pagamento, depois impondo limites severos",
+          "💰 **Bait-and-Switch**: Técnica clássica de fraude - anunciar X, entregar Y após pagamento",
+          "🔧 **Quebra o Flow de Desenvolvimento**: Desenvolvimento IA requer conversação iterativa - rate limiting destrói esse workflow natural",
+          "📊 **Zero Transparência**: Limites arbitrários sem explicação clara, chamando uso legítimo de 'ilegítimo'",
+          "🏢 **Gaslighting Corporativo**: Culpando clientes por usar o serviço que pagaram 'demais'",
+          "🤖 **Propaganda Enganosa**: Até 'modelos base' atingem rate limits apesar de serem anunciados como ilimitados",
+          "⚖️ **Zero Responsabilidade**: Corporação gigante muda contratos à vontade com zero consequências"
+        ]
+      },
+      "microsoftGaslighting": {
+        "title": "Campanha de Gaslighting da Microsoft",
+        "description": "A Microsoft não apenas quebra contratos - faz gaslighting nos clientes que reclamam:",
+        "tactics": [
+          "🗣️ Falando sobre 'casos de uso legítimos' como se clientes devessem policiar seu próprio uso de um serviço 'ilimitado'",
+          "� Sugerindo que clientes façam downgrade para modo 'Ask' inferior quando 'Agent' foi anunciado como ilimitado",
+          "📝 Recomendando modelos lixo (GPT-4.1) que 'perdem contexto a cada segundo prompt, integram mal com ferramentas, dão erro por diversão'",
+          "🎭 Agindo como se mudar contratos pagos fosse prática normal de negócios",
+          "👢 Tendo puxa-sacos defendendo corporação bilionária contra clientes pagantes"
+        ]
+      },
+      "realWorldImpact": {
+        "title": "Impacto Real Neste Projeto",
+        "description": "Esses problemas de rate limiting e quebras de contrato afetaram diretamente nosso processo de desenvolvimento:",
+        "consequences": [
+          "Forçado a comprar múltiplos serviços IA para completar um único projeto",
+          "Perda de contexto de desenvolvimento devido a interrupções forçadas e troca de serviços",
+          "Timeline de desenvolvimento estendido devido a limitações artificiais",
+          "Aumento da frustração e perda completa de confiança no ecossistema da Microsoft",
+          "Teve que desenvolver workarounds complexos envolvendo múltiplos serviços pagos",
+          "Citação: 'Modelos que funcionam tão bem quanto a audição do meu cachorro surdo' - degradação forçada de ferramentas de desenvolvimento"
+        ]
+      },
+      "microsoftFail": {
+        "title": "A Falha Fundamental da Microsoft e Fraude Corporativa",
+        "description": "Essa situação exemplifica o padrão de má conduta corporativa da Microsoft:",
+        "failurePoints": [
+          "💰 **Fraude de Contrato**: Mudando termos de contrato pago unilateralmente após coletar pagamento",
+          "🏢 **Bullying Corporativo**: Usando dominância de mercado para ferrar desenvolvedores individuais",
+          "📉 **Priorizando Lucros Sobre Honra**: Quebrando promessas para aumentar números trimestrais",
+          "🔒 **Implementando Fraude**: Anunciando serviço ilimitado enquanto planeja limitações artificiais",
+          "🗣️ **Gaslighting de Clientes**: Culpando usuários por usar o serviço que pagaram",
+          "💸 **Roubo**: Mantendo pagamentos integrais enquanto entrega fração do serviço prometido"
+        ]
+      },
+      "platformRisk": {
+        "title": "Risco de Dependência de Plataforma e Tirania Corporativa",
+        "description": "Esta experiência destacou os perigos de depender de gigantes corporativos desonestos:",
+        "lessons": [
+          "Nunca confie na Microsoft com workflows críticos - eles vão te ferrar",
+          "Sempre mantenha múltiplos provedores IA porque corporações mentem sobre termos de serviço",
+          "Provedores corporativos de IA vão priorizar lucros sobre contratos e relacionamentos com clientes",
+          "Documente tudo - corporações vão fazer gaslighting e fingir que contratos nunca existiram",
+          "Corporações gigantes operam com impunidade - podem quebrar contratos com zero consequências legais",
+          "Risco de plataforma inclui não apenas falha técnica, mas fraude corporativa e quebra de contrato"
+        ]
+      }
     }
   },
   "future": {
@@ -310,10 +452,71 @@
     "title": "Open Source",
     "description": "Este projeto é open source e está disponível no GitHub. Encorajamos contribuições, feedback e forks. Vamos construir o futuro juntos!",
     "githubLink": "Ver no GitHub",
-    "licenseText": "Lançado sob a Licença MIT"
+    "licenseText": "Lançado sob Licença MIT"
+  },
+  "toolingSupport": {
+    "title": "Ferramentas de Desenvolvimento: Script de Verificação i18n",
+    "description": "Durante o desenvolvimento, criamos ferramentas próprias para garantir a qualidade e completude dos arquivos de internacionalização - um exemplo prático de como IA pode criar soluções auxiliares sofisticadas.",
+    "scriptPurpose": {
+      "title": "Propósito do Script check-i18n-completeness.js",
+      "description": "Ferramenta criada 100% por IA para verificar a completude dos arquivos de tradução, comparando todas as linguagens com o arquivo português de referência.",
+      "capabilities": [
+        "🔍 Análise recursiva de objetos JSON complexos com aninhamento profundo",
+        "📊 Cálculo automático de percentual de completude por idioma",
+        "📁 Agrupamento inteligente de chaves faltantes por seção",
+        "🎨 Output colorizado para fácil identificação visual de problemas",
+        "📈 Relatório detalhado e resumo executivo em formato de terminal",
+        "⚡ Detecção automática de diferenças estruturais entre arquivos"
+      ]
+    },
+    "technicalImplementation": {
+      "title": "Implementação Técnica",
+      "description": "O script demonstra padrões de engenharia sofisticados criados inteiramente por IA:",
+      "features": [
+        "Recursão funcional para navegação de objetos JSON arbitrariamente profundos",
+        "Algoritmos de comparação eficientes para grandes estruturas de dados",
+        "Sistema de cores ANSI para output de terminal profissional",
+        "Tratamento robusto de erros com fallbacks apropriados",
+        "ES Modules com compatibilidade Node.js moderna",
+        "Arquitetura modular com funções puras e reutilizáveis"
+      ]
+    },
+    "developmentImpact": {
+      "title": "Impacto no Desenvolvimento",
+      "description": "Esta ferramenta permitiu manter a sincronização perfeita entre 6 idiomas diferentes:",
+      "achievements": [
+        "🎯 Identificação precisa de 74+ chaves faltantes distribuídas em 5 idiomas",
+        "⚡ Processo de sincronização que levou todos os arquivos de ~60-97% para 100%",
+        "🚀 Automação completa da verificação de qualidade de traduções",
+        "📊 Métricas em tempo real do progresso de internacionalização",
+        "🔧 Ferramenta reutilizável para manutenção contínua das traduções"
+      ]
+    },
+    "metaDevelopment": {
+      "title": "Meta-Desenvolvimento: IA Criando Ferramentas para IA",
+      "description": "Este script representa um exemplo interessante de IA criando ferramentas para melhorar o próprio trabalho de IA:",
+      "insights": [
+        "IA pode identificar suas próprias necessidades de ferramentas de apoio",
+        "Criação automática de soluções para problemas de escala e manutenção",
+        "Capacidade de gerar código auxiliar tão sofisticado quanto o código principal",
+        "Demonstração de pensamento sistêmico: não apenas resolver o problema, mas criar ferramentas para evitar o problema",
+        "Evidência de que IA pode contribuir para todo o ciclo de vida de desenvolvimento, não apenas codificação"
+      ]
+    },
+    "practicalValue": {
+      "title": "Valor Prático Demonstrado",
+      "description": "O script provou seu valor detectando e auxiliando na correção de:",
+      "detectedIssues": [
+        "Seções inteiras faltando em múltiplos idiomas (aiJourney, creativeProcess, practicalAdvice)",
+        "Subseções específicas ausentes (learnings, breakthrough, dualBuild)",
+        "Inconsistências estruturais entre arquivos de tradução",
+        "Diferenças sutis em hierarquias de objetos JSON",
+        "Validação de que todas as 188 chaves estão presentes em todos os idiomas"
+      ]
+    }
   },
   "aboutCreation": {
-    "title": "Meta: Como Este About Foi Criado",
+    "title": "Meta: Como Foi Criada Esta Página About",
     "description": "Uma transparência total sobre o processo de criação desta própria página About - mais uma camada de meta-ironia no projeto.",
     "context": {
       "title": "Contexto Linguístico",
