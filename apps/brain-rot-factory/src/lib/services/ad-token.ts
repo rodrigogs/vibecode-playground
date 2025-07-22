@@ -2,6 +2,7 @@ import { randomBytes } from 'crypto'
 import jwt from 'jsonwebtoken'
 
 import { cache } from '@/lib/backend-cache'
+import { isRewardsEnabled } from '@/lib/features'
 
 /**
  * Ad Token Service
@@ -29,14 +30,27 @@ export interface AdTokenValidationResult {
 const AD_TOKEN_SECRET = process.env.AD_TOKEN_SECRET || process.env.AUTH_SECRET
 const AD_TOKEN_EXPIRY = 5 * 60 // 5 minutes in seconds
 
-if (!AD_TOKEN_SECRET) {
-  throw new Error('AD_TOKEN_SECRET or AUTH_SECRET must be defined')
+// Only require secrets if rewards are enabled
+if (isRewardsEnabled() && !AD_TOKEN_SECRET) {
+  throw new Error(
+    'AD_TOKEN_SECRET or AUTH_SECRET must be defined when rewards are enabled',
+  )
 }
 
 /**
  * Generates a secure ad token with JWT signing
  */
 export async function generateAdToken(fingerprint: string): Promise<string> {
+  if (!isRewardsEnabled()) {
+    throw new Error('Rewards system is disabled')
+  }
+
+  if (!AD_TOKEN_SECRET) {
+    throw new Error(
+      'AD_TOKEN_SECRET or AUTH_SECRET must be defined when rewards are enabled',
+    )
+  }
+
   // Generate cryptographically secure nonce
   const nonce = randomBytes(16).toString('hex')
 
@@ -79,6 +93,14 @@ export async function validateAdToken(
   token: string,
   expectedFingerprint: string,
 ): Promise<AdTokenValidationResult> {
+  if (!isRewardsEnabled()) {
+    return { valid: false, reason: 'Rewards system is disabled' }
+  }
+
+  if (!AD_TOKEN_SECRET) {
+    return { valid: false, reason: 'AD_TOKEN_SECRET not configured' }
+  }
+
   // Basic input validation
   if (!token || typeof token !== 'string') {
     return { valid: false, reason: 'Invalid token format' }
@@ -161,6 +183,10 @@ export async function validateAdToken(
  * Revokes a token by adding it to the blacklist
  */
 export async function revokeAdToken(jti: string): Promise<void> {
+  if (!isRewardsEnabled()) {
+    throw new Error('Rewards system is disabled')
+  }
+
   const blacklistKey = `ad_token:blacklist:${jti}`
   try {
     await cache.set(blacklistKey, 'revoked', 24 * 60 * 60 * 1000) // 24 hours in milliseconds
@@ -174,6 +200,10 @@ export async function revokeAdToken(jti: string): Promise<void> {
  * Checks if a token is blacklisted
  */
 export async function isTokenBlacklisted(jti: string): Promise<boolean> {
+  if (!isRewardsEnabled()) {
+    return false // If rewards are disabled, no tokens are blacklisted
+  }
+
   const blacklistKey = `ad_token:blacklist:${jti}`
   try {
     const result = await cache.get(blacklistKey)

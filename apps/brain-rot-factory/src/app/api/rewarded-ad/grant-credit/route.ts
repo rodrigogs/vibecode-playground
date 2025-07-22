@@ -4,6 +4,7 @@ import type { Session } from 'next-auth'
 
 import { auth } from '@/lib/auth-instance'
 import { cache } from '@/lib/backend-cache'
+import { isRewardsEnabled } from '@/lib/features'
 import { checkRateLimit } from '@/lib/rate-limit'
 import { validateAdToken } from '@/lib/services/ad-token'
 import { cacheKeys } from '@/lib/utils/cache-keys'
@@ -31,6 +32,17 @@ async function addBonusCredit(session: Session | null): Promise<void> {
 
 export async function POST(request: NextRequest) {
   try {
+    // Check if rewards system is enabled
+    if (!isRewardsEnabled()) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Rewards system is currently disabled',
+        },
+        { status: 503 },
+      )
+    }
+
     let session = null
 
     // Handle auth failures gracefully

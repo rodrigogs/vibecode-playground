@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server'
 
+import { isRewardsEnabled } from '@/lib/features'
 import {
   createValidationErrorResponse,
   validateAdTokenRequest,
@@ -16,6 +17,17 @@ import { processFingerprintData } from '@/lib/utils/fingerprint'
  */
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
+    // Check if rewards system is enabled
+    if (!isRewardsEnabled()) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Rewards system is currently disabled',
+        },
+        { status: 503 },
+      )
+    }
+
     // Validate and sanitize request
     const validationResult = await validateAdTokenRequest(request)
 
