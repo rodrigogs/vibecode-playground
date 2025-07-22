@@ -10,17 +10,68 @@ import type { FingerprintComponents } from './browser-fingerprinting'
 let cachedFingerprint: string | null = null
 
 /**
+ * Get cached fingerprint from localStorage with TTL
+ */
+function getCachedFingerprint(): string | null {
+  try {
+    const cached = localStorage.getItem('brf-fingerprint')
+    if (!cached) return null
+
+    const { fingerprint, timestamp } = JSON.parse(cached)
+    const now = Date.now()
+    const TTL = 24 * 60 * 60 * 1000 // 24 hours
+
+    // Return cached fingerprint if it's still valid
+    if (now - timestamp < TTL) {
+      return fingerprint
+    }
+
+    // Remove expired cache
+    localStorage.removeItem('brf-fingerprint')
+    return null
+  } catch {
+    return null
+  }
+}
+
+/**
+ * Cache fingerprint in localStorage with timestamp
+ */
+function setCachedFingerprint(fingerprint: string): void {
+  try {
+    const cached = {
+      fingerprint,
+      timestamp: Date.now(),
+    }
+    localStorage.setItem('brf-fingerprint', JSON.stringify(cached))
+  } catch {
+    // Ignore localStorage errors (e.g., quota exceeded, private browsing)
+  }
+}
+
+/**
  * Generate browser fingerprint on the client side
  */
 export async function generateClientFingerprint(): Promise<string | null> {
-  // Return cached fingerprint if available
+  // Return cached fingerprint if available (memory cache first)
   if (cachedFingerprint) {
+    return cachedFingerprint
+  }
+
+  // Check localStorage cache
+  const localCached = getCachedFingerprint()
+  if (localCached) {
+    cachedFingerprint = localCached
     return cachedFingerprint
   }
 
   try {
     const components: FingerprintComponents = await collectBrowserData()
     cachedFingerprint = JSON.stringify(components)
+
+    // Cache in localStorage for persistence across page refreshes
+    setCachedFingerprint(cachedFingerprint)
+
     return cachedFingerprint
   } catch (error) {
     console.warn('Failed to generate browser fingerprint:', error)
@@ -210,10 +261,27 @@ function detectPlugins(): string {
 }
 
 /**
- * Generate session ID
+ * Generate stable session ID that persists across page refreshes
+ * Uses sessionStorage to maintain the same ID within a browser session
  */
 function generateSessionId(): string {
-  return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+  try {
+    // Try to get existing session ID from sessionStorage
+    const existingSessionId = sessionStorage.getItem('brf-session-id')
+    if (existingSessionId) {
+      return existingSessionId
+    }
+
+    // Generate new session ID if none exists
+    const newSessionId = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+    sessionStorage.setItem('brf-session-id', newSessionId)
+    return newSessionId
+  } catch {
+    // Fallback if sessionStorage is not available (e.g., in private browsing)
+    // Use a deterministic ID based on current session start time
+    const sessionStart = Math.floor(Date.now() / (1000 * 60 * 30)) // 30-minute windows
+    return `fallback-${sessionStart}`
+  }
 }
 
 /**
