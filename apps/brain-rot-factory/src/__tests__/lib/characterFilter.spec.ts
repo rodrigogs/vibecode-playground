@@ -91,17 +91,17 @@ describe('Character Filter and Sorting', () => {
 
     // Check the order of popularity levels
     const popularityOrder = filtered.map((char) => char.popularity)
-    
+
     // Should start with top-5 characters
     expect(popularityOrder[0]).toBe('top-5')
     expect(popularityOrder[1]).toBe('top-5')
-    
+
     // Then well-known
     expect(popularityOrder[2]).toBe('well-known')
-    
+
     // Then decently-known
     expect(popularityOrder[3]).toBe('decently-known')
-    
+
     // Finally unknown
     expect(popularityOrder[4]).toBe('unknown')
   })
@@ -119,7 +119,7 @@ describe('Character Filter and Sorting', () => {
     const top5Characters = filtered.filter(
       (char) => char.popularity === 'top-5',
     )
-    
+
     // They should be sorted alphabetically by name
     expect(top5Characters[0].name).toBe('Another Top Character')
     expect(top5Characters[1].name).toBe('Top Character')
@@ -154,7 +154,7 @@ describe('Character Filter and Sorting', () => {
       (char) => char.country === 'Italy',
     )
     const popularityOrder = italianCharacters.map((char) => char.popularity)
-    
+
     // Top-5 characters should come first
     expect(popularityOrder[0]).toBe('top-5')
     expect(popularityOrder[1]).toBe('top-5')
