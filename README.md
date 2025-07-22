@@ -9,6 +9,12 @@
 
 Modern TypeScript monorepo with Turbo for high-performance builds. Chat with AI-powered Italian brain-rot meme characters! 🧠💬
 
+## 🚀 Live Demo
+
+**Try it live:** [https://brain-rot-factory.vercel.app](https://brain-rot-factory.vercel.app)
+
+- [About](https://brain-rot-factory.vercel.app/about) - Project story and AI collaboration journey
+
 **Features:**
 - 🤖 AI-powered chat with brain-rot characters
 - 🎵 Text-to-speech with audio distortion
@@ -81,9 +87,8 @@ ENABLE_REWARDS=     # Enable rewarded ads (default: false, currently inactive)
 ## Legal & Compliance
 
 This project includes comprehensive legal documentation and LGPD compliance:
-- [Legal Information](./LEGAL.md) - Complete legal overview
-- [Privacy Policies](./apps/brain-rot-factory/src/app/[locale]/privacy/) - Multi-language privacy policies
-- [Terms of Service](./apps/brain-rot-factory/src/app/[locale]/terms/) - Service terms and conditions
+- [Live Terms](https://brain-rot-factory.vercel.app/terms) - Terms of Service (live)
+- [Live Privacy Policy](https://brain-rot-factory.vercel.app/privacy) - Privacy Policy (live)
 - [MIT License](./LICENSE) - Open source license
 
 ## Packages
