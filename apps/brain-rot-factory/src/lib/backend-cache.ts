@@ -19,6 +19,7 @@ function createPersistentCacheAdapter(): CacheAdapter {
       token: process.env.BLOB_READ_WRITE_TOKEN,
       prefix: 'brain-rot-factory/',
       defaultTtl: 24 * 60 * 60 * 1000, // 24 hours
+      cacheControlMaxAge: 3600, // 1 hour edge/browser cache for better performance
     })
   }
 

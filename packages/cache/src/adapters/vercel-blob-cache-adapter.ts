@@ -29,6 +29,13 @@ interface VercelBlobCacheAdapterOptions {
    * Defaults to false for predictable cache keys.
    */
   addRandomSuffix?: boolean
+  /**
+   * Cache control max age in seconds for edge and browser caching.
+   * Minimum is 60 seconds (1 minute). This configures how long
+   * edge caches and browsers should cache the blob content.
+   * Defaults to 3600 seconds (1 hour).
+   */
+  cacheControlMaxAge?: number
 }
 
 /**
@@ -37,6 +44,13 @@ interface VercelBlobCacheAdapterOptions {
  * This adapter leverages Vercel Blob storage for persistent caching
  * across serverless function invocations. Cache values are serialized
  * to JSON and stored as blobs with metadata for expiration.
+ *
+ * Features:
+ * - Automatic expiration handling with TTL support
+ * - Edge and browser caching optimization via cacheControlMaxAge
+ * - Pattern-based key filtering
+ * - Graceful error handling
+ * - Configurable key prefixes to avoid conflicts
  *
  * Note: This adapter is best suited for larger cache values or when
  * you need persistent caching across deployments. For small, frequent
@@ -48,12 +62,15 @@ export class VercelBlobCacheAdapter implements CacheAdapter {
   private readonly prefix: string
   private readonly defaultTtl?: number
   private readonly addRandomSuffix: boolean
+  private readonly cacheControlMaxAge: number
 
   constructor(options: VercelBlobCacheAdapterOptions = {}) {
     this.token = options.token
     this.prefix = options.prefix ?? 'cache/'
     this.defaultTtl = options.defaultTtl
     this.addRandomSuffix = options.addRandomSuffix ?? false
+    // Default to 1 hour cache control, with minimum of 1 minute
+    this.cacheControlMaxAge = Math.max(options.cacheControlMaxAge ?? 3600, 60)
   }
 
   /**
@@ -83,12 +100,19 @@ export class VercelBlobCacheAdapter implements CacheAdapter {
     const blobPath = this.getBlobPath(key)
     const jsonData = JSON.stringify(cacheEntry)
 
+    // Use the actual TTL for cache control, fallback to default, minimum 60 seconds
+    const effectiveTtl = ttl ?? this.defaultTtl
+    const cacheControlMaxAge = effectiveTtl
+      ? Math.max(Math.floor(effectiveTtl / 1000), 60) // Convert ms to seconds, minimum 1 minute
+      : this.cacheControlMaxAge // Use configured default if no TTL
+
     await put(blobPath, jsonData, {
       access: 'public',
       contentType: 'application/json',
       token: this.token,
       addRandomSuffix: this.addRandomSuffix,
       allowOverwrite: true, // Allow updating existing cache entries
+      cacheControlMaxAge, // Use TTL-based cache control
     })
   }
 

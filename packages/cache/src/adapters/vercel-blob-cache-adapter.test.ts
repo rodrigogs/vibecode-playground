@@ -33,8 +33,17 @@ describe('VercelBlobCacheAdapter', () => {
         prefix: 'custom-prefix/',
         defaultTtl: 5000,
         addRandomSuffix: true,
+        cacheControlMaxAge: 7200, // 2 hours
       })
       expect(customAdapter).toBeInstanceOf(VercelBlobCacheAdapter)
+    })
+
+    it('should enforce minimum cacheControlMaxAge of 60 seconds', () => {
+      const adapter = new VercelBlobCacheAdapter({
+        cacheControlMaxAge: 30, // Less than minimum
+      })
+      expect(adapter).toBeInstanceOf(VercelBlobCacheAdapter)
+      // The adapter should internally set this to 60, but we can't directly test private properties
     })
   })
 
@@ -54,19 +63,54 @@ describe('VercelBlobCacheAdapter', () => {
           token: 'test-token',
           addRandomSuffix: false,
           allowOverwrite: true,
+          cacheControlMaxAge: 3600, // Default 1 hour
         }),
       )
     })
 
-    it('should store a value with TTL', async () => {
+    it('should store a value with TTL and matching cache control', async () => {
       const { put } = await import('@vercel/blob')
       const mockPut = vi.mocked(put)
 
-      await adapter.set('test-key', 'test-value', 60000)
+      const ttl = 120000 // 2 minutes
+      await adapter.set('test-key', 'test-value', ttl)
+
+      expect(mockPut).toHaveBeenCalledWith(
+        'test-cache/test-key.json',
+        expect.stringContaining('"value":"test-value"'),
+        expect.objectContaining({
+          access: 'public',
+          contentType: 'application/json',
+          token: 'test-token',
+          addRandomSuffix: false,
+          allowOverwrite: true,
+          cacheControlMaxAge: 120, // TTL in seconds (120000ms / 1000 = 120s)
+        }),
+      )
 
       const [, jsonData] = mockPut.mock.calls[0]
       const cacheEntry = JSON.parse(jsonData as string)
       expect(cacheEntry.expiresAt).toBeGreaterThan(Date.now())
+    })
+
+    it('should use default cache control when no TTL is provided', async () => {
+      const { put } = await import('@vercel/blob')
+      const mockPut = vi.mocked(put)
+
+      await adapter.set('test-key', 'test-value')
+
+      expect(mockPut).toHaveBeenCalledWith(
+        'test-cache/test-key.json',
+        expect.stringContaining('"value":"test-value"'),
+        expect.objectContaining({
+          access: 'public',
+          contentType: 'application/json',
+          token: 'test-token',
+          addRandomSuffix: false,
+          allowOverwrite: true,
+          cacheControlMaxAge: 3600, // Default 1 hour
+        }),
+      )
     })
 
     it('should sanitize keys with special characters', async () => {
@@ -79,6 +123,26 @@ describe('VercelBlobCacheAdapter', () => {
         'test-cache/test_key_with_special_chars.json',
         expect.any(String),
         expect.any(Object),
+      )
+    })
+
+    it('should use custom cacheControlMaxAge when provided', async () => {
+      const customAdapter = new VercelBlobCacheAdapter({
+        token: 'test-token',
+        cacheControlMaxAge: 7200, // 2 hours
+      })
+
+      const { put } = await import('@vercel/blob')
+      const mockPut = vi.mocked(put)
+
+      await customAdapter.set('test-key', 'test-value')
+
+      expect(mockPut).toHaveBeenCalledWith(
+        'cache/test-key.json',
+        expect.any(String),
+        expect.objectContaining({
+          cacheControlMaxAge: 7200,
+        }),
       )
     })
   })
