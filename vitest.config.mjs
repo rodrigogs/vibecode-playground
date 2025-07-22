@@ -9,7 +9,6 @@ export default defineConfig({
       '**/dist/**',
       '**/.next/**',
       '**/coverage/**',
-      'apps/brain-rot-factory/**', // Exclude for now due to path mapping issues
     ],
     coverage: {
       exclude: [
@@ -24,7 +23,6 @@ export default defineConfig({
         '**/__tests__/**',
         '**/test/**',
         '**/tests/**',
-        'apps/brain-rot-factory/**', // Exclude from coverage for now
       ],
       include: ['packages/**/src/**/*.{ts,tsx}'],
       excludeNodeModules: true,
