@@ -20,7 +20,8 @@
     "LOG_LEVEL",
     "ENABLE_DEVTOOLS",
     "AD_TOKEN_SECRET",
-    "ENABLE_REWARDS"
+    "ENABLE_REWARDS",
+    "BLOB_READ_WRITE_TOKEN"
   ],
   "tasks": {
     "clean": {

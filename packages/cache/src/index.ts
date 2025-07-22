@@ -3,5 +3,6 @@
  */
 export { FsCacheAdapter } from './adapters/fs-cache-adapter.js'
 export { MemoryCacheAdapter } from './adapters/memory-cache-adapter.js'
+export { VercelBlobCacheAdapter } from './adapters/vercel-blob-cache-adapter.js'
 export { Cache } from './cache.js'
 export type { CacheAdapter } from './cache-adapter.js'

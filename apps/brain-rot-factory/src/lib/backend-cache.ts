@@ -1,50 +1,71 @@
 import path from 'node:path'
 
 import type { CacheAdapter } from '@repo/cache'
-import { Cache, FsCacheAdapter, MemoryCacheAdapter } from '@repo/cache'
+import {
+  Cache,
+  FsCacheAdapter,
+  MemoryCacheAdapter,
+  VercelBlobCacheAdapter,
+} from '@repo/cache'
 
 import { config } from '@/lib/config'
 
-const fsCache = new Cache(
-  new FsCacheAdapter(path.join(config.DATA_DIR, 'cache')),
-)
+// Determine which persistent cache adapter to use
+function createPersistentCacheAdapter(): CacheAdapter {
+  // Use Vercel Blob if token is available
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
+    console.log('Using Vercel Blob cache adapter for persistent storage')
+    return new VercelBlobCacheAdapter({
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+      prefix: 'brain-rot-factory/',
+      defaultTtl: 24 * 60 * 60 * 1000, // 24 hours
+    })
+  }
+
+  // Fallback to filesystem cache
+  console.log('Using filesystem cache adapter for persistent storage')
+  return new FsCacheAdapter(path.join(config.DATA_DIR, 'cache'))
+}
+
+const persistentCache = new Cache(createPersistentCacheAdapter())
 const memoryCache = new Cache(new MemoryCacheAdapter())
 
 /**
- * CustomAdapter implements a dual-layer caching strategy combining memory and filesystem storage.
+ * CustomAdapter implements a dual-layer caching strategy combining memory and persistent storage.
  *
  * Features:
  * - Memory cache for fast access with configurable TTL (default: 30 minutes)
- * - Filesystem cache for persistence with configurable TTL (default: 24 hours)
+ * - Persistent cache (Vercel Blob or filesystem) with configurable TTL (default: 24 hours)
  * - Automatic fallback between cache layers
  * - Graceful error handling - operations continue if one layer fails
- * - Consistent TTL behavior when promoting from filesystem to memory cache
+ * - Consistent TTL behavior when promoting from persistent to memory cache
+ * - Automatic selection of Vercel Blob when BLOB_READ_WRITE_TOKEN is available
  */
 export class CustomAdapter implements CacheAdapter {
   static DEFAULT_MEMORY_TTL = 1000 * 60 * 30 // Expires in 30 minutes by default
-  static DEFAULT_FS_TTL = 1000 * 60 * 60 * 24 // Expires in 100 hours (roughly 4 days) by default
+  static DEFAULT_PERSISTENT_TTL = 1000 * 60 * 60 * 24 // Expires in 24 hours by default
   private memoryTtl: number = CustomAdapter.DEFAULT_MEMORY_TTL
-  private fsTtl: number = CustomAdapter.DEFAULT_FS_TTL
+  private persistentTtl: number = CustomAdapter.DEFAULT_PERSISTENT_TTL
 
-  constructor(memoryTtl?: number, fsTtl?: number) {
+  constructor(memoryTtl?: number, persistentTtl?: number) {
     if (memoryTtl) {
       this.memoryTtl = memoryTtl
     }
-    if (fsTtl) {
-      this.fsTtl = fsTtl
+    if (persistentTtl) {
+      this.persistentTtl = persistentTtl
     }
   }
 
   async set(key: string, value: unknown, ttl?: number): Promise<void> {
     // Use the passed TTL for both layers when explicitly provided,
     // otherwise use the default TTLs for each layer
-    const fsTtl = ttl ?? this.fsTtl
+    const persistentTtl = ttl ?? this.persistentTtl
     const memoryTtl = ttl ?? this.memoryTtl
 
     // Execute both operations in parallel for better performance
     // If one fails, the other should still succeed for partial redundancy
     const results = await Promise.allSettled([
-      fsCache.set(key, value, fsTtl),
+      persistentCache.set(key, value, persistentTtl),
       memoryCache.set(key, value, memoryTtl),
     ])
 
@@ -54,7 +75,7 @@ export class CustomAdapter implements CacheAdapter {
       const errors = results
         .map((result, index) =>
           result.status === 'rejected'
-            ? `${index === 0 ? 'FS' : 'Memory'}: ${result.reason}`
+            ? `${index === 0 ? 'Persistent' : 'Memory'}: ${result.reason}`
             : null,
         )
         .filter(Boolean)
@@ -70,14 +91,14 @@ export class CustomAdapter implements CacheAdapter {
         return value
       }
     } catch {
-      // If memory cache fails, continue to filesystem cache
+      // If memory cache fails, continue to persistent cache
     }
 
-    // Try filesystem cache as fallback
+    // Try persistent cache as fallback
     try {
-      const fsValue = await fsCache.get<T>(key)
+      const persistentValue = await persistentCache.get<T>(key)
 
-      if (fsValue) {
+      if (persistentValue) {
         // When copying from filesystem to memory cache, we need to preserve
         // the original TTL context. For rate limiting data, we should use
         // a longer TTL to prevent premature expiration.
@@ -88,13 +109,13 @@ export class CustomAdapter implements CacheAdapter {
             ? Math.max(this.memoryTtl, 4 * 60 * 60 * 1000) // 4 hours minimum for rate limit data
             : this.memoryTtl
 
-          await memoryCache.set(key, fsValue, promotionTtl)
+          await memoryCache.set(key, persistentValue, promotionTtl)
         } catch {
           // If setting in memory cache fails, still return the value
         }
       }
 
-      return fsValue
+      return persistentValue
     } catch {
       // If both caches fail, return undefined
       return undefined
@@ -103,7 +124,7 @@ export class CustomAdapter implements CacheAdapter {
 
   async delete(key: string): Promise<boolean> {
     const results = await Promise.allSettled([
-      fsCache.delete(key),
+      persistentCache.delete(key),
       memoryCache.delete(key),
     ])
 
@@ -115,7 +136,7 @@ export class CustomAdapter implements CacheAdapter {
 
   async flush(): Promise<void> {
     const results = await Promise.allSettled([
-      fsCache.flush(),
+      persistentCache.flush(),
       memoryCache.flush(),
     ])
 
@@ -125,7 +146,7 @@ export class CustomAdapter implements CacheAdapter {
       const errors = results
         .map((result, index) =>
           result.status === 'rejected'
-            ? `${index === 0 ? 'FS' : 'Memory'}: ${result.reason}`
+            ? `${index === 0 ? 'Persistent' : 'Memory'}: ${result.reason}`
             : null,
         )
         .filter(Boolean)
@@ -135,7 +156,7 @@ export class CustomAdapter implements CacheAdapter {
 
   async keys(pattern: string): Promise<string[]> {
     const results = await Promise.allSettled([
-      fsCache.keys(pattern),
+      persistentCache.keys(pattern),
       memoryCache.keys(pattern),
     ])
 
