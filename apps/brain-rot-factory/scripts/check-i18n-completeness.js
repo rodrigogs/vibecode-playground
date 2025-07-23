@@ -72,8 +72,8 @@ function hasNestedKey(obj, keyPath) {
 function checkI18nCompleteness() {
   // Navegamos para a pasta src/messages a partir de scripts/
   const messagesDir = path.resolve(__dirname, '..', 'src', 'messages')
-  const languages = ['en', 'it', 'id', 'ja', 'zh']
-  const referenceFile = path.join(messagesDir, 'pt', 'about.json')
+  const languages = ['pt', 'it', 'id', 'ja', 'zh']
+  const referenceFile = path.join(messagesDir, 'en', 'about.json')
 
   console.log(
     colorize('🔍 Verificação de Completude dos Arquivos i18n', 'bright'),
@@ -81,12 +81,12 @@ function checkI18nCompleteness() {
   console.log(colorize('='.repeat(60), 'cyan'))
   console.log()
 
-  // Carregar arquivo de referência (português)
+  // Carregar arquivo de referência (inglês)
   let referenceData
   try {
     const referenceContent = fs.readFileSync(referenceFile, 'utf8')
     referenceData = JSON.parse(referenceContent)
-    console.log(colorize('📋 Arquivo de referência: pt/about.json', 'green'))
+    console.log(colorize('📋 Arquivo de referência: en/about.json', 'green'))
   } catch (error) {
     console.error(
       colorize(`❌ Erro ao ler arquivo de referência: ${error.message}`, 'red'),
@@ -117,6 +117,7 @@ function checkI18nCompleteness() {
 
       const langKeys = getAllKeys(langData)
       const missingKeys = []
+      const extraKeys = []
 
       // Verificar quais chaves estão faltando
       for (const key of referenceKeys) {
@@ -125,16 +126,33 @@ function checkI18nCompleteness() {
         }
       }
 
+      // Verificar quais chaves são extras (não existem na referência)
+      for (const key of langKeys) {
+        if (!hasNestedKey(referenceData, key)) {
+          extraKeys.push(key)
+        }
+      }
+
+      const totalIssues = missingKeys.length + extraKeys.length
+      const isExactMatch = totalIssues === 0
+
       // Estatísticas
-      const completenessPercentage = (
-        ((referenceKeys.length - missingKeys.length) / referenceKeys.length) *
-        100
-      ).toFixed(1)
+      let completenessPercentage
+      if (isExactMatch) {
+        completenessPercentage = 100.0
+      } else {
+        // Para cálculo de porcentagem quando há discrepâncias
+        const correctKeys = referenceKeys.length - missingKeys.length
+        completenessPercentage = (
+          (correctKeys / referenceKeys.length) *
+          100
+        ).toFixed(1)
+      }
 
       console.log(
         colorize(
           `📈 Completude: ${completenessPercentage}% (${langKeys.length}/${referenceKeys.length} chaves)`,
-          completenessPercentage >= 95
+          isExactMatch
             ? 'green'
             : completenessPercentage >= 80
               ? 'yellow'
@@ -142,35 +160,65 @@ function checkI18nCompleteness() {
         ),
       )
 
-      if (missingKeys.length === 0) {
+      if (isExactMatch) {
         console.log(
           colorize(
-            '✅ Arquivo completo! Todas as chaves estão presentes.',
+            '✅ Arquivo perfeito! Estrutura idêntica ao arquivo de referência.',
             'green',
           ),
         )
       } else {
-        console.log(
-          colorize(`❌ ${missingKeys.length} chaves faltando:`, 'red'),
-        )
+        if (missingKeys.length > 0) {
+          console.log(
+            colorize(`❌ ${missingKeys.length} chaves faltando:`, 'red'),
+          )
 
-        // Agrupar chaves faltantes por seção principal
-        const missingBySection = {}
-        missingKeys.forEach((key) => {
-          const mainSection = key.split('.')[0]
-          if (!missingBySection[mainSection]) {
-            missingBySection[mainSection] = []
-          }
-          missingBySection[mainSection].push(key)
-        })
-
-        // Mostrar chaves faltantes agrupadas por seção
-        for (const [section, keys] of Object.entries(missingBySection)) {
-          console.log(colorize(`   📁 ${section}:`, 'magenta'))
-          keys.forEach((key) => {
-            const subKey = key.replace(`${section}.`, '')
-            console.log(`      • ${subKey}`)
+          // Agrupar chaves faltantes por seção principal
+          const missingBySection = {}
+          missingKeys.forEach((key) => {
+            const mainSection = key.split('.')[0]
+            if (!missingBySection[mainSection]) {
+              missingBySection[mainSection] = []
+            }
+            missingBySection[mainSection].push(key)
           })
+
+          // Mostrar chaves faltantes agrupadas por seção
+          for (const [section, keys] of Object.entries(missingBySection)) {
+            console.log(colorize(`   📁 ${section}:`, 'magenta'))
+            keys.forEach((key) => {
+              const subKey = key.replace(`${section}.`, '')
+              console.log(`      • ${subKey}`)
+            })
+          }
+        }
+
+        if (extraKeys.length > 0) {
+          console.log(
+            colorize(
+              `⚠️ ${extraKeys.length} chaves extras (não existem na referência):`,
+              'yellow',
+            ),
+          )
+
+          // Agrupar chaves extras por seção principal
+          const extraBySection = {}
+          extraKeys.forEach((key) => {
+            const mainSection = key.split('.')[0]
+            if (!extraBySection[mainSection]) {
+              extraBySection[mainSection] = []
+            }
+            extraBySection[mainSection].push(key)
+          })
+
+          // Mostrar chaves extras agrupadas por seção
+          for (const [section, keys] of Object.entries(extraBySection)) {
+            console.log(colorize(`   📁 ${section}:`, 'cyan'))
+            keys.forEach((key) => {
+              const subKey = key.replace(`${section}.`, '')
+              console.log(`      + ${subKey}`)
+            })
+          }
         }
       }
     } catch (error) {
@@ -192,23 +240,45 @@ function checkI18nCompleteness() {
     try {
       const langContent = fs.readFileSync(langFile, 'utf8')
       const langData = JSON.parse(langContent)
+      const langKeys = getAllKeys(langData)
+
       const missingCount = referenceKeys.filter(
         (key) => !hasNestedKey(langData, key),
       ).length
-      const completenessPercentage = (
-        ((referenceKeys.length - missingCount) / referenceKeys.length) *
-        100
-      ).toFixed(1)
 
-      const status =
-        completenessPercentage >= 95
-          ? '✅'
-          : completenessPercentage >= 80
-            ? '⚠️'
-            : '❌'
-      console.log(
-        `${status} ${lang.toUpperCase()}: ${completenessPercentage}% (faltam ${missingCount} chaves)`,
-      )
+      const extraCount = langKeys.filter(
+        (key) => !hasNestedKey(referenceData, key),
+      ).length
+
+      const totalIssues = missingCount + extraCount
+      const isExactMatch = totalIssues === 0
+
+      let completenessPercentage
+      if (isExactMatch) {
+        completenessPercentage = 100.0
+      } else {
+        const correctKeys = referenceKeys.length - missingCount
+        completenessPercentage = (
+          (correctKeys / referenceKeys.length) *
+          100
+        ).toFixed(1)
+      }
+
+      const status = isExactMatch ? '✅' : totalIssues <= 5 ? '⚠️' : '❌'
+
+      if (isExactMatch) {
+        console.log(
+          `${status} ${lang.toUpperCase()}: ${completenessPercentage}% (estrutura idêntica)`,
+        )
+      } else {
+        const issues = []
+        if (missingCount > 0) issues.push(`${missingCount} faltando`)
+        if (extraCount > 0) issues.push(`${extraCount} extras`)
+
+        console.log(
+          `${status} ${lang.toUpperCase()}: ${completenessPercentage}% (${issues.join(', ')})`,
+        )
+      }
     } catch {
       console.log(`❌ ${lang.toUpperCase()}: Erro ao processar`)
     }
@@ -217,11 +287,11 @@ function checkI18nCompleteness() {
   console.log()
   console.log(
     colorize(
-      '💡 Para corrigir: adicione as chaves faltantes nos respectivos arquivos',
+      '💡 Para corrigir: adicione chaves faltantes e remova chaves extras',
       'cyan',
     ),
   )
-  console.log(colorize('📚 Referência: use pt/about.json como base', 'cyan'))
+  console.log(colorize('📚 Referência: use en/about.json como base', 'cyan'))
 }
 
 // Executar se o script for chamado diretamente

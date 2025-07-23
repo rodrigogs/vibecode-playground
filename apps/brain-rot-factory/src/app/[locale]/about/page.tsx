@@ -1,4 +1,4 @@
-import { Code, Github, Heart, Sparkles, Target, Users } from 'lucide-react'
+import { Calendar, Code, Cpu, Github, Heart, Target } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
@@ -51,47 +51,63 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* Journey Section */}
+        {/* Overview Section */}
         <section className="mb-16">
           <div className="max-w-4xl mx-auto">
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
               <div className="flex items-center mb-6">
-                <Sparkles className="w-8 h-8 text-yellow-400 mr-3" />
+                <Target className="w-8 h-8 text-blue-400 mr-3" />
                 <h2 className="text-3xl font-bold text-white">
-                  {t('journey.title')}
+                  {t('overview.title')}
                 </h2>
               </div>
               <p className="text-white/90 text-lg leading-relaxed">
-                {t('journey.description')}
+                {t('overview.description')}
               </p>
             </div>
           </div>
         </section>
 
-        {/* Collaboration Section */}
+        {/* Timeline Section */}
         <section className="mb-16">
           <div className="max-w-4xl mx-auto">
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
               <div className="flex items-center mb-6">
-                <Users className="w-8 h-8 text-blue-400 mr-3" />
+                <Calendar className="w-8 h-8 text-green-400 mr-3" />
                 <h2 className="text-3xl font-bold text-white">
-                  {t('collaboration.title')}
+                  {t('timeline.title')}
                 </h2>
               </div>
               <p className="text-white/90 text-lg leading-relaxed mb-8">
-                {t('collaboration.description')}
+                {t('timeline.description')}
               </p>
 
-              <div className="grid md:grid-cols-2 gap-4">
-                {(Array.isArray(t.raw('collaboration.highlights'))
-                  ? t.raw('collaboration.highlights')
-                  : []
-                ).map((highlight: string, i: number) => (
-                  <div key={i} className="flex items-start">
-                    <div className="w-2 h-2 bg-purple-400 rounded-full mt-3 mr-3 flex-shrink-0"></div>
-                    <p className="text-white/80">{highlight}</p>
-                  </div>
-                ))}
+              <div className="space-y-6">
+                {t.raw('timeline.events').map(
+                  (
+                    event: {
+                      date: string
+                      title: string
+                      description: string
+                    },
+                    i: number,
+                  ) => (
+                    <div
+                      key={i}
+                      className="bg-white/5 rounded-xl p-6 border border-white/10"
+                    >
+                      <div className="flex items-start justify-between mb-3">
+                        <h3 className="text-xl font-bold text-white">
+                          {event.title}
+                        </h3>
+                        <span className="text-purple-300 text-sm font-medium">
+                          {event.date}
+                        </span>
+                      </div>
+                      <p className="text-white/80">{event.description}</p>
+                    </div>
+                  ),
+                )}
               </div>
             </div>
           </div>
@@ -102,7 +118,7 @@ export default function AboutPage() {
           <div className="max-w-4xl mx-auto">
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
               <div className="flex items-center mb-6">
-                <Sparkles className="w-8 h-8 text-indigo-400 mr-3" />
+                <Cpu className="w-8 h-8 text-indigo-400 mr-3" />
                 <h2 className="text-3xl font-bold text-white">
                   {t('aiJourney.title')}
                 </h2>
@@ -120,20 +136,34 @@ export default function AboutPage() {
                   <p className="text-white/80 mb-4 text-sm">
                     {t('aiJourney.claude37.description')}
                   </p>
-                  <div className="space-y-2">
-                    {t
-                      .raw('aiJourney.claude37.challenges')
-                      ?.map((challenge: string, i: number) => (
-                        <div key={i} className="flex items-start">
-                          <div className="w-2 h-2 bg-orange-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                          <p className="text-white/70 text-sm">{challenge}</p>
-                        </div>
-                      ))}
+                  <div className="mb-4">
+                    <h4 className="text-orange-200 text-sm font-medium mb-2">
+                      Desafios:
+                    </h4>
+                    <div className="space-y-2">
+                      {t
+                        .raw('aiJourney.claude37.challenges')
+                        ?.map((challenge: string, i: number) => (
+                          <div key={i} className="flex items-start">
+                            <div className="w-2 h-2 bg-orange-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                            <p className="text-white/70 text-sm">{challenge}</p>
+                          </div>
+                        ))}
+                    </div>
                   </div>
                   <div className="mt-4 p-3 bg-orange-400/10 rounded-lg border-l-2 border-orange-400">
-                    <p className="text-white/80 text-sm italic">
-                      {t('aiJourney.claude37.learnings')}
-                    </p>
+                    <h4 className="text-orange-200 text-sm font-medium mb-2">
+                      Aprendizados:
+                    </h4>
+                    <div className="space-y-1">
+                      {t
+                        .raw('aiJourney.claude37.learnings')
+                        ?.map((learning: string, i: number) => (
+                          <p key={i} className="text-white/80 text-sm">
+                            • {learning}
+                          </p>
+                        ))}
+                    </div>
                   </div>
                 </div>
 
@@ -145,121 +175,48 @@ export default function AboutPage() {
                   <p className="text-white/80 mb-4 text-sm">
                     {t('aiJourney.claude4.description')}
                   </p>
-                  <div className="space-y-2">
-                    {t
-                      .raw('aiJourney.claude4.achievements')
-                      .map((achievement: string, i: number) => (
-                        <div key={i} className="flex items-start">
-                          <div className="w-2 h-2 bg-green-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                          <p className="text-white/70 text-sm">{achievement}</p>
-                        </div>
-                      ))}
+                  <div className="mb-4">
+                    <h4 className="text-green-200 text-sm font-medium mb-2">
+                      Conquistas:
+                    </h4>
+                    <div className="space-y-2">
+                      {t
+                        .raw('aiJourney.claude4.achievements')
+                        .map((achievement: string, i: number) => (
+                          <div key={i} className="flex items-start">
+                            <div className="w-2 h-2 bg-green-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                            <p className="text-white/70 text-sm">
+                              {achievement}
+                            </p>
+                          </div>
+                        ))}
+                    </div>
                   </div>
                   <div className="mt-4 p-3 bg-green-400/10 rounded-lg border-l-2 border-green-400">
-                    <p className="text-white/80 text-sm italic">
-                      {t('aiJourney.claude4.breakthrough')}
-                    </p>
+                    <h4 className="text-green-200 text-sm font-medium mb-2">
+                      Breakthrough:
+                    </h4>
+                    <div className="space-y-1">
+                      {t
+                        .raw('aiJourney.claude4.breakthrough')
+                        ?.map((breakthrough: string, i: number) => (
+                          <p key={i} className="text-white/80 text-sm">
+                            • {breakthrough}
+                          </p>
+                        ))}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </section>
 
-        {/* Creative Process Section */}
-        <section className="mb-16">
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
-              <div className="flex items-center mb-6">
-                <Target className="w-8 h-8 text-cyan-400 mr-3" />
-                <h2 className="text-3xl font-bold text-white">
-                  {t('creativeProcess.title')}
-                </h2>
-              </div>
-              <p className="text-white/90 text-lg leading-relaxed mb-8">
-                {t('creativeProcess.description')}
-              </p>
-
-              <div className="grid lg:grid-cols-3 gap-6">
-                {/* Technical Discoveries */}
-                <div className="bg-white/5 rounded-xl p-6 border border-blue-400/30">
-                  <h3 className="text-lg font-bold text-blue-300 mb-3">
-                    {t('creativeProcess.technicalDiscoveries.title')}
-                  </h3>
-                  <div className="space-y-2">
-                    {t
-                      .raw('creativeProcess.technicalDiscoveries.examples')
-                      .map((example: string, i: number) => (
-                        <div key={i} className="flex items-start">
-                          <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                          <p className="text-white/70 text-sm">{example}</p>
-                        </div>
-                      ))}
-                  </div>
-                </div>
-
-                {/* Design Journey */}
-                <div className="bg-white/5 rounded-xl p-6 border border-purple-400/30">
-                  <h3 className="text-lg font-bold text-purple-300 mb-3">
-                    {t('creativeProcess.designJourney.title')}
-                  </h3>
-                  <div className="space-y-3">
-                    <div>
-                      <p className="text-purple-200 text-xs font-medium">
-                        Visão:
-                      </p>
-                      <p className="text-white/70 text-sm">
-                        {t('creativeProcess.designJourney.vision')}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-purple-200 text-xs font-medium">
-                        Resultado:
-                      </p>
-                      <p className="text-white/70 text-sm">
-                        {t('creativeProcess.designJourney.result')}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-purple-200 text-xs font-medium">
-                        Ícone:
-                      </p>
-                      <p className="text-white/70 text-sm">
-                        {t('creativeProcess.designJourney.iconAnimation')}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Paradigm Shift */}
-                <div className="bg-white/5 rounded-xl p-6 border border-pink-400/30">
-                  <h3 className="text-lg font-bold text-pink-300 mb-3">
-                    {t('creativeProcess.paradigmShift.title')}
-                  </h3>
-                  <div className="space-y-3">
-                    <div>
-                      <p className="text-pink-200 text-xs font-medium">
-                        Antes:
-                      </p>
-                      <p className="text-white/70 text-sm">
-                        {t('creativeProcess.paradigmShift.before')}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-pink-200 text-xs font-medium">
-                        Depois:
-                      </p>
-                      <p className="text-white/70 text-sm">
-                        {t('creativeProcess.paradigmShift.after')}
-                      </p>
-                    </div>
-                    <div className="mt-3 p-3 bg-pink-400/10 rounded-lg">
-                      <p className="text-white/80 text-sm italic">
-                        {t('creativeProcess.paradigmShift.confidence')}
-                      </p>
-                    </div>
-                  </div>
-                </div>
+              {/* Design Journey */}
+              <div className="mt-8 bg-white/5 rounded-xl p-6 border border-purple-400/30">
+                <h3 className="text-xl font-bold text-purple-300 mb-3">
+                  {t('aiJourney.designJourney.title')}
+                </h3>
+                <p className="text-white/80 text-sm">
+                  {t('aiJourney.designJourney.description')}
+                </p>
               </div>
             </div>
           </div>
@@ -293,12 +250,112 @@ export default function AboutPage() {
           </div>
         </section>
 
+        {/* Architecture Section */}
+        <section className="mb-16">
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+              <div className="flex items-center mb-6">
+                <Cpu className="w-8 h-8 text-blue-400 mr-3" />
+                <h2 className="text-3xl font-bold text-white">
+                  {t('architecture.title')}
+                </h2>
+              </div>
+              <p className="text-white/90 text-lg leading-relaxed mb-8">
+                {t('architecture.description')}
+              </p>
+
+              <div className="grid lg:grid-cols-2 gap-8">
+                {/* Stats */}
+                <div className="bg-white/5 rounded-xl p-6 border border-blue-400/30">
+                  <h3 className="text-xl font-bold text-blue-300 mb-3">
+                    {t('architecture.stats.title')}
+                  </h3>
+                  <div className="space-y-2">
+                    {t
+                      .raw('architecture.stats.metrics')
+                      .map((metric: string, i: number) => (
+                        <div key={i} className="flex items-start">
+                          <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                          <p className="text-white/70 text-sm">{metric}</p>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+
+                {/* Monorepo */}
+                <div className="bg-white/5 rounded-xl p-6 border border-purple-400/30">
+                  <h3 className="text-xl font-bold text-purple-300 mb-3">
+                    {t('architecture.monorepo.title')}
+                  </h3>
+                  <p className="text-white/80 mb-4 text-sm">
+                    {t('architecture.monorepo.description')}
+                  </p>
+                  <div className="space-y-2">
+                    {t
+                      .raw('architecture.monorepo.packages')
+                      .map((pkg: string, i: number) => (
+                        <div key={i} className="flex items-start">
+                          <div className="w-2 h-2 bg-purple-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                          <p className="text-white/70 text-sm">{pkg}</p>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Testing */}
+              <div className="mt-8 bg-white/5 rounded-xl p-6 border border-green-400/30">
+                <h3 className="text-xl font-bold text-green-300 mb-3">
+                  {t('architecture.testing.title')}
+                </h3>
+                <p className="text-white/80 mb-4 text-sm">
+                  {t('architecture.testing.description')}
+                </p>
+                <div className="bg-green-400/10 rounded-lg p-4">
+                  <h4 className="text-green-200 text-sm font-medium mb-2">
+                    {t('architecture.testing.aiTestingStats.title')}
+                  </h4>
+                  <div className="space-y-1">
+                    {t
+                      .raw('architecture.testing.aiTestingStats.results')
+                      .map((result: string, i: number) => (
+                        <p key={i} className="text-white/80 text-sm">
+                          • {result}
+                        </p>
+                      ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Highlights */}
+              <div className="mt-8 bg-white/5 rounded-xl p-6 border border-yellow-400/30">
+                <h3 className="text-xl font-bold text-yellow-300 mb-3">
+                  {t('architecture.highlights.title')}
+                </h3>
+                <p className="text-white/80 mb-4 text-sm">
+                  {t('architecture.highlights.description')}
+                </p>
+                <div className="space-y-2">
+                  {t
+                    .raw('architecture.highlights.achievements')
+                    .map((achievement: string, i: number) => (
+                      <div key={i} className="flex items-start">
+                        <div className="w-2 h-2 bg-yellow-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                        <p className="text-white/70 text-sm">{achievement}</p>
+                      </div>
+                    ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Philosophy Section */}
         <section className="mb-16">
           <div className="max-w-4xl mx-auto">
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
               <div className="flex items-center mb-6">
-                <Target className="w-8 h-8 text-purple-400 mr-3" />
+                <Heart className="w-8 h-8 text-purple-400 mr-3" />
                 <h2 className="text-3xl font-bold text-white">
                   {t('philosophy.title')}
                 </h2>
@@ -316,63 +373,6 @@ export default function AboutPage() {
                       <p className="text-white/80">{principle}</p>
                     </div>
                   ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Team Section */}
-        <section className="mb-16">
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
-              <div className="flex items-center mb-8">
-                <Heart className="w-8 h-8 text-red-400 mr-3" />
-                <h2 className="text-3xl font-bold text-white">
-                  {t('team.title')}
-                </h2>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-8">
-                {/* Human Team Member */}
-                <div className="bg-white/5 rounded-xl p-6 border border-white/10">
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    {t('team.human.name')}
-                  </h3>
-                  <p className="text-purple-300 mb-4">{t('team.human.role')}</p>
-                  <p className="text-white/80">{t('team.human.description')}</p>
-                </div>
-
-                {/* AI Team Member */}
-                <div className="bg-white/5 rounded-xl p-6 border border-white/10">
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    {t('team.ai.name')}
-                  </h3>
-                  <p className="text-blue-300 mb-4">{t('team.ai.role')}</p>
-                  <p className="text-white/80">{t('team.ai.description')}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Impact Section */}
-        <section className="mb-16">
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
-              <h2 className="text-3xl font-bold text-white mb-6">
-                {t('impact.title')}
-              </h2>
-              <p className="text-white/90 text-lg leading-relaxed mb-8">
-                {t('impact.description')}
-              </p>
-
-              <div className="grid md:grid-cols-1 gap-4">
-                {t.raw('impact.lessons').map((lesson: string, i: number) => (
-                  <div key={i} className="flex items-start">
-                    <div className="w-2 h-2 bg-yellow-400 rounded-full mt-3 mr-3 flex-shrink-0"></div>
-                    <p className="text-white/80">{lesson}</p>
-                  </div>
-                ))}
               </div>
             </div>
           </div>
@@ -473,34 +473,6 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Future Section */}
-        <section className="mb-16">
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
-              <h2 className="text-3xl font-bold text-white mb-6">
-                {t('future.title')}
-              </h2>
-              <p className="text-white/90 text-lg leading-relaxed">
-                {t('future.description')}
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Acknowledgments */}
-        <section className="mb-16">
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
-              <h2 className="text-3xl font-bold text-white mb-6">
-                {t('acknowledgments.title')}
-              </h2>
-              <p className="text-white/90 text-lg leading-relaxed">
-                {t('acknowledgments.description')}
-              </p>
-            </div>
-          </div>
-        </section>
-
         {/* Development Setbacks Section */}
         <section className="mb-16">
           <div className="max-w-4xl mx-auto">
@@ -529,16 +501,16 @@ export default function AboutPage() {
                     )}
                   </p>
                   <div className="space-y-2 mb-4">
-                    {Array.from({ length: 5 }, (_, i) => (
-                      <div key={i} className="flex items-start">
-                        <div className="w-2 h-2 bg-red-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                        <p className="text-white/70 text-sm">
-                          {t(
-                            `practicalAdvice.developmentSetbacks.contractBreach.timeline.${i}`,
-                          )}
-                        </p>
-                      </div>
-                    ))}
+                    {t
+                      .raw(
+                        'practicalAdvice.developmentSetbacks.contractBreach.timeline',
+                      )
+                      .map((item: string, i: number) => (
+                        <div key={i} className="flex items-start">
+                          <div className="w-2 h-2 bg-red-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                          <p className="text-white/70 text-sm">{item}</p>
+                        </div>
+                      ))}
                   </div>
                   <div className="bg-red-500/10 border border-red-400/30 rounded-lg p-4">
                     <p className="text-red-100 text-sm italic">
@@ -574,16 +546,16 @@ export default function AboutPage() {
                     </a>
                   </div>
                   <div className="space-y-2">
-                    {Array.from({ length: 7 }, (_, i) => (
-                      <div key={i} className="flex items-start">
-                        <div className="w-2 h-2 bg-orange-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                        <p className="text-white/70 text-sm">
-                          {t(
-                            `practicalAdvice.developmentSetbacks.rateLimitingProblem.impact.${i}`,
-                          )}
-                        </p>
-                      </div>
-                    ))}
+                    {t
+                      .raw(
+                        'practicalAdvice.developmentSetbacks.rateLimitingProblem.impact',
+                      )
+                      .map((impact: string, i: number) => (
+                        <div key={i} className="flex items-start">
+                          <div className="w-2 h-2 bg-orange-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                          <p className="text-white/70 text-sm">{impact}</p>
+                        </div>
+                      ))}
                   </div>
                 </div>
 
@@ -600,16 +572,16 @@ export default function AboutPage() {
                     )}
                   </p>
                   <div className="space-y-2 mb-4">
-                    {Array.from({ length: 5 }, (_, i) => (
-                      <div key={i} className="flex items-start">
-                        <div className="w-2 h-2 bg-yellow-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                        <p className="text-white/70 text-sm">
-                          {t(
-                            `practicalAdvice.developmentSetbacks.financialImpact.costs.${i}`,
-                          )}
-                        </p>
-                      </div>
-                    ))}
+                    {t
+                      .raw(
+                        'practicalAdvice.developmentSetbacks.financialImpact.costs',
+                      )
+                      .map((cost: string, i: number) => (
+                        <div key={i} className="flex items-start">
+                          <div className="w-2 h-2 bg-yellow-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                          <p className="text-white/70 text-sm">{cost}</p>
+                        </div>
+                      ))}
                   </div>
                   <div className="bg-yellow-500/10 border border-yellow-400/30 rounded-lg p-4">
                     <p className="text-yellow-100 text-sm italic">
@@ -619,153 +591,23 @@ export default function AboutPage() {
                     </p>
                   </div>
                 </div>
-
-                {/* Why It's Absurd */}
-                <div className="bg-white/5 rounded-xl p-6 border border-purple-400/30">
-                  <h3 className="text-xl font-bold text-purple-300 mb-4">
-                    {t(
-                      'practicalAdvice.developmentSetbacks.whyItsAbsurd.title',
-                    )}
-                  </h3>
-                  <p className="text-white/80 mb-4 text-sm leading-relaxed">
-                    {t(
-                      'practicalAdvice.developmentSetbacks.whyItsAbsurd.description',
-                    )}
-                  </p>
-                  <div className="space-y-2">
-                    {Array.from({ length: 7 }, (_, i) => (
-                      <div key={i} className="flex items-start">
-                        <div className="w-2 h-2 bg-purple-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                        <p className="text-white/70 text-sm">
-                          {t(
-                            `practicalAdvice.developmentSetbacks.whyItsAbsurd.problems.${i}`,
-                          )}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Microsoft Gaslighting */}
-                <div className="bg-white/5 rounded-xl p-6 border border-pink-400/30">
-                  <h3 className="text-xl font-bold text-pink-300 mb-4">
-                    {t(
-                      'practicalAdvice.developmentSetbacks.microsoftGaslighting.title',
-                    )}
-                  </h3>
-                  <p className="text-white/80 mb-4 text-sm leading-relaxed">
-                    {t(
-                      'practicalAdvice.developmentSetbacks.microsoftGaslighting.description',
-                    )}
-                  </p>
-                  <div className="space-y-2">
-                    {Array.from({ length: 5 }, (_, i) => (
-                      <div key={i} className="flex items-start">
-                        <div className="w-2 h-2 bg-pink-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                        <p className="text-white/70 text-sm">
-                          {t(
-                            `practicalAdvice.developmentSetbacks.microsoftGaslighting.tactics.${i}`,
-                          )}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Real World Impact */}
-                <div className="bg-white/5 rounded-xl p-6 border border-blue-400/30">
-                  <h3 className="text-xl font-bold text-blue-300 mb-4">
-                    {t(
-                      'practicalAdvice.developmentSetbacks.realWorldImpact.title',
-                    )}
-                  </h3>
-                  <p className="text-white/80 mb-4 text-sm leading-relaxed">
-                    {t(
-                      'practicalAdvice.developmentSetbacks.realWorldImpact.description',
-                    )}
-                  </p>
-                  <div className="space-y-2">
-                    {Array.from({ length: 6 }, (_, i) => (
-                      <div key={i} className="flex items-start">
-                        <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                        <p className="text-white/70 text-sm">
-                          {t(
-                            `practicalAdvice.developmentSetbacks.realWorldImpact.consequences.${i}`,
-                          )}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Microsoft Fail */}
-                <div className="bg-white/5 rounded-xl p-6 border border-indigo-400/30">
-                  <h3 className="text-xl font-bold text-indigo-300 mb-4">
-                    {t(
-                      'practicalAdvice.developmentSetbacks.microsoftFail.title',
-                    )}
-                  </h3>
-                  <p className="text-white/80 mb-4 text-sm leading-relaxed">
-                    {t(
-                      'practicalAdvice.developmentSetbacks.microsoftFail.description',
-                    )}
-                  </p>
-                  <div className="space-y-2">
-                    {Array.from({ length: 6 }, (_, i) => (
-                      <div key={i} className="flex items-start">
-                        <div className="w-2 h-2 bg-indigo-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                        <p className="text-white/70 text-sm">
-                          {t(
-                            `practicalAdvice.developmentSetbacks.microsoftFail.failurePoints.${i}`,
-                          )}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Platform Risk */}
-                <div className="bg-white/5 rounded-xl p-6 border border-cyan-400/30">
-                  <h3 className="text-xl font-bold text-cyan-300 mb-4">
-                    {t(
-                      'practicalAdvice.developmentSetbacks.platformRisk.title',
-                    )}
-                  </h3>
-                  <p className="text-white/80 mb-4 text-sm leading-relaxed">
-                    {t(
-                      'practicalAdvice.developmentSetbacks.platformRisk.description',
-                    )}
-                  </p>
-                  <div className="space-y-2">
-                    {Array.from({ length: 4 }, (_, i) => (
-                      <div key={i} className="flex items-start">
-                        <div className="w-2 h-2 bg-cyan-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                        <p className="text-white/70 text-sm">
-                          {t(
-                            `practicalAdvice.developmentSetbacks.platformRisk.lessons.${i}`,
-                          )}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Open Source Section */}
+        {/* Future & Open Source Section */}
         <section className="mb-16">
           <div className="max-w-4xl mx-auto">
             <div className="bg-gradient-to-r from-purple-600/20 to-pink-600/20 backdrop-blur-sm rounded-2xl p-8 border border-purple-400/30">
               <div className="flex items-center mb-6">
                 <Github className="w-8 h-8 text-white mr-3" />
                 <h2 className="text-3xl font-bold text-white">
-                  {t('openSource.title')}
+                  {t('future.title')}
                 </h2>
               </div>
               <p className="text-white/90 text-lg leading-relaxed mb-8">
-                {t('openSource.description')}
+                {t('future.description')}
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 items-center">
@@ -776,11 +618,88 @@ export default function AboutPage() {
                   className="bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg px-6 py-3 text-white font-medium transition-colors duration-200 flex items-center gap-2"
                 >
                   <Github className="w-5 h-5" />
-                  {t('openSource.githubLink')}
+                  {t('future.githubLink')}
                 </Link>
-                <span className="text-white/70">
-                  {t('openSource.licenseText')}
-                </span>
+                <span className="text-white/70">{t('future.licenseText')}</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Tooling Support Section */}
+        <section className="mb-16">
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+              <div className="flex items-center mb-6">
+                <Code className="w-8 h-8 text-cyan-400 mr-3" />
+                <h2 className="text-3xl font-bold text-white">
+                  {t('toolingSupport.title')}
+                </h2>
+              </div>
+              <p className="text-white/90 text-lg leading-relaxed mb-8">
+                {t('toolingSupport.description')}
+              </p>
+
+              <div className="grid lg:grid-cols-3 gap-8">
+                {/* Script Purpose */}
+                <div className="bg-white/5 rounded-xl p-6 border border-cyan-400/30">
+                  <h3 className="text-lg font-bold text-cyan-300 mb-3">
+                    {t('toolingSupport.scriptPurpose.title')}
+                  </h3>
+                  <p className="text-white/80 mb-4 text-sm">
+                    {t('toolingSupport.scriptPurpose.description')}
+                  </p>
+                  <div className="space-y-2">
+                    {t
+                      .raw('toolingSupport.scriptPurpose.capabilities')
+                      .map((capability: string, i: number) => (
+                        <div key={i} className="flex items-start">
+                          <div className="w-2 h-2 bg-cyan-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                          <p className="text-white/70 text-sm">{capability}</p>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+
+                {/* Technical Implementation */}
+                <div className="bg-white/5 rounded-xl p-6 border border-blue-400/30">
+                  <h3 className="text-lg font-bold text-blue-300 mb-3">
+                    {t('toolingSupport.technicalImplementation.title')}
+                  </h3>
+                  <p className="text-white/80 mb-4 text-sm">
+                    {t('toolingSupport.technicalImplementation.description')}
+                  </p>
+                  <div className="space-y-2">
+                    {t
+                      .raw('toolingSupport.technicalImplementation.features')
+                      .map((feature: string, i: number) => (
+                        <div key={i} className="flex items-start">
+                          <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                          <p className="text-white/70 text-sm">{feature}</p>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+
+                {/* Development Impact */}
+                <div className="bg-white/5 rounded-xl p-6 border border-green-400/30">
+                  <h3 className="text-lg font-bold text-green-300 mb-3">
+                    {t('toolingSupport.developmentImpact.title')}
+                  </h3>
+                  <p className="text-white/80 mb-4 text-sm">
+                    {t('toolingSupport.developmentImpact.description')}
+                  </p>
+                  <div className="space-y-2">
+                    {t
+                      .raw('toolingSupport.developmentImpact.achievements')
+                      .map((achievement: string, i: number) => (
+                        <div key={i} className="flex items-start">
+                          <div className="w-2 h-2 bg-green-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                          <p className="text-white/70 text-sm">{achievement}</p>
+                        </div>
+                      ))}
+                  </div>
+                </div>
               </div>
             </div>
           </div>

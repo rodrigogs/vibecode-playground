@@ -1,51 +1,53 @@
 {
   "title": "About Brain-rot Factory",
-  "subtitle": "A vibe coding adventure",
-  "introduction": "Welcome to the story behind Brain-rot Factory - a project born from intense collaboration between human creativity and artificial intelligence, resulting in something no one expected: a 'useless but totally vibe-coded project'.",
-  "journey": {
-    "title": "Our Coding Adventure",
-    "description": "This project represents a unique adventure where developer Rodrigo Gomes da Silva and different AI models (Claude 3.7 and Claude 4) worked together to create something truly special - a brain-rot character platform that is simultaneously absurd and technically sophisticated."
+  "subtitle": "A useless project built entirely by AIs to see how far they can go",
+  "introduction": "Brain-rot Factory is a web application where users chat with AI-generated Italian 'brain-rot' meme characters, powered by other AIs - creating a meta-linguistic loop that's simultaneously absurd and technically sophisticated. The choice of Italian brain-rot characters was deliberate: these viral memes are themselves AI-generated content, making our platform a perfect recursive experiment where AI talks to AI-generated characters through AI systems. Among these characters, Tralalero-tralala stands out as a personal favorite, particularly memorable for his distinctive habit of wearing three shoes simultaneously - a delightfully absurd detail that perfectly captures the essence of AI-generated creativity. This project serves as a real, complete, and publicly auditable laboratory for 100% AI-driven development.",
+  "overview": {
+    "title": "Project Overview",
+    "description": "What started as an experiment to test AI coding capabilities became a comprehensive platform demonstrating the limits and potential of human-AI collaboration. The goal isn't practical utility - it's to prove how far AI agents can go when building real software with proper architecture, testing, and deployment. Rodrigo Gomes da Silva (Brazil, 1991) acted as prompt engineer and curator, writing zero lines of TypeScript code - only guiding, reverting hallucinations, cleaning phantom files, and making architectural decisions. As of July 22, 2025, the project stands as a testament to what's possible: 407 tests running with 74% coverage, Next.js 15 build successful, zero security vulnerabilities, 249 translation keys across 6 languages (100% complete), and a public demo live on Vercel. What makes this achievement particularly remarkable is that every single line of code, every architectural decision, and every technical implementation emerged from conversational exchanges between human intent and artificial intelligence capabilities."
   },
-  "aiOnly": {
-    "title": "100% AI-Created - Zero Manual Code",
-    "description": "This project is a radical demonstration that it's possible to create complex, professional-quality software using exclusively artificial intelligence for coding.",
-    "reality": {
-      "title": "The Raw Reality",
-      "description": "Rodrigo didn't write a single line of code in this project. His role was exclusively prompt architect, active supervisor, and 'AI whisperer'. All TypeScript code, configurations, tests, build system, and implementations came from AI models."
-    },
-    "metrics": {
-      "title": "Impressive Metrics",
-      "description": "The numbers speak for themselves:",
-      "stats": [
-        "182/182 tests passing in packages (100% success rate)",
-        "74.61% overall coverage with some modules at 100%",
-        "Production status: not systematically monitored",
-        "Complete build system working (CJS + ESM)",
-        "Lint with zero errors across entire codebase",
-        "Automated deployment working perfectly"
-      ]
-    },
-    "architecture": {
-      "title": "Emergent Architecture",
-      "description": "The monorepo structure came from previous experiments with first-generation AI agents. The current architecture represents a natural evolution of those experiments, where each package solves a specific problem and can be used independently."
-    }
-  },
-  "collaboration": {
-    "title": "Human-AI Collaboration",
-    "description": "Brain-rot Factory is the result of intense collaboration between human vision and artificial intelligence. This project is living proof that when creativity meets technology, totally unexpected things can emerge - like AI-generated brain-rot characters conversing with users through other AIs, creating a perfect meta-absurd loop.",
-    "highlights": [
-      "Creative problem solving with different AI models",
-      "Iterative development through continuous feedback and active supervision",
-      "Emergent solutions from synergy between human intuition and computational power",
-      "Mutual learning: human taming AI, AI inspiring human"
+  "timeline": {
+    "title": "Development Timeline",
+    "description": "Key milestones in building a complex web application with AI collaboration:",
+    "events": [
+      {
+        "date": "March 2025",
+        "title": "Monorepo Foundation",
+        "description": "Started with Claude 3.7 Sonnet creating the Turbo monorepo structure. Multiple hallucinations required constant supervision: invented APIs, created circular imports, added phantom dependencies. Each failure taught valuable lessons about AI supervision."
+      },
+      {
+        "date": "April 20, 2025",
+        "title": "Claude 4 Game Changer",
+        "description": "Migration to Claude 4 transformed everything. In 36 minutes, the model corrected all previous issues, fixed imports, and increased test coverage by 20 percentage points. Development shifted from 'babysitting' to genuine partnership."
+      },
+      {
+        "date": "April 25, 2025",
+        "title": "Design Sprint",
+        "description": "Simple prompt 'futuristic glass + water vibe' resulted in complete design system with gradients, glassmorphism effects, and animated SVG logo. Direct integration into Next.js App Router."
+      },
+      {
+        "date": "June 17, 2025",
+        "title": "Microsoft Rate Limiting Crisis",
+        "description": "GitHub Copilot implemented aggressive rate limits despite 'unlimited' contract terms. 20% of monthly quota consumed in one afternoon refactoring a logger. Forced to purchase additional AI services to complete the project."
+      },
+      {
+        "date": "June 22, 2025",
+        "title": "i18n Automation",
+        "description": "AI created check-i18n-completeness.js script to manage 249 translation keys across 6 languages. Automated detection and synchronization of missing translations."
+      },
+      {
+        "date": "July 22, 2025",
+        "title": "Production Ready",
+        "description": "Final state: 407 tests, 74% coverage, zero vulnerabilities, complete internationalization, and live demo on Vercel. A functioning web application built entirely through AI collaboration."
+      }
     ]
   },
   "aiJourney": {
     "title": "The Journey with Different AI Models",
-    "description": "Development involved contrasting experiences with different AI models, each bringing their own challenges and achievements.",
+    "description": "Development involved contrasting experiences with different AI models, each bringing their own challenges and achievements. The journey revealed not just technical capabilities, but distinct AI 'personalities' that fundamentally shaped how human-AI collaboration evolved throughout the project.",
     "claude37": {
       "title": "Claude 3.7 Sonnet - The Package Era",
-      "description": "Developed all the monorepo package infrastructure, but with a peculiar tendency to 'hallucinate' fantastical implementations",
+      "description": "Developed all the monorepo package infrastructure, but with a peculiar tendency to 'hallucinate' fantastical implementations. This period was characterized by excessive creativity: implementing unsolicited and overly complex features, inventing APIs and libraries that didn't exist, and requiring constant supervision to maintain focus. The intensive 'AI whisperer' work involved a continuous cycle of stop, review, reorient, and repeat. However, this chaotic creativity taught valuable lessons about the importance of continuous validation, the need to break complex tasks into manageable chunks, and the critical value of clear and specific prompts.",
       "challenges": [
         "Excessive creativity: implemented unsolicited and overly complex features",
         "Technical hallucinations: invented APIs and libraries that didn't exist",
@@ -60,7 +62,7 @@
     },
     "claude4": {
       "title": "Claude 4 Sonnet - The Game Changer",
-      "description": "Completely transformed the collaboration experience, creating most of the main application with impressive autonomy",
+      "description": "Completely transformed the collaboration experience, creating most of the main application with impressive autonomy. This marked a paradigm shift from AI as a tool requiring constant supervision (babysitter mode) to AI as a reliable partner enabling fluid collaborative work. Claude 4 brought confidence to work with AI models productively, demonstrating fluid development with minimal supervision - more partner than tool. The model autonomously created complete visual design that exceeded all aesthetic expectations and established a new paradigm of trust in AI collaboration. One particularly striking discovery during this period was learning that you can run TypeScript files directly with Node 24, requiring no transpilation - something discovered entirely through Claude 4's suggestions.",
       "achievements": [
         "Fluid development with minimal supervision - more partner than tool",
         "Complete visual design that exceeded all aesthetic expectations",
@@ -72,38 +74,15 @@
         "Intuitive understanding of complex requirements",
         "Consistent quality in technical implementation"
       ]
-    }
-  },
-  "creativeProcess": {
-    "title": "Creative Process & Discoveries",
-    "description": "Development revealed unexpected technical discoveries and unique creative moments.",
-    "technicalDiscoveries": {
-      "title": "Technical Discoveries",
-      "examples": [
-        "Discovery: You can run TypeScript files directly with Node 24, no transpilation needed — something I learned thanks to Claude 4",
-        "New approaches to familiar tools making them more practical"
-      ]
     },
     "designJourney": {
-      "title": "Design Journey",
-      "vision": "Simple prompt: 'something futuristic with traits reminiscent of water and glass'",
-      "result": "Complete design with gradients, glass morphism and impressive visual effects",
-      "iconAnimation": "Icon generated in ChatGPT + colorful effects and pulsation created by Claude 4"
-    },
-    "paradigmShift": {
-      "title": "Paradigm Shift",
-      "before": "AI as a tool that needs constant supervision (babysitter mode)",
-      "after": "AI as a reliable partner that enables fluid collaborative work",
-      "confidence": "Claude 4 brought confidence to work with AI models productively"
+      "title": "Creative Process & Design Discovery",
+      "description": "The design journey exemplifies the unexpected outcomes of human-AI collaboration. A simple prompt requesting 'something futuristic with traits reminiscent of water and glass' resulted in a complete design system with gradients, glass morphism effects, and impressive visual aesthetics. The project's animated icon emerged from a combination of ChatGPT generation and Claude 4's colorful effects and pulsation implementation, creating a visual identity that perfectly captures the project's experimental yet sophisticated nature."
     }
   },
   "development": {
     "title": "Tech Stack",
     "description": "Every line of code, every architectural decision, and every feature was created through collaborative discussion, iterative refinement, and lots of shared debugging between human and AI.",
-    "dualBuild": {
-      "title": "Hybrid Build System",
-      "description": "One of our proudest achievements: dual compilation for ECMAScript Modules (ESM) and CommonJS (CJS), allowing packages to work in both modern and legacy projects."
-    },
     "features": [
       "Next.js 15 with App Router - latest version for modern web development",
       "TypeScript compiled via tsc for optimized production builds",
@@ -117,11 +96,11 @@
   },
   "architecture": {
     "title": "Technical Architecture",
-    "description": "Built with enterprise-grade architecture that would make any senior engineer proud - despite being 100% AI-created, this project demonstrates sophisticated engineering patterns typically found only in professional teams.",
+    "description": "Built with enterprise-grade architecture that would make any senior engineer proud - despite being 100% AI-created, this project demonstrates sophisticated engineering patterns typically found only in professional teams. What makes this achievement particularly remarkable is that every single line of code, every architectural decision, and every technical implementation emerged from conversational exchanges between human intent and artificial intelligence capabilities.",
     "stats": {
       "title": "Project Statistics",
       "metrics": [
-        "182/182 tests passing (100% test success rate)",
+        "407/407 tests passing (100% test success rate)",
         "5 monorepo packages with comprehensive test coverage",
         "Professional-grade Turbo monorepo structure",
         "Zero compilation errors across entire codebase",
@@ -130,7 +109,7 @@
     },
     "monorepo": {
       "title": "Sophisticated Monorepo Structure",
-      "description": "The project uses a professional Turbo monorepo with independent packages that showcase real-world architectural patterns:",
+      "description": "The project uses a professional Turbo monorepo with independent packages that showcase real-world architectural patterns. Each package solves a specific problem and can be used independently, demonstrating the kind of modular thinking typically associated with experienced development teams. The @repo/ai package stands out as a particular technical achievement - a comprehensive TypeScript abstraction over LangChain that, despite being 100% AI-created, demonstrates enterprise-level software architecture with multi-provider support, type-safe factory patterns, persistent checkpoint systems, and advanced TTS capabilities.",
       "packages": [
         "@repo/ai - AI integration layer with LangChain (107 tests)",
         "@repo/cache - High-performance caching system (40 tests)",
@@ -139,82 +118,20 @@
         "@repo/template - Code generation templates (6 tests)"
       ]
     },
-    "aiPackageSpotlight": {
-      "title": "@repo/ai Package: Enterprise-Grade AI Abstraction",
-      "description": "One of the true technical achievements of this project is the @repo/ai package, a comprehensive TypeScript abstraction over LangChain. Despite being 100% AI-created, it demonstrates enterprise-level software architecture.",
-      "features": {
-        "title": "Advanced Features",
-        "items": [
-          "🤖 Multi-provider support: Complete OpenAI and DeepSeek integration",
-          "🔧 Type-safe factory pattern: Perfect IntelliSense with automatic type inference",
-          "💾 Persistent checkpoint system: Conversation memory with @repo/cache integration",
-          "🎤 Advanced TTS system: Latest voice models including gpt-4o-mini-tts",
-          "🛠️ React Agents: Pre-configured LangGraph integration",
-          "📦 Dual build: Automatic ESM and CJS output"
-        ]
-      },
-      "technicalExcellence": {
-        "title": "Technical Excellence",
-        "highlights": [
-          "Complete TypeScript type safety with provider-specific model types",
-          "Extensible architecture with registry pattern",
-          "Custom serialization implementation with JsonSerializer",
-          "Comprehensive error handling and environment configuration management",
-          "Full code coverage with 107 tests",
-          "Complete compliance with LangGraph's BaseCheckpointSaver interface"
-        ]
-      },
-      "codeExample": {
-        "title": "API Design Elegance",
-        "description": "Simple factory pattern with complete type safety:",
-        "example": "// TypeScript automatically infers correct types\nconst agent = createAgent({\n  provider: 'openai',\n  model: 'gpt-4o', // ✅ Only OpenAI models\n  tools: [new TavilySearchResults()],\n  checkpointSaver: new PersistentCheckpointSaver()\n})"
-      },
-      "innovation": {
-        "title": "Innovation Points",
-        "points": [
-          "Hides LangChain complexity while maintaining full flexibility",
-          "Seamless provider switching without code changes",
-          "Enterprise memory management with cache integration",
-          "Immediate response to latest AI features (voice, reasoning models)"
-        ]
-      }
-    },
     "testing": {
       "title": "100% AI-Created Tests - Solid Metrics",
-      "description": "The tests in this project were entirely created by AI models, without a single line written manually. The resulting metrics demonstrate good quality according to industry standards.",
+      "description": "The tests in this project were entirely created by AI models, without a single line written manually. The resulting metrics demonstrate good quality according to industry standards. This 100% AI-created project presents solid metrics compared to current industry standards: 407/407 tests passing (100% success rate), 74.61% overall coverage with some modules at 100%, comprehensive unit and integration tests, sophisticated mock implementations for external dependencies, and complete error handling validation. According to the Stack Overflow Developer Survey 2024 (65,000+ respondents), practices like automated testing, CI/CD, and code coverage are widely adopted by professional teams, and our metrics reflect adherence to these modern standards.",
       "aiTestingStats": {
         "title": "Testing Statistics",
         "results": [
-          "182/182 tests passing in packages (100% success)",
+          "407/407 tests passing in packages (100% success)",
           "74.61% overall coverage with some modules at 100%",
           "Comprehensive unit and integration tests",
           "Sophisticated mock implementations for external dependencies",
           "Test cases for extreme scenarios and edge cases",
           "Complete error handling validation"
         ]
-      },
-      "professionalComparison": {
-        "title": "Industry Benchmark Comparison",
-        "description": "This 100% AI-created project presents solid metrics compared to current industry standards (based on Stack Overflow Developer Survey 2024 data and modern practices):",
-        "advantages": [
-          "✅ 74.61% test coverage - aligned with modern enterprise practices",
-          "✅ 182/182 tests passing - total reliability in test suite",
-          "✅ Lint configured and running without errors",
-          "✅ Consistent code standards throughout the codebase",
-          "✅ Robust build system with dual output (ESM + CJS)",
-          "✅ Modular architecture following enterprise patterns",
-          "✅ Complete and structured technical documentation"
-        ],
-        "sources": "References: Stack Overflow Developer Survey 2024 (65,000+ respondents), SonarQube Industry Standards, Google Testing Blog (2024)"
-      },
-      "features": [
-        "Unit tests with Vitest for all critical functionality",
-        "Integration tests for AI providers and caching systems",
-        "Mock implementations for external dependencies",
-        "Rate limiting behavior testing with concurrent scenarios",
-        "TTS system testing with audio generation validation",
-        "Error handling and edge case coverage"
-      ]
+      }
     },
     "highlights": {
       "title": "Engineering Highlights",
@@ -230,72 +147,14 @@
     }
   },
   "philosophy": {
-    "title": "Our Philosophy",
-    "description": "We believe in the power of collaboration - not just between humans, but between humans and AI. This project demonstrates that the future of development lies in intelligent partnership, where each side brings their unique strengths to create something neither could achieve alone.",
+    "title": "Philosophy & Team",
+    "description": "We believe in the power of collaboration - not just between humans, but between humans and AI. This project demonstrates that the future of development lies in intelligent partnership, where each side brings their unique strengths to create something neither could achieve alone. The team behind this experiment consists of Rodrigo Gomes da Silva, a Brazilian developer passionate about creating meaningful digital experiences who brings years of expertise in full-stack development and a vision for innovative user interactions, working alongside Claude Sonnet (3.7 & 4) as AI development partners. These two AI models brought distinct personalities that shaped this project: Claude 3.7 contributed chaotic creativity and unexpected ideas, while Claude 4 provided reliable execution and productive partnership - together they created a unique development experience that exemplifies our core principles.",
     "principles": [
       "Open source and transparent development - open code for collective learning",
       "Accessibility and inclusivity by design - technology for everyone",
       "Continuous learning through experimentation and productive failures",
       "Innovation emerging from conscious human-AI collaboration",
       "Ethical AI implementation with active human supervision"
-    ]
-  },
-  "team": {
-    "title": "The Team",
-    "human": {
-      "name": "Rodrigo Gomes da Silva",
-      "role": "Developer & Vision Architect",
-      "description": "Brazilian developer passionate about creating meaningful digital experiences. Brings years of expertise in full-stack development and a vision for innovative user interactions."
-    },
-    "ai": {
-      "name": "Claude Sonnet (3.7 & 4)",
-      "role": "AI Development Partners",
-      "description": "Two AI models with distinct personalities that shaped this project. Claude 3.7 brought chaotic creativity and unexpected ideas, while Claude 4 provided reliable execution and productive partnership - together they created a unique development experience."
-    }
-  },
-  "qualityReflection": {
-    "title": "Quality Analysis: Context and Industry Data",
-    "description": "A data-driven analysis of how this 100% AI-created project positions against software industry benchmarks.",
-    "reality": {
-      "title": "Software Industry Benchmarks",
-      "description": "Based on current industry research (Stack Overflow Developer Survey 2024, SonarQube Industry Data), our project presents solid metrics:",
-      "comparisons": [
-        "📊 Test coverage: 74.61% - aligned with modern enterprise practices",
-        "🔧 Code quality: Zero lint errors - standard practice in well-maintained projects",
-        "📦 Architecture: Modular monorepo with clear separation of concerns",
-        "🏗️ Build system: Dual output (ESM + CJS) for maximum compatibility",
-        "⚡ Reliability: 182/182 tests passing - stability indicator",
-        "📝 Documentation: Structured and complete following best practices",
-        "🚀 CI/CD: Automated integration and deployment working"
-      ],
-      "context": "According to the Stack Overflow Developer Survey 2024 (65,000+ developers), practices like automated testing, CI/CD, and code coverage are widely adopted by professional teams. Our metrics reflect adherence to these modern standards."
-    },
-    "complexity": {
-      "title": "AI Capabilities Demonstration",
-      "description": "This project serves as an example that AI can create software with complex and functional architecture:",
-      "evidence": [
-        "Monorepo with 5 independent and reusable packages",
-        "Complete authentication system with multiple OAuth",
-        "Rate limiting with multiple strategies",
-        "Complete internationalization for 6 languages",
-        "Conversational AI system with multiple providers",
-        "Dual build system (ESM + CJS) for maximum compatibility"
-      ],
-      "disclaimer": "Important: we don't have sufficient data to objectively compare with enterprise projects, but the metrics demonstrate solid technical capabilities for an experimental project."
-    }
-  },
-  "impact": {
-    "title": "Impact & Learning",
-    "description": "This project taught us valuable lessons about the future of software development and the potential of human-AI collaboration.",
-    "lessons": [
-      "AI can amplify human creativity when well-directed, but never replaces intuition",
-      "Different AI models have distinct 'personalities' that require specific approaches",
-      "Effective human-AI collaboration requires active supervision and clear communication",
-      "The future of development lies in partnerships where humans and AI complement each other",
-      "'Useless' projects can be perfect laboratories for testing serious technologies",
-      "Sometimes you need to be an 'AI whisperer' to extract the best from models",
-      "AI model evolution can completely transform development workflow",
-      "Meta-irony: using cutting-edge AI to create 'brain-rot' content results in profound learning"
     ]
   },
   "practicalAdvice": {
@@ -349,11 +208,11 @@
         "title": "The Bait-and-Switch: Microsoft Rewrites Paid Contracts",
         "description": "Microsoft sold 'unlimited agent usage' plans, collected full-year payments, then quietly removed the unlimited promise and implemented harsh rate limits - classic corporate fraud.",
         "timeline": [
-          "📅 Initial purchase: 'Unlimited agent usage' advertised and paid for",
-          "💰 Full-year payment collected by Microsoft based on unlimited promise",
-          "🤐 Microsoft quietly removes 'unlimited agent usage' from plans page",
-          "📧 Surprise email announcing 'new usage tracker' and quotas",
-          "💥 20% of monthly quota consumed by 'a single light session' refactoring a tiny logger module"
+          "Initial purchase: 'Unlimited agent usage' advertised and paid for",
+          "Full-year payment collected by Microsoft based on unlimited promise",
+          "Microsoft quietly removes 'unlimited agent usage' from plans page",
+          "Surprise email announcing 'new usage tracker' and quotas",
+          "20% of monthly quota consumed by 'a single light session' refactoring a tiny logger module"
         ],
         "legalIssues": "Contracts should bind both sides. If you can change them whenever the wind shifts, what's the point? This is textbook bait-and-switch fraud."
       },
@@ -362,100 +221,32 @@
         "description": "During active development, we faced severe interruptions due to GitHub Copilot's aggressive rate limiting policies, which fundamentally broke productive AI-assisted development workflows.",
         "issueLink": "Documented in: https://github.com/microsoft/vscode/issues/253124",
         "impact": [
-          "💔 Constant workflow interruptions during critical development phases",
-          "⏰ Forced waits of 3-15 minutes between requests, killing development momentum",
-          "🔄 Random and unpredictable rate limiting that made planning impossible",
-          "🚫 Complete blocking of legitimate development use cases",
-          "😤 Extremely frustrating user experience that damages trust in AI tools",
-          "💸 Financial impact: forced to purchase additional services (Cursor) to complete work",
-          "🔥 Rate limits hit even basic models (GPT-4o), proving Microsoft simply lies about 'unlimited' base model access"
+          "Constant workflow interruptions during critical development phases",
+          "Forced waits of 3-15 minutes between requests, killing development momentum",
+          "Random and unpredictable rate limiting that made planning impossible",
+          "Complete blocking of legitimate development use cases",
+          "Extremely frustrating user experience that damages trust in AI tools",
+          "Financial impact: forced to purchase additional services (Cursor) to complete work",
+          "Rate limits hit even basic models (GPT-4o), proving Microsoft simply lies about 'unlimited' base model access"
         ]
       },
       "financialImpact": {
         "title": "Real Financial Damage to Developers",
         "description": "Microsoft's bait-and-switch didn't just break workflows - it forced additional costs:",
         "costs": [
-          "💰 Full-year Copilot subscription paid based on false 'unlimited' promise",
-          "💳 Forced purchase of Cursor subscription as backup service",
-          "⏱️ Extended development timeline = increased project costs",
-          "🔄 Multiple service rate limits hit during single project completion",
-          "🎯 Quote: 'I ended up hitting Copilot limits 2x and Cursor limits 2x to finish this project using Claude 4'"
+          "Full-year Copilot subscription paid based on false 'unlimited' promise",
+          "Forced purchase of Cursor subscription as backup service",
+          "Extended development timeline = increased project costs",
+          "Multiple service rate limits hit during single project completion",
+          "Quote: 'I ended up hitting Copilot limits 2x and Cursor limits 2x to finish this project using Claude 4'"
         ],
         "businessImpact": "When you're paying for 'unlimited' service and get artificially constrained, you're forced to buy multiple subscriptions just to complete normal development work."
-      },
-      "whyItsAbsurd": {
-        "title": "Why Microsoft's Approach is Completely Absurd and Potentially Illegal",
-        "description": "Microsoft's rate limiting implementation represents not just poor service, but potential contract fraud:",
-        "problems": [
-          "🎯 **Contract Fraud**: Selling 'unlimited' service, collecting payment, then imposing harsh limits",
-          "💰 **Bait-and-Switch**: Classic fraud technique - advertise X, deliver Y after payment",
-          "🔧 **Breaks Development Flow**: AI development requires iterative conversation - rate limiting destroys this natural workflow",
-          "📊 **No Transparency**: Arbitrary limits with no clear explanation, calling legitimate use 'illegitimate'",
-          "🏢 **Corporate Gaslighting**: Blaming customers for using the service they paid for 'too much'",
-          "🤖 **False Advertising**: Even 'base models' hit rate limits despite being advertised as unlimited",
-          "⚖️ **Zero Accountability**: Giant corporation changes contracts at will with zero consequences"
-        ]
-      },
-      "microsoftGaslighting": {
-        "title": "Microsoft's Gaslighting Campaign",
-        "description": "Microsoft doesn't just break contracts - they gaslight customers who complain:",
-        "tactics": [
-          "🗣️ Talking about 'legitimate use cases' as if customers should police their own usage of an 'unlimited' service",
-          "🤡 Suggesting customers downgrade to inferior 'Ask' mode when 'Agent' was advertised as unlimited",
-          "📝 Recommending garbage models (GPT-4.1) that 'drop context every other prompt, integrate like trash with tools, throw errors for fun'",
-          "🎭 Acting like changing paid contracts is normal business practice",
-          "👢 Having bootlickers defend billion-dollar corporation against paying customers"
-        ]
-      },
-      "realWorldImpact": {
-        "title": "Real Impact on This Project",
-        "description": "These rate limiting issues and contract breaches directly affected our development process:",
-        "consequences": [
-          "Forced to purchase multiple AI services to complete a single project",
-          "Lost development context due to forced interruptions and service switching",
-          "Extended development timeline due to artificial constraints",
-          "Increased frustration and complete loss of trust in Microsoft's ecosystem",
-          "Had to develop complex workarounds involving multiple paid services",
-          "Quote: 'Models that work as well as my deaf dog's hearing' - forced degradation of development tools"
-        ]
-      },
-      "microsoftFail": {
-        "title": "Microsoft's Fundamental Failure and Corporate Fraud",
-        "description": "This situation exemplifies Microsoft's pattern of corporate malfeasance:",
-        "failurePoints": [
-          "💰 **Contract Fraud**: Changing paid contract terms unilaterally after collecting payment",
-          "🏢 **Corporate Bullying**: Using market dominance to screw over individual developers",
-          "📉 **Prioritizing Profits Over Honor**: Breaking promises to boost quarterly numbers",
-          "🔒 **Implementing Fraud**: Advertising unlimited service while planning artificial limits",
-          "🗣️ **Gaslighting Customers**: Blaming users for using the service they paid for",
-          "💸 **Theft**: Keeping full payments while delivering fraction of promised service"
-        ]
-      },
-      "platformRisk": {
-        "title": "Platform Dependency Risk and Corporate Tyranny",
-        "description": "This experience highlighted the dangers of depending on dishonest corporate giants:",
-        "lessons": [
-          "Never trust Microsoft with mission-critical workflows - they will screw you",
-          "Always maintain multiple AI providers because corporations lie about their service terms",
-          "Corporate AI providers will prioritize profits over contracts and customer relationships",
-          "Document everything - corporations will gaslight you and pretend contracts never existed",
-          "Giant corporations operate with impunity - they can break contracts with zero legal consequences",
-          "Platform risk includes not just technical failure, but corporate fraud and contract breach"
-        ]
       }
     }
   },
   "future": {
-    "title": "Looking Forward",
-    "description": "Brain-rot Factory is just the beginning of this journey exploring human-AI collaboration. The project proved it's possible to create something technically sophisticated, aesthetically impressive, and conceptually absurd - all at the same time. We're excited to see how this experience evolves and what new adventures await in this fascinating intersection between human creativity and artificial intelligence."
-  },
-  "acknowledgments": {
-    "title": "Acknowledgments",
-    "description": "Special gratitude to the open source community that makes all this possible, the creators of the incredible tools we use daily, and everyone who believes that innovation is born from collaboration - whether between humans, between humans and AI, or between seemingly incompatible ideas that merge into something completely new."
-  },
-  "openSource": {
-    "title": "Open Source",
-    "description": "This project is open source and available on GitHub. We encourage contributions, feedback, and forks. Let's build the future together!",
+    "title": "Looking Forward & Open Source",
+    "description": "Brain-rot Factory is just the beginning of this journey exploring human-AI collaboration. The project proved it's possible to create something technically sophisticated, aesthetically impressive, and conceptually absurd - all at the same time. We're excited to see how this experience evolves and what new adventures await in this fascinating intersection between human creativity and artificial intelligence. This project is open source and available on GitHub under the MIT License, embodying our belief that innovation is born from collaboration - whether between humans, between humans and AI, or between seemingly incompatible ideas that merge into something completely new. We encourage contributions, feedback, and forks from anyone who believes in the transformative potential of transparent, collaborative development. Special gratitude goes to the open source community that makes all this possible, the creators of the incredible tools we use daily, and everyone who sees technology not as an end in itself, but as a means to explore the boundaries of what's possible when curiosity meets capability.",
     "githubLink": "View on GitHub",
     "licenseText": "Released under the MIT License"
   },
@@ -466,12 +257,12 @@
       "title": "Purpose of check-i18n-completeness.js Script",
       "description": "Tool created 100% by AI to verify the completeness of translation files, comparing all languages with the Portuguese reference file.",
       "capabilities": [
-        "🔍 Recursive analysis of complex JSON objects with deep nesting",
-        "📊 Automatic calculation of completeness percentage per language",
-        "📁 Intelligent grouping of missing keys by section",
-        "🎨 Colorized output for easy visual identification of issues",
-        "📈 Detailed report and executive summary in terminal format",
-        "⚡ Automatic detection of structural differences between files"
+        "Recursive analysis of complex JSON objects with deep nesting",
+        "Automatic calculation of completeness percentage per language",
+        "Intelligent grouping of missing keys by section",
+        "Colorized output for easy visual identification of issues",
+        "Detailed report and executive summary in terminal format",
+        "Automatic detection of structural differences between files"
       ]
     },
     "technicalImplementation": {
@@ -490,100 +281,12 @@
       "title": "Development Impact",
       "description": "This tool enabled maintaining perfect synchronization between 6 different languages:",
       "achievements": [
-        "🎯 Precise identification of 74+ missing keys distributed across 5 languages",
-        "⚡ Synchronization process that brought all files from ~60-97% to 100%",
-        "🚀 Complete automation of translation quality verification",
-        "📊 Real-time metrics of internationalization progress",
-        "🔧 Reusable tool for continuous translation maintenance"
+        "Precise identification of 74+ missing keys distributed across 5 languages",
+        "Synchronization process that brought all files from ~60-97% to 100%",
+        "Complete automation of translation quality verification",
+        "Real-time metrics of internationalization progress",
+        "Reusable tool for continuous translation maintenance"
       ]
-    },
-    "metaDevelopment": {
-      "title": "Meta-Development: AI Creating Tools for AI",
-      "description": "This script represents an interesting example of AI creating tools to improve AI's own work:",
-      "insights": [
-        "AI can identify its own needs for supporting tools",
-        "Automatic creation of solutions for scale and maintenance problems",
-        "Ability to generate auxiliary code as sophisticated as main code",
-        "Demonstration of systemic thinking: not just solving the problem, but creating tools to prevent the problem",
-        "Proof that AI can contribute to the entire development lifecycle, not just coding"
-      ]
-    },
-    "practicalValue": {
-      "title": "Proven Practical Value",
-      "description": "The script proved its value by detecting and helping correct:",
-      "detectedIssues": [
-        "Complete missing sections in multiple languages (aiJourney, creativeProcess, practicalAdvice)",
-        "Non-existent specific subsections (learnings, breakthrough, dualBuild)",
-        "Structural inconsistencies between translation files",
-        "Subtle differences in JSON object hierarchies",
-        "Validation that all 188 keys exist in all languages"
-      ]
-    }
-  },
-  "aboutCreation": {
-    "title": "Meta: How This About Page Was Created",
-    "description": "Complete transparency about the creation process of this very About page - yet another layer of meta-irony in the project.",
-    "context": {
-      "title": "Linguistic Context",
-      "description": "The main project development was conducted in English, but this specific About page review was done in Portuguese, demonstrating the flexibility of human-AI collaboration across different languages."
-    },
-    "iterativeProcess": {
-      "title": "Iterative Refinement Process",
-      "description": "This About page went through multiple improvement iterations, demonstrating in practice the human-AI collaboration concepts discussed:",
-      "phases": [
-        "First version: Initial creation with exaggerated claims and outdated references",
-        "Factual correction: Removal of false statements about 'zero critical production bugs'",
-        "Source updates: Replacement of old citations (Martin Fowler 2012) with current data (Stack Overflow 2024)",
-        "Real-time research: Search for industry benchmarks through multiple authoritative sources",
-        "Linguistic refinement: Standardization for each specific language",
-        "Multilingual sync: Application of improvements across all 6 supported languages"
-      ]
-    },
-    "researchApproach": {
-      "title": "Research Methodology",
-      "description": "Practical demonstration of how AI can be used for factual research and content updates:",
-      "sources": [
-        "Stack Overflow Developer Survey 2024 (65,000+ respondents) - current industry data",
-        "SonarQube Industry Standards - code quality practices",
-        "Google Testing Blog (2024) - modern testing methodologies",
-        "Codecov Industry Data - test coverage benchmarks"
-      ],
-      "process": "Automated search for authoritative sources, cross-validation of data, and proper citation of references"
-    },
-    "qualityEvolution": {
-      "title": "Quality Evolution",
-      "before": {
-        "issues": [
-          "Unverified claims about superiority over professional projects",
-          "Outdated citations from over a decade ago",
-          "Anglicisms or inappropriate linguistic constructions for each language",
-          "Statements about 'zero production bugs' without monitoring"
-        ]
-      },
-      "after": {
-        "improvements": [
-          "Factual data based on current industry research",
-          "Transparency about limitations and experimental scope",
-          "Clean language appropriate for each culture/language",
-          "Updated and authoritative references with source citations"
-        ]
-      }
-    },
-    "metaLearning": {
-      "title": "Meta Learnings",
-      "insights": [
-        "Even 'about' documentation can demonstrate the project's principles",
-        "Honesty about limitations generates more credibility than exaggerated claims",
-        "Real-time research allows content to stay current and factual",
-        "The iterative refinement process mirrors the project's development practices",
-        "Complete transparency about the process creates an additional layer of educational value",
-        "AI collaboration works effectively across multiple languages and cultural contexts"
-      ]
-    },
-    "demonstration": {
-      "title": "Practical Demonstration",
-      "description": "This very section is an example of how AI can be used for meta-analysis and process documentation:",
-      "evidence": "The creation and refinement of this section was done in real-time during a collaborative conversation, demonstrating the responsive and adaptive nature of the tool"
     }
   }
 }
