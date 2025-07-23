@@ -31,11 +31,6 @@
         "description": "GitHub Copilot implementou limites de taxa agressivos apesar dos termos contratuais 'ilimitados'. 20% da quota mensal consumida em uma tarde refatorando um módulo de logger. Forçado a comprar serviços adicionais de IA para completar o projeto."
       },
       {
-        "date": "22 de Junho, 2025",
-        "title": "Automação i18n",
-        "description": "IA criou script check-i18n-completeness.js para gerenciar 249 chaves de tradução em 6 idiomas. Detecção automatizada e sincronização de traduções faltantes."
-      },
-      {
         "date": "22 de Julho, 2025",
         "title": "Pronto para Produção",
         "description": "Estado final: 407 testes, 74% de cobertura, zero vulnerabilidades, internacionalização completa e demo ao vivo no Vercel. Uma aplicação web funcional construída inteiramente através de colaboração com IA."
@@ -249,44 +244,5 @@
     "description": "Brain-rot Factory é apenas o começo desta jornada explorando colaboração humano-IA. O projeto provou que é possível criar algo tecnicamente sofisticado, esteticamente impressionante e conceitualmente absurdo - tudo ao mesmo tempo. Estamos animados para ver como essa experiência evolui e que novas aventuras aguardam nesta interseção fascinante entre criatividade humana e inteligência artificial. Este projeto é open source e disponível no GitHub sob a Licença MIT, incorporando nossa crença de que inovação nasce da colaboração - seja entre humanos, entre humanos e IA, ou entre ideias aparentemente incompatíveis que se fundem em algo completamente novo. Encorajamos contribuições, feedback e forks de qualquer um que acredita no potencial transformador do desenvolvimento colaborativo e transparente. Gratidão especial vai para a comunidade open source que torna tudo isso possível, os criadores das ferramentas incríveis que usamos diariamente, e todos que veem tecnologia não como um fim em si, mas como um meio para explorar os limites do que é possível quando curiosidade encontra capacidade.",
     "githubLink": "Ver no GitHub",
     "licenseText": "Lançado sob a Licença MIT"
-  },
-  "toolingSupport": {
-    "title": "Ferramentas de Desenvolvimento: Script de Verificação i18n",
-    "description": "Durante o desenvolvimento, criamos nossas próprias ferramentas para garantir qualidade e completude dos arquivos de internacionalização - um exemplo prático de como IA pode criar soluções auxiliares sofisticadas.",
-    "scriptPurpose": {
-      "title": "Propósito do Script check-i18n-completeness.js",
-      "description": "Ferramenta criada 100% por IA para verificar a completude dos arquivos de tradução, comparando todos os idiomas com o arquivo de referência português.",
-      "capabilities": [
-        "Análise recursiva de objetos JSON complexos com aninhamento profundo",
-        "Cálculo automático de porcentagem de completude por idioma",
-        "Agrupamento inteligente de chaves faltantes por seção",
-        "Saída colorizada para fácil identificação visual de problemas",
-        "Relatório detalhado e resumo executivo em formato de terminal",
-        "Detecção automática de diferenças estruturais entre arquivos"
-      ]
-    },
-    "technicalImplementation": {
-      "title": "Implementação Técnica",
-      "description": "O script demonstra padrões de engenharia sofisticados criados inteiramente por IA:",
-      "features": [
-        "Recursão funcional para navegar objetos JSON arbitrariamente profundos",
-        "Algoritmos de comparação eficientes para estruturas de dados grandes",
-        "Sistema de cores ANSI para saída profissional de terminal",
-        "Tratamento de erros robusto com fallbacks apropriados",
-        "ES Modules com compatibilidade moderna do Node.js",
-        "Arquitetura modular com funções puras e reutilizáveis"
-      ]
-    },
-    "developmentImpact": {
-      "title": "Impacto no Desenvolvimento",
-      "description": "Esta ferramenta permitiu manter sincronização perfeita entre 6 idiomas diferentes:",
-      "achievements": [
-        "Identificação precisa de 74+ chaves faltantes distribuídas em 5 idiomas",
-        "Processo de sincronização que trouxe todos os arquivos de ~60-97% para 100%",
-        "Automação completa da verificação de qualidade de tradução",
-        "Métricas em tempo real do progresso de internacionalização",
-        "Ferramenta reutilizável para manutenção contínua de tradução"
-      ]
-    }
   }
 }

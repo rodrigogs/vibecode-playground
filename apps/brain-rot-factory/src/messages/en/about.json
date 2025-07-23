@@ -31,11 +31,6 @@
         "description": "GitHub Copilot implemented aggressive rate limits despite 'unlimited' contract terms. 20% of monthly quota consumed in one afternoon refactoring a logger. Forced to purchase additional AI services to complete the project."
       },
       {
-        "date": "June 22, 2025",
-        "title": "i18n Automation",
-        "description": "AI created check-i18n-completeness.js script to manage 249 translation keys across 6 languages. Automated detection and synchronization of missing translations."
-      },
-      {
         "date": "July 22, 2025",
         "title": "Production Ready",
         "description": "Final state: 407 tests, 74% coverage, zero vulnerabilities, complete internationalization, and live demo on Vercel. A functioning web application built entirely through AI collaboration."
@@ -249,44 +244,5 @@
     "description": "Brain-rot Factory is just the beginning of this journey exploring human-AI collaboration. The project proved it's possible to create something technically sophisticated, aesthetically impressive, and conceptually absurd - all at the same time. We're excited to see how this experience evolves and what new adventures await in this fascinating intersection between human creativity and artificial intelligence. This project is open source and available on GitHub under the MIT License, embodying our belief that innovation is born from collaboration - whether between humans, between humans and AI, or between seemingly incompatible ideas that merge into something completely new. We encourage contributions, feedback, and forks from anyone who believes in the transformative potential of transparent, collaborative development. Special gratitude goes to the open source community that makes all this possible, the creators of the incredible tools we use daily, and everyone who sees technology not as an end in itself, but as a means to explore the boundaries of what's possible when curiosity meets capability.",
     "githubLink": "View on GitHub",
     "licenseText": "Released under the MIT License"
-  },
-  "toolingSupport": {
-    "title": "Development Tools: i18n Verification Script",
-    "description": "During development, we created our own tools to ensure quality and completeness of internationalization files - a practical example of how AI can create sophisticated auxiliary solutions.",
-    "scriptPurpose": {
-      "title": "Purpose of check-i18n-completeness.js Script",
-      "description": "Tool created 100% by AI to verify the completeness of translation files, comparing all languages with the Portuguese reference file.",
-      "capabilities": [
-        "Recursive analysis of complex JSON objects with deep nesting",
-        "Automatic calculation of completeness percentage per language",
-        "Intelligent grouping of missing keys by section",
-        "Colorized output for easy visual identification of issues",
-        "Detailed report and executive summary in terminal format",
-        "Automatic detection of structural differences between files"
-      ]
-    },
-    "technicalImplementation": {
-      "title": "Technical Implementation",
-      "description": "The script demonstrates sophisticated engineering patterns created entirely by AI:",
-      "features": [
-        "Functional recursion for navigating arbitrarily deep JSON objects",
-        "Efficient comparison algorithms for large data structures",
-        "ANSI color system for professional terminal output",
-        "Robust error handling with appropriate fallbacks",
-        "ES Modules with modern Node.js compatibility",
-        "Modular architecture with pure and reusable functions"
-      ]
-    },
-    "developmentImpact": {
-      "title": "Development Impact",
-      "description": "This tool enabled maintaining perfect synchronization between 6 different languages:",
-      "achievements": [
-        "Precise identification of 74+ missing keys distributed across 5 languages",
-        "Synchronization process that brought all files from ~60-97% to 100%",
-        "Complete automation of translation quality verification",
-        "Real-time metrics of internationalization progress",
-        "Reusable tool for continuous translation maintenance"
-      ]
-    }
   }
 }

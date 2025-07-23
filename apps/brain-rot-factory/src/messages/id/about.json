@@ -31,11 +31,6 @@
         "description": "GitHub Copilot menerapkan rate limit agresif meskipun syarat kontraktual 'unlimited'. 20% kuota bulanan dikonsumsi dalam satu sore refactoring logger. Terpaksa membeli layanan AI tambahan untuk menyelesaikan proyek."
       },
       {
-        "date": "22 Juni 2025",
-        "title": "Otomasi i18n",
-        "description": "AI menciptakan script check-i18n-completeness.js untuk mengelola 249 kunci terjemahan dalam 6 bahasa. Deteksi otomatis dan sinkronisasi terjemahan yang hilang."
-      },
-      {
         "date": "22 Juli 2025",
         "title": "Siap Produksi",
         "description": "Status akhir: 407 test, 74% coverage, nol kerentanan, internasionalisasi lengkap, dan demo live di Vercel. Aplikasi web yang berfungsi dibangun sepenuhnya melalui kolaborasi AI."
@@ -249,44 +244,5 @@
     "description": "Brain-rot Factory hanyalah awal dari perjalanan ini menjelajahi kolaborasi manusia-AI. Proyek ini telah membuktikan bahwa mungkin untuk menciptakan sesuatu yang canggih secara teknis, mengesankan secara estetika, dan absurd secara konseptual - semuanya sekaligus. Kami sangat antusias untuk melihat bagaimana pengalaman ini berkembang dan petualangan baru apa yang menanti kami di persimpangan yang menarik ini antara kreativitas manusia dan kecerdasan buatan. Proyek ini adalah open source dan tersedia di GitHub di bawah Lisensi MIT, mewujudkan kepercayaan kami bahwa inovasi lahir dari kolaborasi - baik antara manusia, antara manusia dan AI, atau antara ide-ide yang tampaknya tidak kompatibel yang melebur menjadi sesuatu yang benar-benar baru. Kami mendorong kontribusi, umpan balik, dan fork dari siapa pun yang percaya pada potensi transformatif pengembangan yang transparan dan kolaboratif. Terima kasih khusus kepada komunitas open source yang membuat semua ini mungkin, pencipta alat-alat luar biasa yang kami gunakan setiap hari, dan semua orang yang melihat teknologi bukan sebagai tujuan itu sendiri, tetapi sebagai sarana untuk menjelajahi batas-batas dari apa yang mungkin ketika rasa ingin tahu bertemu kemampuan.",
     "githubLink": "Lihat di GitHub",
     "licenseText": "Dirilis di bawah Lisensi MIT"
-  },
-  "toolingSupport": {
-    "title": "Alat Pengembangan: Script Verifikasi i18n",
-    "description": "Selama pengembangan, kami menciptakan alat kami sendiri untuk memastikan kualitas dan kelengkapan file internasionalisasi - contoh praktis bagaimana AI dapat menciptakan solusi auxiliary yang canggih.",
-    "scriptPurpose": {
-      "title": "Tujuan Script check-i18n-completeness.js",
-      "description": "Alat yang dibuat 100% oleh AI untuk memverifikasi kelengkapan file terjemahan, membandingkan semua bahasa dengan file referensi Portugis.",
-      "capabilities": [
-        "Analisis rekursif objek JSON kompleks dengan nesting yang dalam",
-        "Perhitungan otomatis persentase kelengkapan per bahasa",
-        "Pengelompokan cerdas kunci yang hilang berdasarkan bagian",
-        "Output berwarna untuk identifikasi visual masalah yang mudah",
-        "Laporan terperinci dan ringkasan eksekutif dalam format terminal",
-        "Deteksi otomatis perbedaan struktural antara file"
-      ]
-    },
-    "technicalImplementation": {
-      "title": "Implementasi Teknis",
-      "description": "Script ini menunjukkan pola rekayasa canggih yang dibuat sepenuhnya oleh AI:",
-      "features": [
-        "Rekursi fungsional untuk menavigasi objek JSON yang arbitrarily dalam",
-        "Algoritma perbandingan efisien untuk struktur data besar",
-        "Sistem warna ANSI untuk output terminal profesional",
-        "Penanganan error yang robust dengan fallback yang tepat",
-        "ES Modules dengan kompatibilitas Node.js modern",
-        "Arsitektur modular dengan fungsi murni dan dapat digunakan kembali"
-      ]
-    },
-    "developmentImpact": {
-      "title": "Dampak Pengembangan",
-      "description": "Alat ini memungkinkan menjaga sinkronisasi sempurna antara 6 bahasa berbeda:",
-      "achievements": [
-        "Identifikasi tepat 74+ kunci yang hilang tersebar di 5 bahasa",
-        "Proses sinkronisasi yang membawa semua file dari ~60-97% ke 100%",
-        "Otomatisasi lengkap verifikasi kualitas terjemahan",
-        "Metrik real-time kemajuan internasionalisasi",
-        "Alat yang dapat digunakan kembali untuk pemeliharaan terjemahan berkelanjutan"
-      ]
-    }
   }
 }
