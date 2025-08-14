@@ -4,6 +4,7 @@
   "envMode": "strict",
   "globalEnv": [
     "NODE_ENV",
+    "DEBUG_VALIDATION",
     "DATA_DIR",
     "OPENAI_API_KEY",
     "DEFAULT_PROVIDER",
