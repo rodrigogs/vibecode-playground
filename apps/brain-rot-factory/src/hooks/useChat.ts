@@ -84,17 +84,23 @@ export function useChat({
       setPrompt('') // Clear input immediately
 
       try {
+        const payload: Record<string, unknown> = {
+          message: currentPrompt,
+          character: selectedCharacter,
+          threadId: sessionId, // Send threadId for conversation continuity
+        }
+
+        // Only include fingerprint if it is a string to satisfy schema
+        if (typeof fingerprint === 'string') {
+          payload.fingerprint = fingerprint
+        }
+
         const res = await fetch('/api/chat', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            message: currentPrompt,
-            character: selectedCharacter,
-            threadId: sessionId, // Send threadId for conversation continuity
-            fingerprint, // Include browser fingerprint for enhanced rate limiting
-          }),
+          body: JSON.stringify(payload),
         })
 
         const data = await res.json()

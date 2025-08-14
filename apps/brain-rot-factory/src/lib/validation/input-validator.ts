@@ -20,14 +20,14 @@ export const VALIDATION_CONFIG = {
   // Text input limits
   MAX_MESSAGE_LENGTH: 2000,
   MAX_THREAD_ID_LENGTH: 100,
-  MAX_FINGERPRINT_LENGTH: 5000,
+  MAX_FINGERPRINT_LENGTH: 16000,
   MAX_USERNAME_LENGTH: 100,
   MAX_EMAIL_LENGTH: 254,
   MAX_URL_LENGTH: 2048,
   MAX_FILENAME_LENGTH: 255,
 
   // Content limits
-  MAX_JSON_SIZE: 10 * 1024, // 10KB
+  MAX_JSON_SIZE: 64 * 1024, // 64KB - allow richer character payloads and fingerprint
   MAX_ARRAY_LENGTH: 100,
   MAX_OBJECT_KEYS: 50,
   MAX_NESTING_DEPTH: 10,
@@ -340,18 +340,36 @@ export class InputValidator {
       )
     }
 
-    // Try to parse as JSON to ensure it's valid
-    try {
-      const parsed = JSON.parse(input)
-      const sanitized = InputSanitizer.sanitizeJson(parsed)
-      return JSON.stringify(sanitized)
-    } catch {
+    // Accept either JSON (structured components) or compact hashed tokens
+    // If it's valid JSON, sanitize and re-serialize; otherwise, accept a short hashed token
+    // Hashed tokens must be alphanumeric hex with optional prefix and under a reasonable length
+    const trimmed = input.trim()
+    if (trimmed.startsWith('{') || trimmed.startsWith('[')) {
+      try {
+        const parsed = JSON.parse(trimmed)
+        const sanitized = InputSanitizer.sanitizeJson(parsed)
+        return JSON.stringify(sanitized)
+      } catch {
+        throw new ValidationError(
+          'Invalid fingerprint format',
+          'fingerprint',
+          'INVALID_FORMAT',
+        )
+      }
+    }
+
+    // Allow compact token forms like sha256:<hex>, md5:<hex>, or plain hex
+    const tokenRegex =
+      /^(?:[a-z0-9]{16,128}|(?:sha256|md5|sha1):[a-f0-9]{16,128})$/i
+    if (!tokenRegex.test(trimmed)) {
       throw new ValidationError(
         'Invalid fingerprint format',
         'fingerprint',
         'INVALID_FORMAT',
       )
     }
+    // Return the trimmed token as-is (already sanitized via regex)
+    return trimmed
   }
 
   /**

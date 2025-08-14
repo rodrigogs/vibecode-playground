@@ -29,6 +29,16 @@ export function createValidationMiddleware<T>(
   schema: z.ZodSchema<T>,
   customValidation?: (data: T) => T,
 ) {
+  const isDebugEnabled = () =>
+    process.env.DEBUG_VALIDATION === '1' ||
+    process.env.NODE_ENV !== 'production'
+
+  const debugLog = (...args: unknown[]) => {
+    if (isDebugEnabled()) {
+      console.warn('[validation]', ...args)
+    }
+  }
+
   return async (request: NextRequest): Promise<ValidationResult<T>> => {
     try {
       // Parse request body
@@ -38,14 +48,58 @@ export function createValidationMiddleware<T>(
       const bodyString = JSON.stringify(body)
       InputValidator.validateJsonSize(bodyString)
 
+      // Debug: log high-level payload metrics
+      try {
+        const metrics: Record<string, unknown> = {
+          sizeBytes: bodyString.length,
+          keys: Object.keys(body || {}).slice(0, 10),
+        }
+        const maybeMessage = (body as { message?: unknown })?.message
+        if (typeof maybeMessage === 'string')
+          metrics.messageLength = maybeMessage.length
+        const maybeThread = (body as { threadId?: unknown })?.threadId
+        if (typeof maybeThread === 'string')
+          metrics.threadIdLength = maybeThread.length
+        const maybeFp = (body as { fingerprint?: unknown })?.fingerprint
+        if (typeof maybeFp === 'string')
+          metrics.fingerprintLength = maybeFp.length
+        const maybeChar = (
+          body as { character?: { id?: unknown; background?: unknown } }
+        )?.character
+        if (maybeChar) {
+          const id = maybeChar.id
+          const bg = maybeChar.background
+          if (typeof id === 'string') metrics.characterIdLength = id.length
+          if (typeof bg === 'string')
+            metrics.characterBackgroundLength = bg.length
+        }
+        debugLog('chat payload metrics', metrics)
+      } catch (error) {
+        debugLog('error collecting chat payload metrics', error)
+      }
+
       // Validate with schema and custom validation
       const validatedData = validateWithSchema(schema, body, customValidation)
+
+      debugLog('chat payload validated successfully')
 
       return {
         isValid: true,
         data: validatedData,
       }
     } catch (error) {
+      if (error instanceof ValidationError) {
+        debugLog('validation error', {
+          message: error.message,
+          field: error.field,
+          code: error.code,
+        })
+      } else {
+        debugLog('unexpected validation failure', {
+          name: (error as Error)?.name,
+          message: (error as Error)?.message,
+        })
+      }
       if (error instanceof ValidationError) {
         return {
           isValid: false,
@@ -107,6 +161,10 @@ export const validateRateLimitReset = createValidationMiddleware(
 export function createValidationErrorResponse(
   error: ValidationError,
 ): NextResponse {
+  const isDebugEnabled =
+    process.env.DEBUG_VALIDATION === '1' ||
+    process.env.NODE_ENV !== 'production'
+
   return NextResponse.json(
     {
       error: 'Validation failed',
@@ -114,7 +172,15 @@ export function createValidationErrorResponse(
       field: error.field,
       code: error.code,
     },
-    { status: 400 },
+    {
+      status: 400,
+      headers: isDebugEnabled
+        ? {
+            'X-Validation-Error-Code': error.code || 'UNKNOWN',
+            'X-Validation-Error-Field': error.field || 'unknown',
+          }
+        : undefined,
+    },
   )
 }
 

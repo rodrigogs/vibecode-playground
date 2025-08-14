@@ -8,26 +8,34 @@ import type { FingerprintComponents } from './browser-fingerprinting'
  */
 
 let cachedFingerprint: string | null = null
+const FINGERPRINT_CACHE_KEY = 'brf-fingerprint-v2'
 
 /**
  * Get cached fingerprint from localStorage with TTL
  */
 function getCachedFingerprint(): string | null {
   try {
-    const cached = localStorage.getItem('brf-fingerprint')
+    // Invalidate old cache key from previous versions
+    try {
+      localStorage.removeItem('brf-fingerprint')
+    } catch {
+      // ignore removal errors for legacy key
+    }
+
+    const cached = localStorage.getItem(FINGERPRINT_CACHE_KEY)
     if (!cached) return null
 
-    const { fingerprint, timestamp } = JSON.parse(cached)
+    const { fingerprint, timestamp, version } = JSON.parse(cached)
     const now = Date.now()
     const TTL = 24 * 60 * 60 * 1000 // 24 hours
 
     // Return cached fingerprint if it's still valid
-    if (now - timestamp < TTL) {
+    if (version === 'v2' && now - timestamp < TTL) {
       return fingerprint
     }
 
     // Remove expired cache
-    localStorage.removeItem('brf-fingerprint')
+    localStorage.removeItem(FINGERPRINT_CACHE_KEY)
     return null
   } catch {
     return null
@@ -42,8 +50,9 @@ function setCachedFingerprint(fingerprint: string): void {
     const cached = {
       fingerprint,
       timestamp: Date.now(),
+      version: 'v2',
     }
-    localStorage.setItem('brf-fingerprint', JSON.stringify(cached))
+    localStorage.setItem(FINGERPRINT_CACHE_KEY, JSON.stringify(cached))
   } catch {
     // Ignore localStorage errors (e.g., quota exceeded, private browsing)
   }
@@ -162,7 +171,17 @@ async function generateCanvasFingerprint(): Promise<string> {
     ctx.fillStyle = gradient
     ctx.fillRect(0, 0, 200, 25)
 
-    return canvas.toDataURL()
+    const dataUrl = canvas.toDataURL()
+
+    // Hash the data URL to reduce payload size
+    const encoder = new TextEncoder()
+    const data = encoder.encode(dataUrl)
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data)
+    const hashArray = Array.from(new Uint8Array(hashBuffer))
+    const hashHex = hashArray
+      .map((b) => b.toString(16).padStart(2, '0'))
+      .join('')
+    return `sha256:${hashHex}`
   } catch {
     return 'canvas-error'
   }
@@ -198,7 +217,7 @@ async function generateAudioFingerprint(): Promise<string> {
   try {
     const AudioContext =
       window.AudioContext ||
-      (window as { webkitAudioContext?: typeof AudioContext })
+      (window as { webkitAudioContext?: typeof window.AudioContext })
         .webkitAudioContext
     if (!AudioContext) return 'no-audio-context'
 

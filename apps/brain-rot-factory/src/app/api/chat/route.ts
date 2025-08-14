@@ -24,6 +24,31 @@ export async function POST(request: NextRequest) {
 
     // Validate and sanitize request
     const validationResult = await validateChatRequest(request)
+    if (
+      process.env.DEBUG_VALIDATION === '1' ||
+      process.env.NODE_ENV !== 'production'
+    ) {
+      if (!validationResult.isValid) {
+        console.warn('[api/chat] validation failed')
+      } else {
+        const { message, threadId, fingerprint } = validationResult.data as {
+          message?: string
+          threadId?: string | null
+          fingerprint?: string
+        }
+        console.info('[api/chat] input summary', {
+          messageLength:
+            typeof message === 'string' ? message.length : undefined,
+          threadIdLength:
+            typeof threadId === 'string' ? threadId.length : undefined,
+          fingerprintLength:
+            typeof fingerprint === 'string' ? fingerprint.length : undefined,
+          hasCharacter: Boolean(
+            (validationResult.data as { character?: unknown }).character,
+          ),
+        })
+      }
+    }
 
     // If validation failed, return the error response
     if (!validationResult.isValid) {
@@ -151,8 +176,17 @@ export async function POST(request: NextRequest) {
         },
       },
     )
-  } catch {
+  } catch (error) {
     // Route Error
+    if (
+      process.env.DEBUG_VALIDATION === '1' ||
+      process.env.NODE_ENV !== 'production'
+    ) {
+      console.error('[api/chat] unhandled error', {
+        name: (error as Error)?.name,
+        message: (error as Error)?.message,
+      })
+    }
 
     // For errors, we'll generate a simple fallback without caching
     if (character) {
